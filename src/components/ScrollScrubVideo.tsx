@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect } from "react";
 import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
 
 interface ScrollScrubVideoProps {
@@ -11,92 +11,52 @@ export default function ScrollScrubVideo({
   scrollYProgress,
 }: ScrollScrubVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const rafRef = useRef<number>(0);
 
-  /* ─── Smooth spring for video time ─── */
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.5,
-  });
-
-  /* ─── Scale animation: 1 → 1.12 ─── */
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const springScale = useSpring(scale, {
-    stiffness: 80,
-    damping: 25,
-  });
+  /* ─── Scale: 1 → 1.2 (subtle cinematic zoom on scroll) ─── */
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const springScale = useSpring(scale, { stiffness: 80, damping: 25 });
 
   /* ─── Subtle Y parallax ─── */
   const y = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
-  /* ─── Sync video currentTime with scroll ─── */
-  const syncVideoTime = useCallback(() => {
-    const video = videoRef.current;
-    if (!video || !video.duration || isNaN(video.duration)) return;
-
-    const progress = smoothProgress.get();
-    const targetTime = progress * video.duration;
-
-    // Only update if difference is significant to avoid micro-jitters
-    if (Math.abs(video.currentTime - targetTime) > 0.01) {
-      video.currentTime = targetTime;
-    }
-
-    rafRef.current = requestAnimationFrame(syncVideoTime);
-  }, [smoothProgress]);
-
+  /* ─── Mount once: set 0.5x speed, play ─── */
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
-    // Ensure video metadata is loaded before syncing
-    const handleMetadata = () => {
-      // Start at frame 0
-      video.currentTime = 0;
-      rafRef.current = requestAnimationFrame(syncVideoTime);
-    };
-
-    if (video.readyState >= 1) {
-      handleMetadata();
-    } else {
-      video.addEventListener("loadedmetadata", handleMetadata);
-    }
-
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      video.removeEventListener("loadedmetadata", handleMetadata);
-    };
-  }, [syncVideoTime]);
+    video.playbackRate = 0.5;
+    video.muted = true;
+    video.play().catch(() => {
+      const tryPlay = () => {
+        video.play().catch(() => {});
+      };
+      document.addEventListener("click", tryPlay, { once: true });
+      document.addEventListener("scroll", tryPlay, { once: true });
+    });
+  }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Video element — scroll-controlled, no autoplay */}
+      {/* Video — autoplay only, scroll controls scale */}
       <motion.div
         className="absolute inset-0 gpu-accelerate"
-        style={{
-          scale: springScale,
-          y,
-        }}
+        style={{ scale: springScale, y, willChange: "transform" }}
       >
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
+          autoPlay
+          loop
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
-          style={{
-            willChange: "auto",
-          }}
+          style={{ willChange: "auto", transform: "translateZ(0)" }}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
       </motion.div>
 
-      {/* Warm cinematic overlays */}
-
-      {/* Left-side gradient for text readability */}
+      {/* Left gradient for text readability */}
       <div
         className="absolute inset-0 z-[2] pointer-events-none"
         style={{
@@ -104,26 +64,21 @@ export default function ScrollScrubVideo({
             "linear-gradient(to right, rgba(253,250,245,0.92) 0%, rgba(253,250,245,0.75) 25%, rgba(253,250,245,0.35) 50%, transparent 70%)",
         }}
       />
-
-      {/* Top edge fade to ivory */}
+      {/* Top fade */}
       <div
         className="absolute inset-x-0 top-0 h-32 z-[3] pointer-events-none"
         style={{
-          background:
-            "linear-gradient(to bottom, rgba(253,250,245,0.6) 0%, transparent 100%)",
+          background: "linear-gradient(to bottom, rgba(253,250,245,0.6) 0%, transparent 100%)",
         }}
       />
-
-      {/* Bottom edge fade to ivory */}
+      {/* Bottom fade */}
       <div
         className="absolute inset-x-0 bottom-0 h-44 z-[3] pointer-events-none"
         style={{
-          background:
-            "linear-gradient(to top, rgba(253,250,245,0.9) 0%, transparent 100%)",
+          background: "linear-gradient(to top, rgba(253,250,245,0.9) 0%, transparent 100%)",
         }}
       />
-
-      {/* Soft warm vignette */}
+      {/* Vignette */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
@@ -131,8 +86,7 @@ export default function ScrollScrubVideo({
             "radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(253,250,245,0.25) 100%)",
         }}
       />
-
-      {/* Subtle warm atmospheric tint */}
+      {/* Warm tint */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{

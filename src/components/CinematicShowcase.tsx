@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,13 +73,24 @@ export default function CinematicShowcase() {
   const staticGridRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  /* ── Detect mobile ── */
+  /* ── Detect resize & mobile ── */
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    let timeoutId: NodeJS.Timeout;
+    const check = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        setIsMobile(window.innerWidth < 768);
+      }, 150);
+    };
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", check);
+    };
   }, []);
 
   const getFloatingPositions = useCallback(() => {
@@ -108,7 +120,7 @@ export default function CinematicShowcase() {
     if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 });
     if (gridHeaderRef.current) gsap.set(gridHeaderRef.current, { opacity: 0, y: 20 });
     setReady(true);
-  }, [getFloatingPositions, isMobile]);
+  }, [getFloatingPositions, isMobile, windowSize]);
 
   /* ── GSAP pin + scrub timeline (desktop only) ── */
   useEffect(() => {
@@ -124,10 +136,11 @@ export default function CinematicShowcase() {
         return { x: r.left, y: r.top - pinRect.top, w: r.width, bottom: r.bottom - pinRect.top };
       });
 
-      /* ── Calculate exact margin for static grid (28px gap) ── */
+      /* ── Calculate exact margin for static grid (consistent GRID_GAP) ── */
       const slotBottom = cardTargets[0]?.bottom ?? vh * 0.75;
       const emptyBelow = vh - slotBottom;
       const exactMargin = -(emptyBelow - GRID_GAP);
+      
       if (staticGridRef.current) {
         staticGridRef.current.style.marginTop = `${exactMargin}px`;
       }
@@ -161,7 +174,7 @@ export default function CinematicShowcase() {
       tl.to(gridHeaderRef.current, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.62);
     });
     return () => ctx.revert();
-  }, [ready, isMobile, getFloatingPositions]);
+  }, [ready, isMobile, getFloatingPositions, windowSize]);
 
   /* ── Static cards scroll reveal ── */
   useEffect(() => {
@@ -197,11 +210,20 @@ export default function CinematicShowcase() {
           <p className="font-sans text-[13px] leading-[1.85] max-w-sm mx-auto font-light" style={{ color: "#777" }}>
             A harmony of tradition and contemporary elegance.
           </p>
+          <div className="mt-8 flex justify-center">
+            <Link href="/shop" className="inline-flex items-center gap-3 group pointer-events-auto">
+              <span className="font-sans text-[11px] tracking-[0.2em] uppercase font-medium text-[#CBA135] group-hover:text-[#b58c2b] transition-colors relative pb-1">
+                Shop All
+                <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[#CBA135] group-hover:w-full transition-all duration-300" />
+              </span>
+              <span className="text-[#CBA135] font-sans text-[14px] transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
         </div>
 
         {/* All 9 cards in one grid */}
         <div className="px-5 pb-16">
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2" style={{ maxWidth: 700, gap: 20 }}>
+          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ maxWidth: 1320, gap: GRID_GAP }}>
             {ALL_PRODUCTS.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -239,7 +261,16 @@ export default function CinematicShowcase() {
         <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
           <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
           <span className="font-sans text-[10px] tracking-[0.3em] uppercase font-medium block mb-1.5" style={{ color: "rgba(203,161,53,0.55)" }}>Explore</span>
-          <h3 className="font-serif font-light" style={{ color: "#2B2B2B", fontSize: "clamp(1.1rem, 2.2vw, 1.6rem)" }}>Our Collection</h3>
+          <div className="flex items-end gap-10">
+            <h3 className="font-serif font-light" style={{ color: "#2B2B2B", fontSize: "clamp(1.1rem, 2.2vw, 1.6rem)" }}>Our Collection</h3>
+            <Link href="/shop" className="inline-flex items-center gap-2.5 group pointer-events-auto pb-[0.2rem]">
+              <span className="font-sans text-[10px] tracking-[0.2em] uppercase font-medium text-[#CBA135] group-hover:text-[#b58c2b] transition-colors relative pb-0.5">
+                Shop All
+                <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[#CBA135] group-hover:w-full transition-all duration-300" />
+              </span>
+              <span className="text-[#CBA135] font-sans text-[13px] transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
         </div>
 
         {/* Floating products */}
@@ -271,22 +302,24 @@ export default function CinematicShowcase() {
         <div className="absolute z-0 w-full pointer-events-none" style={{ top: "15%", paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}>
           <div className="mx-auto" style={{ maxWidth: 1320 }}>
             <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
-              {ANIMATED_PRODUCTS.map((_, i) => (
-                <div key={i} ref={(el) => { cardSlotsRef.current[i] = el; }} style={{ paddingBottom: "130%", opacity: 0 }} />
+              {ANIMATED_PRODUCTS.map((product, i) => (
+                <div key={product.id} ref={(el) => { cardSlotsRef.current[i] = el; }} className="opacity-0 pointer-events-none">
+                  <ProductCard product={product} />
+                </div>
               ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Remaining cards — margin calculated dynamically by GSAP for exact 28px gap */}
+      {/* Remaining cards — margin calculated dynamically by GSAP for exact gap */}
       <div
         ref={staticGridRef}
         className="relative w-full"
         style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
       >
         <div className="mx-auto pb-20 sm:pb-28" style={{ maxWidth: 1320 }}>
-          <div className="grid grid-cols-2 lg:grid-cols-3" style={{ gap: GRID_GAP }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" style={{ gap: GRID_GAP }}>
             {STATIC_PRODUCTS.map((product) => (
               <div key={product.id} className="static-card-item">
                 <ProductCard product={product} />

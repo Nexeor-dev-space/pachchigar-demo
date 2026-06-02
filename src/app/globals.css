@@ -187,3 +187,33 @@ body {
     0 16px 48px rgba(0, 0, 0, 0.07),
     0 0 0 1px rgba(203, 161, 53, 0.1);
 }
+
+/* ═══════════════════════════════════════════
+   LUXURY GIFTING — Cinematic Scroll Section
+   ═══════════════════════════════════════════ */
+
+.luxury-gifting-link {
+  position: relative;
+  color: #2C2A28;
+}
+
+.luxury-gifting-link:hover {
+  color: #CBA153;
+}
+
+/* Preserve-3d for deep compositing */
+.luxury-gifting-preserve3d {
+  transform-style: preserve-3d;
+  perspective: 1200px;
+}
+
+/* Rotating text ring around play button */
+@keyframes luxuryRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
