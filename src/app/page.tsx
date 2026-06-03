@@ -1,6 +1,6 @@
 import HeroBanner from "@/components/HeroBanner";
-import LuxuryGifting from "@/components/LuxuryGifting";
 import CinematicShowcase from "@/components/CinematicShowcase";
+import GiveBoldlySection from "@/components/GiveBoldlySection";
 import TrustBenefits from "@/components/TrustBenefits";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
     <main>
       <HeroBanner />
       <CinematicShowcase />
-      <LuxuryGifting />
+      <GiveBoldlySection />
       <TrustBenefits />
     </main>
   );

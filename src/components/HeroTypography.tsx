@@ -60,7 +60,7 @@ export default function HeroTypography({
         >
           {/* ─── Tagline ─── */}
           <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14">
-            <span className="inline-block font-oliver font-light text-[clamp(2.5rem,13vw,5rem)] md:text-[6.5rem] lg:text-[8rem] leading-[1] tracking-[0.02em] text-[rgb(132,66,66)]">
+            <span className="inline-block font-oliver font-light text-[3rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[8rem] leading-[1] tracking-[0.02em] text-[rgb(132,66,66)]">
               Luxury Crafted
             </span>
           </motion.div>

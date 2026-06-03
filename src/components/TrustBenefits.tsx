@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 
 /* ═══════════════════════════════════════════
@@ -193,20 +193,20 @@ const staggerContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.18,
-      delayChildren: 0.1,
+      staggerChildren: 0.2,
+      delayChildren: 0.15,
     },
   },
 };
 
 const itemReveal: Variants = {
-  hidden: { opacity: 0, y: 40, scale: 0.96 },
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.9,
+      duration: 1,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -218,9 +218,22 @@ const goldLineReveal: Variants = {
     width: 40,
     opacity: 1,
     transition: {
+      duration: 1,
+      ease: [0.22, 1, 0.36, 1],
+      delay: 0.25,
+    },
+  },
+};
+
+const iconReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.6 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
       duration: 0.8,
       ease: [0.22, 1, 0.36, 1],
-      delay: 0.15,
+      delay: 0.35,
     },
   },
 };
@@ -236,15 +249,17 @@ function BenefitItem({
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const [isHovered, setIsHovered] = useState(false);
   const Icon = benefit.icon;
 
   return (
     <motion.div
       ref={ref}
       variants={itemReveal}
-      className="relative group"
+      className="relative group cursor-default"
       style={{ willChange: "transform, opacity" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Vertical separator — desktop only, not on first item */}
       {index > 0 && (
@@ -262,9 +277,18 @@ function BenefitItem({
         />
       )}
 
+      {/* Hover background glow */}
       <div
-        className="flex flex-col items-start text-left transition-transform duration-500 ease-out
-                    group-hover:-translate-y-1 cursor-default"
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 30%, rgba(203,161,53,0.04) 0%, transparent 70%)",
+        }}
+      />
+
+      <div
+        className="flex flex-col items-start text-left transition-all duration-700 ease-out
+                    group-hover:-translate-y-2"
         style={{
           paddingLeft: "clamp(20px, 2.8vw, 40px)",
           paddingRight: "clamp(12px, 1.5vw, 24px)",
@@ -274,17 +298,20 @@ function BenefitItem({
         {/* Animated gold accent line */}
         <motion.div
           variants={goldLineReveal}
-          className="h-[1.5px] mb-9 sm:mb-10 lg:mb-12"
+          className="h-[1.5px] mb-9 sm:mb-10 lg:mb-12 transition-all duration-500 ease-out group-hover:!w-[55px]"
           style={{
             background: "linear-gradient(90deg, #CBA135, rgba(203,161,53,0.2))",
             transformOrigin: "left",
           }}
         />
 
-        {/* Icon — lifts on hover */}
-        <div className="mb-14 sm:mb-16 lg:mb-20 transition-transform duration-500 group-hover:-translate-y-0.5">
-          <Icon hovered={false} />
-        </div>
+        {/* Icon — lifts + turns gold on hover */}
+        <motion.div
+          variants={iconReveal}
+          className="mb-14 sm:mb-16 lg:mb-20 transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:scale-110"
+        >
+          <Icon hovered={isHovered} />
+        </motion.div>
 
         {/* Title — serif editorial */}
         <h3
@@ -300,7 +327,7 @@ function BenefitItem({
 
         {/* Description */}
         <p
-          className="font-sans font-light leading-[1.7]"
+          className="font-sans font-light leading-[1.7] transition-colors duration-500 group-hover:text-[#5A554E]"
           style={{
             color: "#7A756D",
             fontSize: "clamp(12.5px, 0.88vw, 14px)",
@@ -326,12 +353,38 @@ export default function TrustBenefits() {
       ref={sectionRef}
       id="trust-benefits"
       className="relative overflow-hidden"
-      style={{ background: "#F7F2EB" }}
+      style={{
+        background: "#F7F2EB",
+        /* ── PARALLAX REVEAL ARCHITECTURE ──
+           Negative margin pulls this section UP by 30vh, 
+           overlapping the Give Boldly sticky while it's still pinned.
+           z-index: 2 (higher than Give Boldly z-index: 1) means
+           this section slides OVER the fullscreen image — creating
+           the premium "page unfolding" reveal effect. */
+        marginTop: "-30vh",
+        zIndex: 2,
+        position: "relative",
+        /* Rounded top edge — premium "page curling over" feel */
+        borderRadius: "24px 24px 0 0",
+        /* Soft shadow at top edge for depth separation */
+        boxShadow: "0 -20px 60px rgba(0,0,0,0.06)",
+      }}
     >
-      {/* Top border */}
+      {/* Subtle top edge line for premium separation */}
       <div
         className="absolute top-0 inset-x-0 h-[1px]"
-        style={{ background: "rgba(44,42,40,0.06)" }}
+        style={{ background: "rgba(203,161,53,0.12)" }}
+      />
+
+      {/* Top border with gold shimmer on enter */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        className="absolute top-0 inset-x-0 h-[1px] origin-left"
+        style={{
+          background: "linear-gradient(90deg, transparent, rgba(203,161,53,0.15), rgba(44,42,40,0.06), rgba(203,161,53,0.15), transparent)",
+        }}
       />
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24 sm:py-32 lg:py-40">
@@ -347,10 +400,13 @@ export default function TrustBenefits() {
         </motion.div>
       </div>
 
-      {/* Bottom border */}
-      <div
-        className="absolute bottom-0 inset-x-0 h-[1px]"
-        style={{ background: "rgba(44,42,40,0.06)" }}
+      {/* Bottom border with gold shimmer on enter */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+        className="absolute bottom-0 inset-x-0 h-[1px] origin-right"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(203,161,53,0.15), rgba(44,42,40,0.06), rgba(203,161,53,0.15), transparent)" }}
       />
     </section>
   );
