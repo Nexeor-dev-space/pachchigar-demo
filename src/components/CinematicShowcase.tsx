@@ -47,7 +47,7 @@ function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="px-5 pt-3 pb-4 bg-white rounded-b-[16px]">
         <h3 className="product-title">{product.name}</h3>
-        <div className="flex items-center justify-between mt-1.5">
+        <div className="flex flex-wrap items-center justify-between mt-1.5 gap-x-2 gap-y-1">
           <span className="product-category">{product.category}</span>
           <span className="product-price">{product.price}</span>
         </div>
