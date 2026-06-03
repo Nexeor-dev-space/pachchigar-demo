@@ -46,10 +46,10 @@ function ProductCard({ product }: { product: Product }) {
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] transition-colors duration-500 rounded-t-[16px]" />
       </div>
       <div className="px-5 pt-3 pb-4 bg-white rounded-b-[16px]">
-        <h3 className="font-serif text-[14px] sm:text-[15px] font-medium leading-snug truncate" style={{ color: "#2B2B2B" }}>{product.name}</h3>
+        <h3 className="product-title">{product.name}</h3>
         <div className="flex items-center justify-between mt-1.5">
-          <span className="font-sans text-[9px] sm:text-[10px] tracking-[0.2em] uppercase" style={{ color: "#999" }}>{product.category}</span>
-          <span className="font-sans text-[12px] sm:text-[13px] font-semibold" style={{ color: "#CBA135" }}>{product.price}</span>
+          <span className="product-category">{product.category}</span>
+          <span className="product-price">{product.price}</span>
         </div>
       </div>
     </div>
@@ -190,11 +190,11 @@ export default function CinematicShowcase() {
         {/* Header */}
         <div className="text-center px-6 pt-16 pb-10">
           <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-          <span className="font-sans text-[10px] tracking-[0.4em] uppercase font-medium block mb-3" style={{ color: "rgba(203,161,53,0.7)" }}>The Collection</span>
-          <h2 className="font-serif leading-[1.1] font-light mb-4" style={{ color: "#2B2B2B", fontSize: "clamp(1.6rem, 6vw, 2.4rem)" }}>
-            Curated with care.<br /><span className="font-normal" style={{ color: "#3a3a3a" }}>Crafted with soul.</span>
+          <span className="section-label mb-3">The Collection</span>
+          <h2 className="heading-l mb-4">
+            Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
           </h2>
-          <p className="font-sans text-[13px] leading-[1.85] max-w-sm mx-auto font-light" style={{ color: "#777" }}>
+          <p className="body-m max-w-sm mx-auto">
             A harmony of tradition and contemporary elegance.
           </p>
         </div>
@@ -226,11 +226,11 @@ export default function CinematicShowcase() {
         {/* Section header (floating phase) */}
         <div ref={headerRef} className="absolute top-[6vh] sm:top-[8vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
           <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-          <span className="font-sans text-[10px] sm:text-[11px] tracking-[0.4em] uppercase font-medium block mb-3" style={{ color: "rgba(203,161,53,0.7)" }}>The Collection</span>
-          <h2 className="font-serif leading-[1.05] font-light mb-4" style={{ color: "#2B2B2B", fontSize: "clamp(1.8rem, 4.5vw, 3.2rem)" }}>
-            Curated with care.<br /><span className="font-normal" style={{ color: "#3a3a3a" }}>Crafted with soul.</span>
+          <span className="section-label mb-3">The Collection</span>
+          <h2 className="heading-l mb-4">
+            Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
           </h2>
-          <p className="font-sans text-[13px] sm:text-sm leading-[1.85] max-w-md mx-auto font-light" style={{ color: "#777" }}>
+          <p className="body-m max-w-md mx-auto">
             Each piece carries the weight of heritage and the lightness of modern design — a harmony of tradition and contemporary elegance.
           </p>
         </div>
@@ -238,8 +238,8 @@ export default function CinematicShowcase() {
         {/* Grid header (card phase) */}
         <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
           <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
-          <span className="font-sans text-[10px] tracking-[0.3em] uppercase font-medium block mb-1.5" style={{ color: "rgba(203,161,53,0.55)" }}>Explore</span>
-          <h3 className="font-serif font-light" style={{ color: "#2B2B2B", fontSize: "clamp(1.1rem, 2.2vw, 1.6rem)" }}>Our Collection</h3>
+          <span className="section-label mb-1.5 !text-[#CBA135]/60">Explore</span>
+          <h3 className="heading-m">Our Collection</h3>
         </div>
 
         {/* Floating products */}
@@ -254,13 +254,13 @@ export default function CinematicShowcase() {
               <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
                 style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
               <div ref={(el) => { labelRefs.current[i] = el; }} className="absolute -bottom-8 left-0 right-0 flex justify-center pointer-events-none">
-                <span className="font-sans text-[10px] sm:text-[11px] tracking-[0.35em] uppercase font-medium" style={{ color: "rgba(43,43,43,0.4)" }}>{product.category}</span>
+                <span className="product-category !text-[#2B2B2B]/40">{product.category}</span>
               </div>
               <div ref={(el) => { cardInfoRefs.current[i] = el; }} className="relative z-10 px-5 pt-3 pb-4 bg-white" style={{ opacity: 0, borderRadius: "0 0 16px 16px" }}>
-                <h3 className="font-serif text-[14px] sm:text-[15px] font-medium leading-snug truncate" style={{ color: "#2B2B2B" }}>{product.name}</h3>
+                <h3 className="product-title">{product.name}</h3>
                 <div className="flex items-center justify-between mt-1.5">
-                  <span className="font-sans text-[9px] sm:text-[10px] tracking-[0.2em] uppercase" style={{ color: "#999" }}>{product.category}</span>
-                  <span className="font-sans text-[12px] sm:text-[13px] font-semibold" style={{ color: "#CBA135" }}>{product.price}</span>
+                  <span className="product-category">{product.category}</span>
+                  <span className="product-price">{product.price}</span>
                 </div>
               </div>
             </div>

@@ -42,7 +42,7 @@ export default function Navbar() {
 
             {/* Desktop Welcome Text (Left) */}
             <div className="hidden md:flex flex-1 items-center">
-              <span className="font-sans text-sm tracking-wide text-gray-500">
+              <span className="body-s tracking-wide text-gray-500">
                 Welcome to our store!
               </span>
             </div>
@@ -113,7 +113,7 @@ export default function Navbar() {
                 <a
                   key={link}
                   href={`#${link.toLowerCase().replace(' ', '-')}`}
-                  className="group relative font-sans text-xs sm:text-sm tracking-[0.15em] text-[#2C2A28] uppercase transition-colors hover:text-[#A67C46]"
+                  className="group relative cta-text"
                 >
                   {link}
                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#A67C46] transition-all duration-300 group-hover:w-full"></span>
@@ -172,7 +172,7 @@ export default function Navbar() {
                     <a
                       key={link}
                       href={`#${link.toLowerCase().replace(' ', '-')}`}
-                      className="font-sans text-sm tracking-[0.15em] text-[#2C2A28] uppercase border-b border-gray-100 pb-4 hover:text-[#A67C46] transition-colors"
+                      className="cta-text border-b border-gray-100 pb-4 w-full"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link}

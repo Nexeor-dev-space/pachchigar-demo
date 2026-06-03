@@ -53,7 +53,7 @@ export default function GiveBoldlySection() {
   /* ═══════ IMAGE INSET EXPANSION ═══════
      Animates from editorial card position → full viewport.
      No scale transform — pure inset morph for zero clipping. */
-  const imgTopPct    = useTransform(smoothProgress, [0.26, 0.56], [46, 0]);
+  const imgTopPct    = useTransform(smoothProgress, [0.26, 0.56], [52, 0]);
   const imgSidePct   = useTransform(smoothProgress, [0.26, 0.56], [10, 0]);
   const imgBottomPct = useTransform(smoothProgress, [0.26, 0.56], [2, 0]);
   const imgRadius    = useTransform(smoothProgress, [0.26, 0.56], [28, 0]);
@@ -99,51 +99,34 @@ export default function GiveBoldlySection() {
         {/* ─────── TEXT BLOCK ─────── */}
         <motion.div
           style={{ opacity: textOpacity, y: textY }}
-          className="relative z-10 flex flex-col items-center text-center px-6 pt-20 sm:pt-24 lg:pt-28 pb-8 sm:pb-12"
+          className="relative z-10 flex flex-col items-center text-center px-6 pt-12 sm:pt-16 lg:pt-20 pb-4"
         >
           {/* eyebrow */}
-          <span
-            className="font-sans text-[10px] sm:text-[11px] tracking-[0.35em] uppercase mb-5 block font-semibold"
-            style={{ color: "#A67C46" }}
-          >
+          <span className="section-label mb-5">
             Luxury Gifting
           </span>
 
           {/* heading */}
-          <h2
-            className="font-oliver leading-[0.92] tracking-tight mb-7"
-            style={{
-              fontSize: "clamp(3.6rem, 10vw, 8.5rem)",
-              color: "#1A1512",
-            }}
-          >
+          <h2 className="heading-xl mb-7">
             Give Boldly
           </h2>
 
           {/* description */}
-          <p
-            className="font-serif text-[15px] sm:text-[17px] leading-relaxed max-w-lg mb-10"
-            style={{ color: "#5A554E" }}
-          >
+          <p className="body-l max-w-lg mb-10">
             Discover the perfect gift for everyone on your list. Plus, make the
             finishing touches as perfect as the main event with our{" "}
-            <span className="font-medium" style={{ color: "#1A1512" }}>
+            <span className="font-medium text-[#2B2B2B]">
               NEW
             </span>{" "}
             luxury gift box.
           </p>
 
           {/* CTA */}
-          <a
-            href="#"
-            className="font-sans text-[11px] sm:text-[12px] tracking-[0.25em] uppercase font-semibold inline-flex items-center gap-2 group"
-            style={{ color: "#1A1512" }}
-          >
+          <a href="#" className="cta-text gap-2 group">
             <span className="relative">
               Explore Gift Collections
               <span
-                className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out"
-                style={{ background: "#CBA135" }}
+                className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out bg-[#CBA135]"
               />
             </span>
             <span className="transition-transform duration-500 group-hover:translate-x-1">

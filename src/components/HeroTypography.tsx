@@ -60,7 +60,7 @@ export default function HeroTypography({
         >
           {/* ─── Tagline ─── */}
           <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14">
-            <span className="inline-block font-oliver font-light text-[3rem] sm:text-[5rem] md:text-[6.5rem] lg:text-[8rem] leading-[1] tracking-[0.02em] text-[rgb(132,66,66)]">
+            <span className="inline-block heading-hero !text-[rgb(132,66,66)]">
               Luxury Crafted
             </span>
           </motion.div>
@@ -69,7 +69,7 @@ export default function HeroTypography({
           <motion.div variants={itemVariants} className="flex justify-center">
             <a
               href="#collections"
-              className="group inline-flex flex-col gap-1 text-white font-sans text-[11px] sm:text-[13px] tracking-[0.3em] uppercase font-medium transition-all"
+              className="group flex-col gap-1 cta-text !text-white transition-all hover:!text-white"
             >
               <span className="relative pb-1">
                 Explore Designs

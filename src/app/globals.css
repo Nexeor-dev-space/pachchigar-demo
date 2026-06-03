@@ -4,6 +4,91 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* ═══════════════════════════════════════════
+     TYPOGRAPHY DESIGN SYSTEM
+     ═══════════════════════════════════════════ */
+
+  /* ─── HEADINGS ─── */
+  .heading-hero {
+    @apply font-oliver font-light tracking-[0.02em] leading-none;
+    font-size: clamp(3rem, 10vw, 8rem);
+    color: #2B2B2B;
+  }
+
+  .heading-xl {
+    @apply font-serif font-light leading-[1.1];
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    color: #2B2B2B;
+  }
+
+  .heading-l {
+    @apply font-serif font-light leading-[1.2];
+    font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+    color: #2B2B2B;
+  }
+
+  .heading-m {
+    @apply font-serif font-medium leading-snug;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: #2B2B2B;
+  }
+
+  /* ─── BODY TEXT ─── */
+  .body-l {
+    @apply font-serif leading-relaxed;
+    font-size: clamp(1.05rem, 1.5vw, 1.15rem);
+    color: #555555;
+  }
+
+  .body-m {
+    @apply font-sans font-light leading-[1.85];
+    font-size: clamp(0.9rem, 1vw, 1rem); /* ~14-16px */
+    color: #777777;
+  }
+
+  .body-s {
+    @apply font-sans font-light leading-[1.7];
+    font-size: clamp(0.8rem, 0.9vw, 0.9rem); /* ~12-14px */
+    color: #777777;
+  }
+
+  /* ─── LABELS & EYEBROWS ─── */
+  .section-label {
+    @apply font-sans font-semibold uppercase tracking-[0.3em] block;
+    font-size: clamp(0.65rem, 0.8vw, 0.75rem); /* ~10-12px */
+    color: #A67C46; 
+  }
+
+  /* ─── CTA BUTTONS & LINKS ─── */
+  .cta-text {
+    @apply font-sans font-semibold uppercase tracking-[0.2em] transition-colors duration-300 inline-flex items-center;
+    font-size: clamp(0.65rem, 0.8vw, 0.75rem); /* ~11-12px */
+    color: #2B2B2B;
+  }
+  .cta-text:hover {
+    color: #CBA135;
+  }
+
+  /* ─── PRODUCT CARDS ─── */
+  .product-title {
+    @apply font-serif font-medium leading-snug truncate;
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem); /* ~14-17px */
+    color: #2B2B2B;
+  }
+
+  .product-category {
+    @apply font-sans uppercase tracking-[0.2em] block;
+    font-size: clamp(0.55rem, 0.7vw, 0.65rem); /* ~9-11px */
+    color: #999999;
+  }
+
+  .product-price {
+    @apply font-sans font-semibold block;
+    font-size: clamp(0.75rem, 0.9vw, 0.85rem); /* ~12-14px */
+    color: #CBA135;
+  }
+}
 @font-face {
   font-family: 'Classic Quality';
   src: url('/fonts/ClassicQuality.otf') format('opentype');
