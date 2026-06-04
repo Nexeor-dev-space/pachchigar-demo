@@ -39,13 +39,13 @@ const GRID_GAP = 28;
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group cursor-pointer luxury-product-card">
-      <div className="relative w-full overflow-hidden rounded-t-[16px]" style={{ paddingBottom: "100%", background: "#FAF7F2" }}>
+    <div className="group cursor-pointer luxury-product-card gpu-accelerate">
+      <div className="card-image-area relative w-full overflow-hidden rounded-t-[16px]" style={{ paddingBottom: "100%", background: "#FAF7F2" }}>
         <Image src={product.image} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-contain p-6 sm:p-8 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] transition-colors duration-500 rounded-t-[16px]" />
       </div>
-      <div className="px-5 pt-3 pb-4 bg-white rounded-b-[16px]">
+      <div className="card-info-area px-5 pt-3 pb-4 bg-white rounded-b-[16px]">
         <h3 className="product-title">{product.name}</h3>
         <div className="flex flex-wrap items-center justify-between mt-1.5 gap-x-2 gap-y-1">
           <span className="product-category">{product.category}</span>
@@ -59,6 +59,7 @@ function ProductCard({ product }: { product: Product }) {
 /* ═══════════════════════════════════════════ */
 
 export default function CinematicShowcase() {
+  /* ── Desktop refs ── */
   const pinRef = useRef<HTMLDivElement>(null);
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -70,6 +71,11 @@ export default function CinematicShowcase() {
   const gridHeaderRef = useRef<HTMLDivElement>(null);
   const staticGridRef = useRef<HTMLDivElement>(null);
 
+  /* ── Mobile / Tablet refs ── */
+  const mobileShowcaseRef = useRef<HTMLDivElement>(null);
+  const mobileFloatingRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const mobileCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const getFloatingPositions = useCallback(() => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -77,30 +83,193 @@ export default function CinematicShowcase() {
     const cx = vw / 2;
     const offsets = [-0.4, 0, 0.4];
     const baseSize = Math.min(vw * 0.26, 360);
-    return ANIMATED_PRODUCTS.map((_, i) => ({ x: cx + offsets[i] * spread, y: vh * 0.48, size: baseSize }));
+    return ANIMATED_PRODUCTS.map((_, i) => ({ x: cx + offsets[i] * spread, y: vh * 0.56, size: baseSize }));
   }, []);
 
   /* ── Compute grid layout mathematically ──
-     This single function produces all dimensions for both
-     the GSAP animation targets AND the static grid,
-     guaranteeing pixel-perfect alignment at every width. */
+     Produces all dimensions for both the GSAP animation targets
+     AND the static grid, guaranteeing pixel-perfect alignment. */
   const computeGridLayout = useCallback(() => {
     const vw = window.innerWidth;
-    // Mirrors CSS: clamp(24px, 5vw, 80px)
     const padding = Math.max(24, Math.min(vw * 0.05, 80));
     const availableWidth = vw - 2 * padding;
     const contentWidth = Math.min(availableWidth, 1320);
-    // Account for mx-auto centering when content < available
     const gridLeft = padding + (availableWidth - contentWidth) / 2;
     const colWidth = (contentWidth - 2 * GRID_GAP) / 3;
     return { gridLeft, colWidth, contentWidth };
   }, []);
 
-  /* ── GSAP setup (runs only on desktop via matchMedia) ── */
+  /* ══════════════════════════════════════════════════════════
+     GSAP ANIMATION SETUP
+     Uses matchMedia to create responsive animations:
+     • Mobile  (< 640px)  — 1 column, animate first 1 product
+     • Tablet  (640–767px) — 2 columns, animate first 2 products
+     • Desktop (≥ 768px)   — full cinematic pinned animation
+     ══════════════════════════════════════════════════════════ */
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
+      /* ─────────────────────────────────────────────────────
+         MOBILE & TABLET — "Products fly into cards" animation
+         Floating product overlays start OUTSIDE their cards,
+         then smoothly travel into the first-row card positions
+         on scroll. Fully reversible on scroll up.
+         ───────────────────────────────────────────────────── */
+      function animateMobileSection(animatedCount: number) {
+        const container = mobileShowcaseRef.current;
+        if (!container) return;
+
+        const containerRect = container.getBoundingClientRect();
+        const vw = window.innerWidth;
+
+        /* 1. Measure target positions (first N card image areas) */
+        const targets: Array<{ x: number; y: number; w: number; h: number }> = [];
+        for (let i = 0; i < animatedCount; i++) {
+          const card = mobileCardRefs.current[i];
+          if (!card) continue;
+          const imageArea = card.querySelector('.card-image-area') as HTMLElement;
+          if (!imageArea) continue;
+          const rect = imageArea.getBoundingClientRect();
+          targets.push({
+            x: rect.left - containerRect.left,
+            y: rect.top - containerRect.top,
+            w: rect.width,
+            h: rect.height,
+          });
+        }
+        if (targets.length === 0) return;
+
+        /* 2. Compute floating "presentation" positions */
+        const floatSize = animatedCount === 1
+          ? Math.min(vw * 0.42, 200)
+          : Math.min(vw * 0.32, 170);
+
+        // Position floating products fully above the first card row
+        const firstCardY = targets[0].y;
+        const floatY = firstCardY - floatSize - 12;
+
+        const floatPositions = ANIMATED_PRODUCTS.slice(0, animatedCount).map((_, i) => {
+          if (animatedCount === 1) {
+            return { x: (vw - floatSize) / 2, y: floatY };
+          }
+          const gap = 16;
+          const totalW = animatedCount * floatSize + (animatedCount - 1) * gap;
+          const startX = (vw - totalW) / 2;
+          return { x: startX + i * (floatSize + gap), y: floatY };
+        });
+
+        /* 3. Set initial states */
+        // Position floating overlays at their "presentation" spots
+        mobileFloatingRefs.current.forEach((el, i) => {
+          if (!el) return;
+          if (i >= animatedCount) {
+            gsap.set(el, { autoAlpha: 0 });
+            return;
+          }
+          const pos = floatPositions[i];
+          gsap.set(el, {
+            x: pos.x,
+            y: pos.y,
+            width: floatSize,
+            height: floatSize,
+            autoAlpha: 1,
+          });
+        });
+
+        // Hide first N cards' images (overlays provide the visual)
+        // Also hide card info (reveals on product landing)
+        for (let i = 0; i < animatedCount; i++) {
+          const card = mobileCardRefs.current[i];
+          if (!card) continue;
+          const imgs = card.querySelectorAll('.card-image-area img');
+          const infoArea = card.querySelector('.card-info-area') as HTMLElement;
+          imgs.forEach(img => gsap.set(img, { autoAlpha: 0 }));
+          if (infoArea) gsap.set(infoArea, { autoAlpha: 0, y: 14 });
+        }
+
+        /* 4. Reversible scrub timeline — triggered by the first card row */
+        const triggerEl = mobileCardRefs.current[0] || container;
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: triggerEl,
+            start: "top 85%",
+            end: "top 50%",
+            scrub: 0.6,
+          },
+        });
+
+        // Animate each floating overlay to its target card position
+        mobileFloatingRefs.current.forEach((el, i) => {
+          if (!el || i >= animatedCount || !targets[i]) return;
+          const to = targets[i];
+
+          // Product travels from floating position to card
+          tl.to(el, {
+            x: to.x,
+            y: to.y,
+            width: to.w,
+            height: to.h,
+            duration: 0.55,
+            ease: "power3.inOut",
+          }, 0.06 * i);
+
+          // Floating shadow fades out as product lands
+          const shadow = el.querySelector('.mobile-float-shadow') as HTMLElement;
+          if (shadow) {
+            tl.to(shadow, {
+              autoAlpha: 0,
+              duration: 0.25,
+              ease: "power2.out",
+            }, 0.25 + 0.06 * i);
+          }
+        });
+
+        // Card info sections reveal after product lands
+        for (let i = 0; i < animatedCount; i++) {
+          const card = mobileCardRefs.current[i];
+          if (!card) continue;
+          const infoArea = card.querySelector('.card-info-area') as HTMLElement;
+          if (infoArea) {
+            tl.to(infoArea, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.25,
+              ease: "power2.out",
+            }, 0.45 + 0.06 * i);
+          }
+        }
+
+        /* 5. Remaining cards: elegant fade-in on scroll */
+        mobileCardRefs.current.forEach((card, i) => {
+          if (!card || i < animatedCount) return;
+          gsap.set(card, { opacity: 0, y: 30 });
+          gsap.to(card, {
+            opacity: 1, y: 0, duration: 0.7, ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 90%",
+              toggleActions: "play none none none",
+            },
+          });
+        });
+      }
+
+      /* ── Mobile: 1 column → animate 1 product ── */
+      mm.add("(max-width: 639px)", () => {
+        animateMobileSection(1);
+      });
+
+      /* ── Tablet: 2 columns → animate 2 products ── */
+      mm.add("(min-width: 640px) and (max-width: 767px)", () => {
+        animateMobileSection(2);
+      });
+
+      /* ─────────────────────────────────────────────
+         DESKTOP ANIMATION (≥ 768px)
+         Full cinematic pinned scroll animation.
+         Products float into a 3-column grid.
+         ───────────────────────────────────────────── */
       mm.add("(min-width: 768px)", () => {
         if (!pinRef.current) return;
 
@@ -124,7 +293,7 @@ export default function CinematicShowcase() {
 
         /* ── Compute card targets mathematically ── */
         const topY = vh * 0.15;
-        const cardHeight = layout.colWidth * 1.3; // mirrors paddingBottom: 130%
+        const cardHeight = layout.colWidth * 1.3;
         const cardTargets = ANIMATED_PRODUCTS.map((_, i) => ({
           x: layout.gridLeft + i * (layout.colWidth + GRID_GAP),
           y: topY,
@@ -190,39 +359,91 @@ export default function CinematicShowcase() {
     return () => ctx.revert();
   }, [getFloatingPositions, computeGridLayout]);
 
+  /* ══════════════════════════════════════════════════════════
+     JSX RENDER
+     ══════════════════════════════════════════════════════════ */
   return (
     <section
       id="cinematic-showcase"
       style={{ background: "linear-gradient(180deg, #F7F2EB 0%, #F3EDE4 30%, #F0E9DF 50%, #F3EDE4 70%, #F7F2EB 100%)" }}
     >
       {/* ═══════════════════════════════════════════
-         MOBILE LAYOUT (Visible < 768px)
+         MOBILE & TABLET LAYOUT (< 768px)
+         Floating products animate into card positions.
+         Reversible on scroll up (scrub-based).
          ═══════════════════════════════════════════ */}
       <div className="block md:hidden">
-        {/* Header */}
-        <div className="text-center px-6 pt-16 pb-10">
-          <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-          <span className="section-label mb-3">The Collection</span>
-          <h2 className="heading-xl mb-4">
-            Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
-          </h2>
-          <p className="body-m max-w-sm mx-auto">
-            A harmony of tradition and contemporary elegance.
-          </p>
-        </div>
+        <div ref={mobileShowcaseRef} className="relative">
+          {/* Section header */}
+          <div className="text-center px-6 pt-16 pb-6">
+            <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+            <span className="section-label mb-3">The Collection</span>
+            <h2 className="heading-xl mb-4">
+              Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+            </h2>
+            <p className="body-m max-w-sm mx-auto">
+              Each piece carries the weight of heritage and the lightness of modern design — a harmony of tradition and contemporary elegance.
+            </p>
+          </div>
 
-        {/* All 9 cards in one grid */}
-        <div className="px-5 pb-16">
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2" style={{ maxWidth: 700, gap: 20 }}>
-            {ALL_PRODUCTS.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          {/* Floating zone — space for product presentation above cards */}
+          <div className="h-[180px] sm:h-[190px]" aria-hidden="true" />
+
+          {/* Floating product overlays (positioned absolutely within showcase) */}
+          <div className="absolute inset-0 z-10 pointer-events-none">
+            {ANIMATED_PRODUCTS.map((product, i) => (
+              <div
+                key={`mobile-float-${product.id}`}
+                ref={(el) => { mobileFloatingRefs.current[i] = el; }}
+                className="absolute gpu-accelerate"
+                style={{ transformOrigin: "center center", opacity: 0 }}
+              >
+                {/* Raw product image only — no card background */}
+                <div className="relative w-full h-full">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 36vw"
+                    className="object-contain"
+                  />
+                </div>
+                {/* Floating shadow */}
+                <div
+                  className="mobile-float-shadow absolute left-1/2 -translate-x-1/2 pointer-events-none"
+                  style={{
+                    bottom: "-8%",
+                    width: "55%",
+                    height: 14,
+                    borderRadius: "50%",
+                    background: "radial-gradient(ellipse, rgba(43,43,43,0.18) 0%, transparent 70%)",
+                    filter: "blur(12px)",
+                  }}
+                />
+              </div>
             ))}
+          </div>
+
+          {/* Card grid */}
+          <div className="px-5 pb-16">
+            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2" style={{ maxWidth: 700, gap: 20 }}>
+              {ALL_PRODUCTS.map((product, i) => (
+                <div
+                  key={product.id}
+                  ref={(el) => { mobileCardRefs.current[i] = el; }}
+                  className="mobile-card-item"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* ═══════════════════════════════════════════
-         DESKTOP LAYOUT (Visible >= 768px)
+         DESKTOP LAYOUT (≥ 768px)
+         Full cinematic pinned scroll animation.
          ═══════════════════════════════════════════ */}
       <div className="hidden md:block">
         {/* Pinned animation viewport */}
