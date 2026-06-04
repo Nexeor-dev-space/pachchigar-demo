@@ -14,6 +14,7 @@ export default function Navbar() {
     const handleScroll = () => {
       const hero = document.getElementById('hero-banner');
       if (hero) {
+        // Show background once the hero section has fully scrolled out of view
         setIsScrolled(window.scrollY >= hero.offsetHeight);
       } else {
         setIsScrolled(window.scrollY > window.innerHeight);
@@ -48,11 +49,10 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out ${
-          isScrolled
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out ${isScrolled
             ? 'bg-[#FCFBF9]/95 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.04)]'
             : 'bg-transparent'
-        }`}
+          }`}
         style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem' }}
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
