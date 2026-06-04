@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -61,7 +61,6 @@ function ProductCard({ product }: { product: Product }) {
 export default function CinematicShowcase() {
   const pinRef = useRef<HTMLDivElement>(null);
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const cardSlotsRef = useRef<(HTMLDivElement | null)[]>([]);
   const headerRef = useRef<HTMLDivElement>(null);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const cardInfoRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -81,16 +80,31 @@ export default function CinematicShowcase() {
     return ANIMATED_PRODUCTS.map((_, i) => ({ x: cx + offsets[i] * spread, y: vh * 0.48, size: baseSize }));
   }, []);
 
+  /* ── Compute grid layout mathematically ──
+     This single function produces all dimensions for both
+     the GSAP animation targets AND the static grid,
+     guaranteeing pixel-perfect alignment at every width. */
+  const computeGridLayout = useCallback(() => {
+    const vw = window.innerWidth;
+    // Mirrors CSS: clamp(24px, 5vw, 80px)
+    const padding = Math.max(24, Math.min(vw * 0.05, 80));
+    const availableWidth = vw - 2 * padding;
+    const contentWidth = Math.min(availableWidth, 1320);
+    // Account for mx-auto centering when content < available
+    const gridLeft = padding + (availableWidth - contentWidth) / 2;
+    const colWidth = (contentWidth - 2 * GRID_GAP) / 3;
+    return { gridLeft, colWidth, contentWidth };
+  }, []);
+
   /* ── GSAP setup (runs only on desktop via matchMedia) ── */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Run GSAP logic only if width >= 768px (md breakpoint)
-      let mm = gsap.matchMedia();
+      const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
         if (!pinRef.current) return;
 
-        // Set initial positions
+        // Set initial floating positions
         const positions = getFloatingPositions();
         floatingRefs.current.forEach((el, i) => {
           if (!el) return;
@@ -105,20 +119,32 @@ export default function CinematicShowcase() {
         if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 });
         if (gridHeaderRef.current) gsap.set(gridHeaderRef.current, { opacity: 0, y: 20 });
 
-        const pinRect = pinRef.current!.getBoundingClientRect();
         const vh = window.innerHeight;
+        const layout = computeGridLayout();
 
-        const cardTargets = cardSlotsRef.current.map((el) => {
-          if (!el) return { x: 0, y: 0, w: 300, bottom: 0 };
-          const r = el.getBoundingClientRect();
-          return { x: r.left, y: r.top - pinRect.top, w: r.width, bottom: r.bottom - pinRect.top };
-        });
+        /* ── Compute card targets mathematically ── */
+        const topY = vh * 0.15;
+        const cardHeight = layout.colWidth * 1.3; // mirrors paddingBottom: 130%
+        const cardTargets = ANIMATED_PRODUCTS.map((_, i) => ({
+          x: layout.gridLeft + i * (layout.colWidth + GRID_GAP),
+          y: topY,
+          w: layout.colWidth,
+          bottom: topY + cardHeight,
+        }));
 
+        /* ── Position static grid with SAME computed dimensions ── */
         const slotBottom = cardTargets[0]?.bottom ?? vh * 0.75;
         const emptyBelow = vh - slotBottom;
         const exactMargin = -(emptyBelow - GRID_GAP);
         if (staticGridRef.current) {
           staticGridRef.current.style.marginTop = `${exactMargin}px`;
+          staticGridRef.current.style.paddingLeft = `${layout.gridLeft}px`;
+          staticGridRef.current.style.paddingRight = `${layout.gridLeft}px`;
+        }
+
+        /* ── Position grid header at matching left edge ── */
+        if (gridHeaderRef.current) {
+          gridHeaderRef.current.style.left = `${layout.gridLeft}px`;
         }
 
         const tl = gsap.timeline({
@@ -151,7 +177,7 @@ export default function CinematicShowcase() {
 
         /* ── Static cards scroll reveal ── */
         if (staticGridRef.current) {
-          const cards = staticGridRef.current!.querySelectorAll(".static-card-item");
+          const cards = staticGridRef.current.querySelectorAll(".static-card-item");
           cards.forEach((card) => {
             gsap.fromTo(card, { opacity: 0, y: 40 }, {
               opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
@@ -162,7 +188,7 @@ export default function CinematicShowcase() {
       });
     });
     return () => ctx.revert();
-  }, [getFloatingPositions]);
+  }, [getFloatingPositions, computeGridLayout]);
 
   return (
     <section
@@ -215,7 +241,7 @@ export default function CinematicShowcase() {
             </p>
           </div>
 
-          {/* Grid header (card phase) */}
+          {/* Grid header (card phase) — left position set by GSAP to match grid */}
           <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
             <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
             <span className="section-label mb-1.5 !text-[#CBA135]/60">Explore</span>
@@ -246,27 +272,16 @@ export default function CinematicShowcase() {
               </div>
             ))}
           </div>
-
-          {/* Invisible card slot targets */}
-          <div className="absolute z-0 w-full pointer-events-none" style={{ top: "15%", paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}>
-            <div className="mx-auto" style={{ maxWidth: 1320 }}>
-              <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
-                {ANIMATED_PRODUCTS.map((_, i) => (
-                  <div key={i} ref={(el) => { cardSlotsRef.current[i] = el; }} style={{ paddingBottom: "130%", opacity: 0 }} />
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Remaining cards — margin calculated dynamically by GSAP for exact 28px gap */}
+        {/* Static grid — padding set by GSAP via computeGridLayout() to match animated cards exactly */}
         <div
           ref={staticGridRef}
           className="relative w-full"
           style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
         >
-          <div className="mx-auto pb-20 sm:pb-28" style={{ maxWidth: 1320 }}>
-            <div className="grid grid-cols-2 lg:grid-cols-3" style={{ gap: GRID_GAP }}>
+          <div className="pb-20 sm:pb-28">
+            <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
               {STATIC_PRODUCTS.map((product) => (
                 <div key={product.id} className="static-card-item">
                   <ProductCard product={product} />
