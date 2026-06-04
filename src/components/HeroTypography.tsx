@@ -15,11 +15,11 @@ export default function HeroTypography({
   /* ─── Scroll-linked motion values ─── */
   // Typography fades out as scroll progresses
   const rawOpacity = useTransform(scrollYProgress, [0, 0.5, 0.75], [1, 0.8, 0]);
-  const opacity = useSpring(rawOpacity, { stiffness: 80, damping: 25 });
+  const opacity = useSpring(rawOpacity, { stiffness: 150, damping: 35 });
 
   // Typography floats upward
   const rawY = useTransform(scrollYProgress, [0, 0.7], [0, -80]);
-  const y = useSpring(rawY, { stiffness: 80, damping: 25 });
+  const y = useSpring(rawY, { stiffness: 150, damping: 35 });
 
   /* ─── Staggered entrance animation ─── */
   const containerVariants = {

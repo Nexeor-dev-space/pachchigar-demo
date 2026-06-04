@@ -17,9 +17,9 @@ export default function ScrollScrubVideo({
 
   /* ─── Smooth spring for video time ─── */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 40,
+    mass: 0.3,
   });
 
   /* ─── Scale animation: 1 → 1.12 ─── */
@@ -41,8 +41,9 @@ export default function ScrollScrubVideo({
     const targetTime = progress * video.duration;
 
     // Only update if difference is significant to avoid micro-jitters
-    if (Math.abs(video.currentTime - targetTime) > 0.01) {
-      video.currentTime = targetTime;
+    if (Math.abs(video.currentTime - targetTime) > 0.03) {
+      // Smooth interpolation for less jarring reverse scrubbing
+      video.currentTime = video.currentTime + (targetTime - video.currentTime) * 0.5;
     }
 
     rafRef.current = requestAnimationFrame(syncVideoTime);
