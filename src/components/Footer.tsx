@@ -46,7 +46,7 @@ export default function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-[1440px] mx-auto bg-[#F5F1E8]/95 backdrop-blur-2xl rounded-t-[32px] sm:rounded-t-[48px] px-6 sm:px-12 lg:px-20 pt-16 sm:pt-20 pb-8 text-[#2B2B2B] shadow-[0_-20px_60px_rgba(0,0,0,0.3)] mt-[55vh]"
+        className="relative w-full max-w-[1440px] mx-auto bg-[#F5F1E8]/95 backdrop-blur-2xl rounded-t-[32px] sm:rounded-t-[48px] px-6 sm:px-12 lg:px-20 pt-16 sm:pt-20 pb-8 text-[#2B2B2B] shadow-[0_-20px_60px_rgba(0,0,0,0.3)] mt-[42vh]"
       >
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 sm:gap-10 lg:gap-12 mb-16 lg:mb-24">
@@ -61,22 +61,22 @@ export default function Footer() {
               <input 
                 type="email" 
                 placeholder="Enter your email" 
-                className="w-full bg-transparent border-b border-[#2B2B2B]/20 py-3 text-[14px] font-sans focus:outline-none focus:border-[#CBA135] transition-colors placeholder:text-[#999] text-[#2B2B2B]"
+                className="w-full bg-transparent border-b border-[#2B2B2B]/20 py-3 text-[14px] font-sans focus:outline-none focus:border-copper transition-colors placeholder:text-[#999] text-[#2B2B2B]"
                 required
               />
               <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 cta-text bg-transparent">
                 Subscribe
               </button>
-              <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#CBA135] transition-all duration-500 group-focus-within:w-full" />
+              <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-copper transition-all duration-500 group-focus-within:w-full" />
             </form>
           </div>
 
           {/* Column 2: Surat Showroom */}
           <div className="lg:col-span-3 flex flex-col">
             <h3 className="section-label mb-5">Surat Showroom</h3>
-            <p className="body-l !text-[#2B2B2B] mb-4">CG Square Mall,<br/>Vesu, Surat, Gujarat</p>
+            <p className="body-l mb-4">CG Square Mall,<br/>Vesu, Surat, Gujarat</p>
             <div className="flex flex-col gap-2 body-s">
-              <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
+              <a href="#" className="hover:text-copper transition-colors flex items-center gap-2">📍 View on Maps</a>
               <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
             </div>
           </div>
@@ -84,9 +84,9 @@ export default function Footer() {
           {/* Column 3: Ahmedabad Showroom */}
           <div className="lg:col-span-2 flex flex-col">
             <h3 className="section-label mb-5">Ahmedabad Showroom</h3>
-            <p className="body-l !text-[#2B2B2B] mb-4">Sindhu Bhavan Road,<br/>Ahmedabad, Gujarat</p>
+            <p className="body-l mb-4">Sindhu Bhavan Road,<br/>Ahmedabad, Gujarat</p>
             <div className="flex flex-col gap-2 body-s">
-              <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
+              <a href="#" className="hover:text-copper transition-colors flex items-center gap-2">📍 View on Maps</a>
               <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
             </div>
           </div>
@@ -96,18 +96,18 @@ export default function Footer() {
             <div>
               <h3 className="section-label mb-5">Collections</h3>
               <ul className="flex flex-col gap-3 body-m">
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">Rings</Link></li>
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">Earrings</Link></li>
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">Bracelets</Link></li>
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">Necklaces</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">Rings</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">Earrings</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">Bracelets</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">Necklaces</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="section-label mb-5">Company</h3>
               <ul className="flex flex-col gap-3 body-m">
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">About Us</Link></li>
-                <li><Link href="#" className="hover:text-[#CBA135] transition-colors">Heritage</Link></li>
-                <li><Link href="/contact" className="hover:text-[#CBA135] transition-colors">Contact</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">About Us</Link></li>
+                <li><Link href="#" className="hover:text-copper transition-colors">Heritage</Link></li>
+                <li><Link href="/contact" className="hover:text-copper transition-colors">Contact</Link></li>
               </ul>
             </div>
           </div>
@@ -132,12 +132,18 @@ export default function Footer() {
         </div>
 
         {/* Copyright & Legal Links */}
-        <div className="flex flex-col sm:flex-row justify-between items-center body-s tracking-[0.1em] gap-4">
-          <span className="uppercase">© {currentYear} Pachchigar & Sons</span>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link href="#" className="hover:text-[#CBA135] transition-colors uppercase">Shipping & Returns</Link>
-            <Link href="#" className="hover:text-white transition-colors uppercase">Privacy Policy</Link>
-            <Link href="#" className="hover:text-[#CBA135] transition-colors uppercase">Terms & Conditions</Link>
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4" style={{ fontSize: "clamp(0.6rem, 0.7vw, 0.7rem)", letterSpacing: "0.12em", color: "#5A4A42" }}>
+          <span className="uppercase flex flex-wrap items-center justify-center gap-1">
+            © {currentYear} Pachchigar & Sons
+            <span className="opacity-40">|</span>
+            <span>Powered by{" "}
+              <a href="https://nexeor.com/" target="_blank" rel="noopener noreferrer" className="font-semibold hover:text-copper transition-colors duration-300">NEXEOR</a>
+            </span>
+          </span>
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+            <Link href="#" className="hover:text-copper transition-colors uppercase">Shipping & Returns</Link>
+            <Link href="#" className="hover:text-copper transition-colors uppercase">Privacy Policy</Link>
+            <Link href="#" className="hover:text-copper transition-colors uppercase">Terms & Conditions</Link>
           </div>
         </div>
 

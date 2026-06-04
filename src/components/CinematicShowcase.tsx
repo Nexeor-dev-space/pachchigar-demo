@@ -278,7 +278,7 @@ export default function CinematicShowcase() {
         floatingRefs.current.forEach((el, i) => {
           if (!el) return;
           const p = positions[i];
-          gsap.set(el, { x: p.x - p.size / 2, y: p.y - p.size / 2, width: p.size, height: p.size, scale: 1, opacity: 1 });
+          gsap.set(el, { x: p.x - p.size / 2, y: p.y - p.size / 2, width: p.size, height: p.size, opacity: 1 });
         });
         cardInfoRefs.current.forEach(el => { if (el) gsap.set(el, { opacity: 0, y: 10 }); });
         cardBgRefs.current.forEach(el => { if (el) gsap.set(el, { opacity: 0 }); });
@@ -335,7 +335,7 @@ export default function CinematicShowcase() {
           const from = positions[i];
           const to = cardTargets[i];
           if (!to) return;
-          tl.to(el, { x: to.x, y: to.y, scale: to.w / from.size, duration: 0.50, ease: "power3.inOut", transformOrigin: "top left" }, 0.10 + i * 0.03);
+          tl.to(el, { x: to.x, y: to.y, width: to.w, height: to.w, duration: 0.50, ease: "power3.inOut" }, 0.10 + i * 0.03);
           if (shadowRefs.current[i]) tl.to(shadowRefs.current[i], { opacity: 0, duration: 0.25, ease: "power2.inOut" }, 0.15);
           if (cardBgRefs.current[i]) tl.to(cardBgRefs.current[i], { opacity: 1, duration: 0.20, ease: "power2.inOut" }, 0.40 + i * 0.02);
           if (imageBgRefs.current[i]) tl.to(imageBgRefs.current[i], { backgroundColor: "#FAF7F2", duration: 0.20, ease: "power2.inOut" }, 0.40 + i * 0.02);
@@ -465,7 +465,7 @@ export default function CinematicShowcase() {
           {/* Grid header (card phase) — left position set by GSAP to match grid */}
           <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
             <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
-            <span className="section-label mb-1.5 !text-[#CBA135]/60">Explore</span>
+            <span className="section-label mb-1.5 !text-wine/60">Explore</span>
             <h3 className="heading-m">Our Collection</h3>
           </div>
 

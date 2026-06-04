@@ -58,6 +58,19 @@ const config: Config = {
           300: "#D9C5A5",
           400: "#C7AC82",
         },
+        /* ─── PSJ Brand Accents ─── */
+        wine: {
+          DEFAULT: "#5E2E36",
+          light: "#7A4450",
+        },
+        copper: {
+          DEFAULT: "#A36E52",
+          light: "#B8876D",
+        },
+        espresso: {
+          DEFAULT: "#2D241E",
+          light: "#3D3129",
+        },
       },
       fontFamily: {
         serif: [

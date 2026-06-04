@@ -29,16 +29,22 @@ export default function HeroBanner() {
         <HeroTypography scrollYProgress={scrollYProgress} />
 
         {/* ─── Scroll Indicator ─── */}
-        <div className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2.5">
-          <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-charcoal-400/60 font-medium">
+        <button
+          onClick={() => {
+            const nextSection = document.getElementById('cinematic-showcase');
+            if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2.5 cursor-pointer group"
+        >
+          <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-ivory-200 font-medium group-hover:text-white transition-colors duration-300">
             Scroll to explore
           </span>
-          <div className="w-[1px] h-10 bg-gradient-to-b from-gold-400/40 to-transparent overflow-hidden">
+          <div className="w-[1px] h-10 bg-gradient-to-b from-ivory-200/60 to-transparent overflow-hidden">
             <div
-              className="w-full h-3 bg-gold-500/70 animate-scroll-bounce"
+              className="w-full h-3 bg-ivory-200/80 animate-scroll-bounce"
             />
           </div>
-        </div>
+        </button>
 
         {/* ─── Decorative corner accents ─── */}
         {/* Top-left */}

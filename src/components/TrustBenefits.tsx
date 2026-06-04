@@ -314,7 +314,7 @@ function BenefitItem({
         </motion.div>
 
         {/* Title — serif editorial */}
-        <h3 className="heading-m mb-4 transition-colors duration-500 group-hover:text-[#9A7B3C]">
+        <h3 className="heading-m mb-4 transition-colors duration-500 group-hover:text-copper">
           {benefit.title}
         </h3>
 
