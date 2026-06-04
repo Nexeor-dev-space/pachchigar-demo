@@ -69,12 +69,12 @@ export default function HeroTypography({
           <motion.div variants={itemVariants} className="flex justify-center">
             <a
               href="#collections"
-              className="group flex-col gap-1 cta-text !text-white transition-all hover:!text-white"
+              className="group flex-col gap-1 cta-text !text-[#2D241E] transition-all hover:!text-[#2D241E]"
             >
               <span className="relative pb-1">
                 Explore Designs
                 {/* Underline that animates on hover */}
-                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white transform origin-left scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-right group-hover:scale-x-0" />
+                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#2D241E] transform origin-left scale-x-100 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:origin-right group-hover:scale-x-0" />
               </span>
             </a>
           </motion.div>

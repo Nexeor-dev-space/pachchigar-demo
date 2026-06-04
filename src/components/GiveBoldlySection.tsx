@@ -53,7 +53,7 @@ export default function GiveBoldlySection() {
   /* ═══════ IMAGE INSET EXPANSION ═══════
      Animates from editorial card position → full viewport.
      No scale transform — pure inset morph for zero clipping. */
-  const imgTopPct    = useTransform(smoothProgress, [0.26, 0.56], [52, 0]);
+  const imgTopPct    = useTransform(smoothProgress, [0.26, 0.56], [40, 0]);
   const imgSidePct   = useTransform(smoothProgress, [0.26, 0.56], [10, 0]);
   const imgBottomPct = useTransform(smoothProgress, [0.26, 0.56], [2, 0]);
   const imgRadius    = useTransform(smoothProgress, [0.26, 0.56], [28, 0]);
@@ -112,7 +112,7 @@ export default function GiveBoldlySection() {
           </h2>
 
           {/* description */}
-          <p className="body-l max-w-lg mb-10">
+          <p className="body-m max-w-lg mb-10">
             Discover the perfect gift for everyone on your list. Plus, make the
             finishing touches as perfect as the main event with our{" "}
             <span className="font-medium text-[#2B2B2B]">
@@ -126,7 +126,7 @@ export default function GiveBoldlySection() {
             <span className="relative">
               Explore Gift Collections
               <span
-                className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out bg-[#CBA135]"
+                className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out bg-copper"
               />
             </span>
             <span className="transition-transform duration-500 group-hover:translate-x-1">
