@@ -53,9 +53,10 @@ export default function Navbar() {
             ? 'bg-[#FCFBF9]/95 backdrop-blur-md shadow-[0_1px_0_rgba(0,0,0,0.04)]'
             : 'bg-transparent'
         }`}
+        style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem' }}
       >
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-16 md:h-[72px] py-2.5 md:py-3">
+          <div className="flex items-center justify-between h-16 md:h-[72px]" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem' }}>
 
             {/* ── LEFT: Mobile Menu + Logo ── */}
             <div className="flex items-center gap-3 min-w-0 shrink-0">
@@ -82,7 +83,7 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="group relative whitespace-nowrap font-sans text-[10px] lg:text-[11px] font-medium tracking-[0.18em] uppercase text-[#2C2A28]/80 hover:text-[#2C2A28] transition-colors duration-300"
+                  className="group relative whitespace-nowrap font-sans text-[12px] font-medium tracking-[0.18em] uppercase text-[#2C2A28]/80 hover:text-[#2C2A28] transition-colors duration-300"
                 >
                   {link.label}
                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-wine transition-all duration-300 ease-out group-hover:w-full" />
