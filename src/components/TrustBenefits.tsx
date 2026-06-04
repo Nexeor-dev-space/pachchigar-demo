@@ -314,26 +314,12 @@ function BenefitItem({
         </motion.div>
 
         {/* Title — serif editorial */}
-        <h3
-          className="font-classic font-normal mb-4 leading-[1.2] transition-colors duration-500 group-hover:text-[#9A7B3C]"
-          style={{
-            color: "#2B2B2B",
-            fontSize: "clamp(1.05rem, 1.3vw, 1.3rem)",
-            letterSpacing: "0.005em",
-          }}
-        >
+        <h3 className="heading-m mb-4 transition-colors duration-500 group-hover:text-[#9A7B3C]">
           {benefit.title}
         </h3>
 
         {/* Description */}
-        <p
-          className="font-sans font-light leading-[1.7] transition-colors duration-500 group-hover:text-[#5A554E]"
-          style={{
-            color: "#7A756D",
-            fontSize: "clamp(12.5px, 0.88vw, 14px)",
-            maxWidth: "260px",
-          }}
-        >
+        <p className="body-s max-w-[260px] transition-colors duration-500 group-hover:text-[#5A554E]">
           {benefit.description}
         </p>
       </div>
