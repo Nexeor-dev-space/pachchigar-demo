@@ -11,11 +11,15 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show background only after scrolling past the hero banner (300vh)
-      const heroHeight = window.innerHeight * 3;
-      setIsScrolled(window.scrollY > heroHeight);
+      const hero = document.getElementById('hero-banner');
+      if (hero) {
+        // Show background once the hero section has fully scrolled out of view
+        setIsScrolled(window.scrollY >= hero.offsetHeight);
+      } else {
+        setIsScrolled(window.scrollY > window.innerHeight);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

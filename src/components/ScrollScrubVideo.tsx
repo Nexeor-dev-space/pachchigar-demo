@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
+import { useAnimation } from "@/providers/AnimationProvider";
 
 interface ScrollScrubVideoProps {
   scrollYProgress: MotionValue<number>;
@@ -10,14 +11,15 @@ interface ScrollScrubVideoProps {
 export default function ScrollScrubVideo({
   scrollYProgress,
 }: ScrollScrubVideoProps) {
+  const { isAnimationEnabled } = useAnimation();
   const videoRef = useRef<HTMLVideoElement>(null);
   const rafRef = useRef<number>(0);
 
   /* ─── Smooth spring for video time ─── */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 40,
+    mass: 0.3,
   });
 
   /* ─── Scale animation: 1 → 1.12 ─── */
@@ -39,8 +41,9 @@ export default function ScrollScrubVideo({
     const targetTime = progress * video.duration;
 
     // Only update if difference is significant to avoid micro-jitters
-    if (Math.abs(video.currentTime - targetTime) > 0.01) {
-      video.currentTime = targetTime;
+    if (Math.abs(video.currentTime - targetTime) > 0.03) {
+      // Smooth interpolation for less jarring reverse scrubbing
+      video.currentTime = video.currentTime + (targetTime - video.currentTime) * 0.5;
     }
 
     rafRef.current = requestAnimationFrame(syncVideoTime);
@@ -49,6 +52,14 @@ export default function ScrollScrubVideo({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    if (!isAnimationEnabled) {
+      // Clean up any sync loop
+      cancelAnimationFrame(rafRef.current);
+      // Play automatically
+      video.play().catch(() => {});
+      return;
+    }
 
     // Ensure video metadata is loaded before syncing
     const handleMetadata = () => {
@@ -67,23 +78,22 @@ export default function ScrollScrubVideo({
       cancelAnimationFrame(rafRef.current);
       video.removeEventListener("loadedmetadata", handleMetadata);
     };
-  }, [syncVideoTime]);
+  }, [syncVideoTime, isAnimationEnabled]);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Video element — scroll-controlled, no autoplay */}
       <motion.div
         className="absolute inset-0 gpu-accelerate"
-        style={{
-          scale: springScale,
-          y,
-        }}
+        style={isAnimationEnabled ? { scale: springScale, y } : { scale: 1, y: 0 }}
       >
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
           muted
+          loop={!isAnimationEnabled}
           playsInline
+          autoPlay={!isAnimationEnabled}
           preload="auto"
           aria-hidden="true"
           style={{

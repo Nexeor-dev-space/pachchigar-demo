@@ -4,6 +4,7 @@ import { useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useAnimation } from "@/providers/AnimationProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,6 +60,8 @@ function ProductCard({ product }: { product: Product }) {
 /* ═══════════════════════════════════════════ */
 
 export default function CinematicShowcase() {
+  const { isAnimationEnabled } = useAnimation();
+
   /* ── Desktop refs ── */
   const pinRef = useRef<HTMLDivElement>(null);
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -107,6 +110,8 @@ export default function CinematicShowcase() {
      • Desktop (≥ 768px)   — full cinematic pinned animation
      ══════════════════════════════════════════════════════════ */
   useEffect(() => {
+    if (!isAnimationEnabled) return;
+
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
@@ -304,7 +309,7 @@ export default function CinematicShowcase() {
         /* ── Position static grid with SAME computed dimensions ── */
         const slotBottom = cardTargets[0]?.bottom ?? vh * 0.75;
         const emptyBelow = vh - slotBottom;
-        const exactMargin = -(emptyBelow - GRID_GAP);
+        const exactMargin = -(emptyBelow - GRID_GAP) - 40;
         if (staticGridRef.current) {
           staticGridRef.current.style.marginTop = `${exactMargin}px`;
           staticGridRef.current.style.paddingLeft = `${layout.gridLeft}px`;
@@ -357,7 +362,7 @@ export default function CinematicShowcase() {
       });
     });
     return () => ctx.revert();
-  }, [getFloatingPositions, computeGridLayout]);
+  }, [getFloatingPositions, computeGridLayout, isAnimationEnabled]);
 
   /* ══════════════════════════════════════════════════════════
      JSX RENDER
@@ -382,56 +387,56 @@ export default function CinematicShowcase() {
               Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
             </h2>
             <p className="body-m max-w-sm mx-auto">
-              Each piece carries the weight of heritage and the lightness of modern design — a harmony of tradition and contemporary elegance.
+              Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
             </p>
           </div>
 
-          {/* Floating zone — space for product presentation above cards */}
-          <div className="h-[180px] sm:h-[190px]" aria-hidden="true" />
+          {/* Floating zone — only if animated */}
+          {isAnimationEnabled && <div className="h-[180px] sm:h-[190px]" aria-hidden="true" />}
 
-          {/* Floating product overlays (positioned absolutely within showcase) */}
-          <div className="absolute inset-0 z-10 pointer-events-none">
-            {ANIMATED_PRODUCTS.map((product, i) => (
-              <div
-                key={`mobile-float-${product.id}`}
-                ref={(el) => { mobileFloatingRefs.current[i] = el; }}
-                className="absolute gpu-accelerate"
-                style={{ transformOrigin: "center center", opacity: 0 }}
-              >
-                {/* Raw product image only — no card background */}
-                <div className="relative w-full h-full">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 36vw"
-                    className="object-contain"
+          {/* Floating product overlays */}
+          {isAnimationEnabled && (
+            <div className="absolute inset-0 z-10 pointer-events-none">
+              {ANIMATED_PRODUCTS.map((product, i) => (
+                <div
+                  key={`mobile-float-${product.id}`}
+                  ref={(el) => { mobileFloatingRefs.current[i] = el; }}
+                  className="absolute gpu-accelerate"
+                  style={{ transformOrigin: "center center", opacity: 0 }}
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 36vw"
+                      className="object-contain"
+                    />
+                  </div>
+                  <div
+                    className="mobile-float-shadow absolute left-1/2 -translate-x-1/2 pointer-events-none"
+                    style={{
+                      bottom: "-8%",
+                      width: "55%",
+                      height: 14,
+                      borderRadius: "50%",
+                      background: "radial-gradient(ellipse, rgba(43,43,43,0.18) 0%, transparent 70%)",
+                      filter: "blur(12px)",
+                    }}
                   />
                 </div>
-                {/* Floating shadow */}
-                <div
-                  className="mobile-float-shadow absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{
-                    bottom: "-8%",
-                    width: "55%",
-                    height: 14,
-                    borderRadius: "50%",
-                    background: "radial-gradient(ellipse, rgba(43,43,43,0.18) 0%, transparent 70%)",
-                    filter: "blur(12px)",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Card grid */}
-          <div className="px-5 pb-16">
+          <div className={`px-5 ${isAnimationEnabled ? "pb-16" : "pb-16 pt-8"}`}>
             <div className="mx-auto grid grid-cols-1 sm:grid-cols-2" style={{ maxWidth: 700, gap: 20 }}>
               {ALL_PRODUCTS.map((product, i) => (
                 <div
                   key={product.id}
-                  ref={(el) => { mobileCardRefs.current[i] = el; }}
-                  className="mobile-card-item"
+                  ref={(el) => { if (isAnimationEnabled) mobileCardRefs.current[i] = el; }}
+                  className={isAnimationEnabled ? "mobile-card-item" : ""}
                 >
                   <ProductCard product={product} />
                 </div>
@@ -446,71 +451,95 @@ export default function CinematicShowcase() {
          Full cinematic pinned scroll animation.
          ═══════════════════════════════════════════ */}
       <div className="hidden md:block">
-        {/* Pinned animation viewport */}
-        <div ref={pinRef} className="h-screen w-full overflow-hidden relative">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 35% 40%, rgba(203,161,53,0.025) 0%, transparent 55%)" }} />
+        {isAnimationEnabled ? (
+          <>
+            {/* Pinned animation viewport */}
+            <div ref={pinRef} className="h-screen w-full overflow-hidden relative">
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 35% 40%, rgba(203,161,53,0.025) 0%, transparent 55%)" }} />
 
-          {/* Section header (floating phase) */}
-          <div ref={headerRef} className="absolute top-[6vh] sm:top-[8vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
-            <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-            <span className="section-label mb-3">The Collection</span>
-            <h2 className="heading-xl mb-4">
-              Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
-            </h2>
-            <p className="body-m max-w-md mx-auto">
-              Each piece carries the weight of heritage and the lightness of modern design — a harmony of tradition and contemporary elegance.
-            </p>
-          </div>
+              {/* Section header (floating phase) */}
+              <div ref={headerRef} className="absolute top-[6vh] sm:top-[8vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
+                <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+                <span className="section-label mb-3">The Collection</span>
+                <h2 className="heading-xl mb-4">
+                  Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+                </h2>
+                <p className="body-m max-w-md mx-auto">
+                  Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
+                </p>
+              </div>
 
-          {/* Grid header (card phase) — left position set by GSAP to match grid */}
-          <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
-            <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
-            <span className="section-label mb-1.5 !text-wine/60">Explore</span>
-            <h3 className="heading-m">Our Collection</h3>
-          </div>
+              {/* Grid header (card phase) — left position set by GSAP to match grid */}
+              <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
+                <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
+                <span className="section-label mb-1.5 !text-wine/60">Explore</span>
+                <h3 className="heading-m">Our Collection</h3>
+              </div>
 
-          {/* Floating products */}
-          <div className="absolute inset-0 z-10">
-            {ANIMATED_PRODUCTS.map((product, i) => (
-              <div key={product.id} ref={(el) => { floatingRefs.current[i] = el; }} className="absolute gpu-accelerate" style={{ transformOrigin: "top left" }}>
-                <div ref={(el) => { cardBgRefs.current[i] = el; }} className="absolute pointer-events-none"
-                  style={{ inset: 0, bottom: -72, borderRadius: 16, background: "#FFFFFF", boxShadow: "0 2px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(203,161,53,0.05)", opacity: 0 }} />
-                <div ref={(el) => { imageBgRefs.current[i] = el; }} className="relative w-full overflow-hidden" style={{ paddingBottom: "100%", borderRadius: "16px 16px 0 0" }}>
-                  <Image src={product.image} alt={product.name} fill sizes="380px" className="object-contain p-6 sm:p-8" priority />
-                </div>
-                <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                  style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
-                <div ref={(el) => { labelRefs.current[i] = el; }} className="absolute -bottom-8 left-0 right-0 flex justify-center pointer-events-none">
-                  <span className="product-category !text-[#2B2B2B]/40">{product.category}</span>
-                </div>
-                <div ref={(el) => { cardInfoRefs.current[i] = el; }} className="relative z-10 px-5 pt-3 pb-4 bg-white" style={{ opacity: 0, borderRadius: "0 0 16px 16px" }}>
-                  <h3 className="product-title">{product.name}</h3>
-                  <div className="flex items-center justify-between mt-1.5">
-                    <span className="product-category">{product.category}</span>
-                    <span className="product-price">{product.price}</span>
+              {/* Floating products */}
+              <div className="absolute inset-0 z-10">
+                {ANIMATED_PRODUCTS.map((product, i) => (
+                  <div key={product.id} ref={(el) => { floatingRefs.current[i] = el; }} className="absolute gpu-accelerate" style={{ transformOrigin: "top left" }}>
+                    <div ref={(el) => { cardBgRefs.current[i] = el; }} className="absolute pointer-events-none"
+                      style={{ inset: 0, bottom: -72, borderRadius: 16, background: "#FFFFFF", boxShadow: "0 2px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(203,161,53,0.05)", opacity: 0 }} />
+                    <div ref={(el) => { imageBgRefs.current[i] = el; }} className="relative w-full overflow-hidden" style={{ paddingBottom: "100%", borderRadius: "16px 16px 0 0" }}>
+                      <Image src={product.image} alt={product.name} fill sizes="380px" className="object-contain p-6 sm:p-8" priority />
+                    </div>
+                    <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+                      style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
+                    <div ref={(el) => { labelRefs.current[i] = el; }} className="absolute -bottom-8 left-0 right-0 flex justify-center pointer-events-none">
+                      <span className="product-category !text-[#2B2B2B]/40">{product.category}</span>
+                    </div>
+                    <div ref={(el) => { cardInfoRefs.current[i] = el; }} className="relative z-10 px-5 pt-3 pb-4 bg-white" style={{ opacity: 0, borderRadius: "0 0 16px 16px" }}>
+                      <h3 className="product-title">{product.name}</h3>
+                      <div className="flex items-center justify-between mt-1.5">
+                        <span className="product-category">{product.category}</span>
+                        <span className="product-price">{product.price}</span>
+                      </div>
+                    </div>
                   </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Static grid — padding set by GSAP via computeGridLayout() to match animated cards exactly */}
+            <div
+              ref={staticGridRef}
+              className="relative w-full"
+              style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
+            >
+              <div className="pb-20 sm:pb-28">
+                <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
+                  {STATIC_PRODUCTS.map((product) => (
+                    <div key={product.id} className="static-card-item">
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Static grid — padding set by GSAP via computeGridLayout() to match animated cards exactly */}
-        <div
-          ref={staticGridRef}
-          className="relative w-full"
-          style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
-        >
-          <div className="pb-20 sm:pb-28">
+            </div>
+          </>
+        ) : (
+          <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24">
+            <div className="mb-12 text-center flex flex-col items-center">
+              <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+              <span className="section-label mb-3">The Collection</span>
+              <h2 className="heading-xl mb-4">
+                Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+              </h2>
+              <p className="body-m max-w-md mx-auto">
+                Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
+              </p>
+            </div>
             <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
-              {STATIC_PRODUCTS.map((product) => (
-                <div key={product.id} className="static-card-item">
+              {ALL_PRODUCTS.map((product) => (
+                <div key={product.id}>
                   <ProductCard product={product} />
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

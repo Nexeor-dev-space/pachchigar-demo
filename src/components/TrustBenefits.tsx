@@ -10,7 +10,7 @@ const BENEFITS = [
   {
     title: "15 Day Returns",
     description:
-      '"No questions asked" return policy if you aren\'t happy — no hassle, no delays.',
+      '"No questions asked" return policy if you aren\'t happy. No hassle, no delays.',
     icon: ReturnsIcon,
   },
   {
