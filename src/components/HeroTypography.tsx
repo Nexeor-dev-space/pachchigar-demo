@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionValue, useTransform, useSpring } from "framer-motion";
+import { useAnimation } from "@/providers/AnimationProvider";
 
 interface HeroTypographyProps {
   scrollYProgress: MotionValue<number>;
@@ -9,6 +10,8 @@ interface HeroTypographyProps {
 export default function HeroTypography({
   scrollYProgress,
 }: HeroTypographyProps) {
+  const { isAnimationEnabled } = useAnimation();
+
   /* ─── Scroll-linked motion values ─── */
   // Typography fades out as scroll progresses
   const rawOpacity = useTransform(scrollYProgress, [0, 0.5, 0.75], [1, 0.8, 0]);
@@ -49,13 +52,13 @@ export default function HeroTypography({
   return (
     <motion.div
       className="absolute inset-0 z-10 flex items-center pointer-events-none"
-      style={{ opacity, y }}
+      style={isAnimationEnabled ? { opacity, y } : { opacity: 1, y: 0 }}
     >
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
         <motion.div
           className="w-full flex flex-col items-center justify-center pointer-events-auto relative"
           variants={containerVariants}
-          initial="hidden"
+          initial={isAnimationEnabled ? "hidden" : "visible"}
           animate="visible"
         >
           {/* ─── Tagline ─── */}

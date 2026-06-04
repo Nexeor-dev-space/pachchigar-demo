@@ -48,25 +48,25 @@ export default function GiveBoldlySection() {
 
   /* ═══════ TEXT ANIMATIONS ═══════ */
   const textOpacity = useTransform(smoothProgress, [0.18, 0.38], [1, 0]);
-  const textY       = useTransform(smoothProgress, [0.18, 0.38], [0, -60]);
+  const textY = useTransform(smoothProgress, [0.18, 0.38], [0, -60]);
 
   /* ═══════ IMAGE INSET EXPANSION ═══════
      Animates from editorial card position → full viewport.
      No scale transform — pure inset morph for zero clipping. */
-  const imgTopPct    = useTransform(smoothProgress, [0.26, 0.56], [40, 0]);
-  const imgSidePct   = useTransform(smoothProgress, [0.26, 0.56], [10, 0]);
+  const imgTopPct = useTransform(smoothProgress, [0.26, 0.56], [50, 0]);
+  const imgSidePct = useTransform(smoothProgress, [0.26, 0.56], [10, 0]);
   const imgBottomPct = useTransform(smoothProgress, [0.26, 0.56], [2, 0]);
-  const imgRadius    = useTransform(smoothProgress, [0.26, 0.56], [28, 0]);
+  const imgRadius = useTransform(smoothProgress, [0.26, 0.56], [28, 0]);
 
   /* ── cinematic vignette — deepens as image expands ── */
   const vignetteIntensity = useTransform(smoothProgress, [0.20, 0.56], [0.18, 0.35]);
 
   /* ═══════ CSS STRINGS ═══════ */
-  const imgTop    = useTransform(imgTopPct, (v) => `${v}%`);
-  const imgLeft   = useTransform(imgSidePct, (v) => `${v}%`);
-  const imgRight  = useTransform(imgSidePct, (v) => `${v}%`);
-  const imgBottom  = useTransform(imgBottomPct, (v) => `${v}%`);
-  const imgBR     = useTransform(imgRadius, (v) => `${v}px`);
+  const imgTop = useTransform(imgTopPct, (v) => `${v}%`);
+  const imgLeft = useTransform(imgSidePct, (v) => `${v}%`);
+  const imgRight = useTransform(imgSidePct, (v) => `${v}%`);
+  const imgBottom = useTransform(imgBottomPct, (v) => `${v}%`);
+  const imgBR = useTransform(imgRadius, (v) => `${v}px`);
 
   const VIDEO_URL = "https://youtu.be/HLhJ798sRtU?si=hgIlyh7Lyx0egD_K";
 
@@ -99,8 +99,11 @@ export default function GiveBoldlySection() {
         {/* ─────── TEXT BLOCK ─────── */}
         <motion.div
           style={{ opacity: textOpacity, y: textY }}
-          className="relative z-10 flex flex-col items-center text-center px-6 pt-12 sm:pt-16 lg:pt-20 pb-4"
+          className="relative z-10 flex flex-col items-center text-center px-6 pt-12 sm:pt-16 lg:pt-20 pb-14"
         >
+          {/* decorative line */}
+          <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+
           {/* eyebrow */}
           <span className="section-label mb-5">
             Luxury Gifting
@@ -153,7 +156,7 @@ export default function GiveBoldlySection() {
             target="_blank"
             rel="noopener noreferrer"
             className="group block absolute inset-0 cursor-pointer"
-            aria-label="Watch the film — opens in new tab"
+            aria-label="Watch the film, opens in new tab"
           >
             {/* image */}
             <Image
@@ -205,10 +208,10 @@ export default function GiveBoldlySection() {
                   </defs>
                   <text
                     fill="white"
-                    fontSize="10.5"
+                    fontSize="9"
                     fontFamily="Inter, system-ui, sans-serif"
                     fontWeight="500"
-                    letterSpacing="5"
+                    letterSpacing="4"
                     style={{
                       textTransform: "uppercase",
                       filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
@@ -218,7 +221,7 @@ export default function GiveBoldlySection() {
                       href="#giveBoldlyOrbPath"
                       startOffset="0%"
                     >
-                      • WATCH THE FILM • WATCH THE FILM&nbsp;
+                      • WATCH THE FILM • DISCOVER THE STORY  &nbsp;
                     </textPath>
                   </text>
                 </svg>

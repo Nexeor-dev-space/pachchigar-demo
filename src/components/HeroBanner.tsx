@@ -4,9 +4,12 @@ import { useRef } from "react";
 import { useScroll } from "framer-motion";
 import ScrollScrubVideo from "./ScrollScrubVideo";
 import HeroTypography from "./HeroTypography";
+import { useAnimation } from "@/providers/AnimationProvider";
 
 export default function HeroBanner() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const { isAnimationEnabled } = useAnimation();
 
   /* ─── Scroll progress: 0 → 1 over the 300vh container ─── */
   const { scrollYProgress } = useScroll({
@@ -18,11 +21,11 @@ export default function HeroBanner() {
     <section
       ref={containerRef}
       id="hero-banner"
-      className="relative h-[300vh] bg-ivory-50"
+      className={`relative bg-ivory-50 ${isAnimationEnabled ? "h-[300vh]" : "h-[100vh]"}`}
     >
-      {/* ─── Sticky viewport container ─── */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Scroll-controlled video background */}
+      {/* ─── Viewport container ─── */}
+      <div className={`${isAnimationEnabled ? "sticky top-0" : ""} h-screen w-full overflow-hidden`}>
+        {/* Scroll-controlled video background OR Autoplay Video */}
         <ScrollScrubVideo scrollYProgress={scrollYProgress} />
 
         {/* Typography overlay */}
