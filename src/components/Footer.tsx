@@ -49,10 +49,10 @@ export default function Footer() {
         className="relative w-full max-w-[1440px] mx-auto bg-[#F5F1E8]/95 backdrop-blur-2xl rounded-t-[32px] sm:rounded-t-[48px] px-6 sm:px-12 lg:px-20 pt-16 sm:pt-20 pb-8 text-[#2B2B2B] shadow-[0_-20px_60px_rgba(0,0,0,0.3)] mt-[55vh]"
       >
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 mb-16 lg:mb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 sm:gap-10 lg:gap-12 mb-16 lg:mb-24">
           
           {/* Column 1: Newsletter */}
-          <div className="lg:col-span-4 flex flex-col">
+          <div className="sm:col-span-2 lg:col-span-4 flex flex-col">
             <h3 className="section-label mb-4">Join Our World</h3>
             <p className="body-l mb-8 max-w-sm">
               Receive exclusive collection launches, heritage stories, and private invitations.
@@ -71,29 +71,28 @@ export default function Footer() {
             </form>
           </div>
 
-          {/* Column 2: Showrooms (Adapting the Veronique layout into the panel) */}
-          <div className="lg:col-span-5 flex flex-col sm:flex-row gap-12 sm:gap-8 justify-between">
-            <div className="flex flex-col">
-              <h3 className="section-label mb-5">Surat Showroom</h3>
-              <p className="body-l !text-[#2B2B2B] mb-4">CG Square Mall,<br/>Vesu, Surat, Gujarat</p>
-              <div className="flex flex-col gap-2 body-s">
-                <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
-                <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
-              </div>
-            </div>
-            
-            <div className="flex flex-col">
-              <h3 className="section-label mb-5">Ahmedabad Showroom</h3>
-              <p className="body-l !text-[#2B2B2B] mb-4">Sindhu Bhavan Road,<br/>Ahmedabad, Gujarat</p>
-              <div className="flex flex-col gap-2 body-s">
-                <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
-                <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
-              </div>
+          {/* Column 2: Surat Showroom */}
+          <div className="lg:col-span-3 flex flex-col">
+            <h3 className="section-label mb-5">Surat Showroom</h3>
+            <p className="body-l !text-[#2B2B2B] mb-4">CG Square Mall,<br/>Vesu, Surat, Gujarat</p>
+            <div className="flex flex-col gap-2 body-s">
+              <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
+              <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
             </div>
           </div>
 
-          {/* Column 3: Navigation */}
-          <div className="lg:col-span-3 grid grid-cols-2 gap-8">
+          {/* Column 3: Ahmedabad Showroom */}
+          <div className="lg:col-span-2 flex flex-col">
+            <h3 className="section-label mb-5">Ahmedabad Showroom</h3>
+            <p className="body-l !text-[#2B2B2B] mb-4">Sindhu Bhavan Road,<br/>Ahmedabad, Gujarat</p>
+            <div className="flex flex-col gap-2 body-s">
+              <a href="#" className="hover:text-[#CBA135] transition-colors flex items-center gap-2">📍 View on Maps</a>
+              <span className="flex items-center gap-2">🕒 Mon-Sun, 11am-8pm</span>
+            </div>
+          </div>
+
+          {/* Column 4: Navigation (Collections + Company) */}
+          <div className="sm:col-span-2 lg:col-span-3 grid grid-cols-2 gap-8">
             <div>
               <h3 className="section-label mb-5">Collections</h3>
               <ul className="flex flex-col gap-3 body-m">
