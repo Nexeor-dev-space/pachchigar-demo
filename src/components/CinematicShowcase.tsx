@@ -4,43 +4,24 @@ import { useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Link from "next/link";
 import { useAnimation } from "@/providers/AnimationProvider";
+import { ANIMATED_PRODUCTS, STATIC_PRODUCTS, ALL_PRODUCTS, type ProductData as Product } from "@/data/products";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════ */
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: string;
-  image: string;
-}
-
-const ANIMATED_PRODUCTS: Product[] = [
-  { id: "bracelet", name: "Rainbow Spectrum Bracelet", category: "Bracelet", price: "₹2,85,000", image: "/images/products/bracelet1.png" },
-  { id: "necklace", name: "Emerald Heart Pendant", category: "Necklace", price: "₹5,45,000", image: "/images/products/necklace1.png" },
-  { id: "ring", name: "Paraiba Blossom Ring", category: "Ring", price: "₹3,75,000", image: "/images/products/ring1.png" },
-];
-
-const STATIC_PRODUCTS: Product[] = [
-  { id: "earring-1", name: "Kundan Drop Earrings", category: "Earrings", price: "₹1,65,000", image: "/images/products/earring-1.png" },
-  { id: "ring-3", name: "Royal Solitaire Ring", category: "Rings", price: "₹3,75,000", image: "/images/products/ring-3.png" },
-  { id: "ring-2", name: "Heritage Diamond Ring", category: "Rings", price: "₹2,85,000", image: "/images/products/ring-2.png" },
-  { id: "ring-4", name: "Emerald Bloom Ring", category: "Rings", price: "₹4,25,000", image: "/images/products/ring-4.png" },
-  { id: "bangle-3", name: "Polki Bridal Bangle", category: "Bangles", price: "₹5,45,000", image: "/images/products/bangle-3.png" },
-  { id: "bangle-2", name: "Gold Heritage Bangle", category: "Bangles", price: "₹2,45,000", image: "/images/products/bangle-2.png" },
-];
-
-const ALL_PRODUCTS = [...ANIMATED_PRODUCTS, ...STATIC_PRODUCTS];
 const GRID_GAP = 28;
 
 /* ═══════════════════════════════════════════ */
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group cursor-pointer luxury-product-card gpu-accelerate">
+    <Link
+      href={`/products/${product.slug}`}
+      className="group block luxury-product-card gpu-accelerate"
+    >
       <div className="card-image-area relative w-full overflow-hidden rounded-t-[16px]" style={{ paddingBottom: "100%", background: "#FAF7F2" }}>
         <Image src={product.image} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-contain p-6 sm:p-8 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" />
@@ -53,7 +34,7 @@ function ProductCard({ product }: { product: Product }) {
           <span className="product-price">{product.price}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -480,23 +461,25 @@ export default function CinematicShowcase() {
               <div className="absolute inset-0 z-10">
                 {ANIMATED_PRODUCTS.map((product, i) => (
                   <div key={product.id} ref={(el) => { floatingRefs.current[i] = el; }} className="absolute gpu-accelerate" style={{ transformOrigin: "top left" }}>
-                    <div ref={(el) => { cardBgRefs.current[i] = el; }} className="absolute pointer-events-none"
-                      style={{ inset: 0, bottom: -72, borderRadius: 16, background: "#FFFFFF", boxShadow: "0 2px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(203,161,53,0.05)", opacity: 0 }} />
-                    <div ref={(el) => { imageBgRefs.current[i] = el; }} className="relative w-full overflow-hidden" style={{ paddingBottom: "100%", borderRadius: "16px 16px 0 0" }}>
-                      <Image src={product.image} alt={product.name} fill sizes="380px" className="object-contain p-6 sm:p-8" priority />
-                    </div>
-                    <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-                      style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
-                    <div ref={(el) => { labelRefs.current[i] = el; }} className="absolute -bottom-8 left-0 right-0 flex justify-center pointer-events-none">
-                      <span className="product-category !text-[#2B2B2B]/40">{product.category}</span>
-                    </div>
-                    <div ref={(el) => { cardInfoRefs.current[i] = el; }} className="relative z-10 px-5 pt-3 pb-4 bg-white" style={{ opacity: 0, borderRadius: "0 0 16px 16px" }}>
-                      <h3 className="product-title">{product.name}</h3>
-                      <div className="flex items-center justify-between mt-1.5">
-                        <span className="product-category">{product.category}</span>
-                        <span className="product-price">{product.price}</span>
+                    <Link href={`/products/${product.slug}`} className="block cursor-pointer">
+                      <div ref={(el) => { cardBgRefs.current[i] = el; }} className="absolute pointer-events-none"
+                        style={{ inset: 0, bottom: -72, borderRadius: 16, background: "#FFFFFF", boxShadow: "0 2px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(203,161,53,0.05)", opacity: 0 }} />
+                      <div ref={(el) => { imageBgRefs.current[i] = el; }} className="relative w-full overflow-hidden" style={{ paddingBottom: "100%", borderRadius: "16px 16px 0 0" }}>
+                        <Image src={product.image} alt={product.name} fill sizes="380px" className="object-contain p-6 sm:p-8" priority />
                       </div>
-                    </div>
+                      <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+                        style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
+                      <div ref={(el) => { labelRefs.current[i] = el; }} className="absolute -bottom-8 left-0 right-0 flex justify-center pointer-events-none">
+                        <span className="product-category !text-[#2B2B2B]/40">{product.category}</span>
+                      </div>
+                      <div ref={(el) => { cardInfoRefs.current[i] = el; }} className="relative z-10 px-5 pt-3 pb-4 bg-white" style={{ opacity: 0, borderRadius: "0 0 16px 16px" }}>
+                        <h3 className="product-title">{product.name}</h3>
+                        <div className="flex items-center justify-between mt-1.5">
+                          <span className="product-category">{product.category}</span>
+                          <span className="product-price">{product.price}</span>
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 ))}
               </div>

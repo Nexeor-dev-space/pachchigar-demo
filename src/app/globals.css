@@ -285,3 +285,424 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* ═══════════════════════════════════════════
+   PRODUCT DETAIL PAGE — Hero Section
+   ═══════════════════════════════════════════ */
+
+/* ── Breadcrumb ── */
+.pdp-breadcrumb {
+  padding: 24px clamp(24px, 5vw, 80px) 0;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.pdp-breadcrumb-link {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #5A4A42;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.pdp-breadcrumb-link:hover {
+  color: #5E2E36;
+}
+
+.pdp-breadcrumb-separator {
+  font-size: 0.7rem;
+  color: #D4C9B8;
+  user-select: none;
+}
+
+.pdp-breadcrumb-current {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #2D241E;
+}
+
+/* ── Main Grid ── */
+.pdp-hero-grid {
+  display: grid;
+  grid-template-columns: 57% 43%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px clamp(24px, 5vw, 80px) 80px;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: start;
+}
+
+/* ── Gallery ── */
+.pdp-gallery {
+  position: relative;
+}
+
+.pdp-gallery-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pdp-gallery-image-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #FAF7F2;
+  box-shadow:
+    0 2px 24px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(203, 161, 53, 0.04);
+  transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-gallery-image-wrapper:hover {
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(203, 161, 53, 0.08);
+}
+
+.pdp-gallery-image-inner {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+}
+
+.pdp-gallery-image-inner img {
+  padding: clamp(24px, 4vw, 48px);
+}
+
+/* ── Product Info (Sticky) ── */
+.pdp-info {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.pdp-info-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Category Eyebrow ── */
+.pdp-category-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.pdp-category-divider {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, #CBA135, transparent);
+  opacity: 0.5;
+}
+
+/* ── Title ── */
+.pdp-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  color: #2D241E;
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Price ── */
+.pdp-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.pdp-price {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  color: #A36E52;
+  letter-spacing: 0.02em;
+}
+
+.pdp-price-note {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #5A4A42;
+  opacity: 0.6;
+  letter-spacing: 0.04em;
+}
+
+/* ── Divider ── */
+.pdp-divider {
+  height: 1px;
+  background: linear-gradient(90deg, #E2D5C3, transparent 80%);
+  margin: 4px 0 28px;
+  opacity: 0.6;
+}
+
+/* ── Description ── */
+.pdp-description {
+  margin-bottom: 24px;
+}
+
+.pdp-description p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.85;
+  color: #5A4A42;
+  font-weight: 400;
+}
+
+/* ── Availability ── */
+.pdp-availability {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.pdp-availability-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6B8E5E;
+  box-shadow: 0 0 0 3px rgba(107, 142, 94, 0.15);
+  flex-shrink: 0;
+}
+
+.pdp-availability-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #2D241E;
+  letter-spacing: 0.03em;
+}
+
+/* ── CTA Buttons ── */
+.pdp-cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.pdp-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 17px 32px;
+  background: #2D241E;
+  color: #FDFAF5;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #5E2E36 0%, #3D3129 100%);
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-cta-primary:hover::before {
+  opacity: 1;
+}
+
+.pdp-cta-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(45, 36, 30, 0.2);
+}
+
+.pdp-cta-primary-text {
+  position: relative;
+  z-index: 1;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.pdp-cta-arrow {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-cta-primary:hover .pdp-cta-arrow {
+  transform: translateX(4px);
+}
+
+.pdp-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px 32px;
+  background: transparent;
+  color: #2D241E;
+  border: 1px solid #E2D5C3;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-cta-secondary:hover {
+  border-color: #CBA135;
+  background: rgba(203, 161, 53, 0.04);
+  color: #5E2E36;
+}
+
+/* ── Product Details ── */
+.pdp-details {
+  margin-bottom: 32px;
+}
+
+.pdp-details-heading {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: #5E2E36;
+  margin-bottom: 20px;
+}
+
+.pdp-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pdp-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(226, 213, 195, 0.4);
+}
+
+.pdp-detail-row:last-child {
+  border-bottom: none;
+}
+
+.pdp-detail-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #5A4A42;
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+}
+
+.pdp-detail-value {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #2D241E;
+  text-align: right;
+  letter-spacing: 0.01em;
+}
+
+/* ── Trust Signals ── */
+.pdp-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.pdp-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #5A4A42;
+  opacity: 0.65;
+  letter-spacing: 0.02em;
+}
+
+.pdp-trust-item svg {
+  color: #CBA135;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   PDP RESPONSIVE — Tablet & Mobile
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .pdp-hero-grid {
+    grid-template-columns: 55% 45%;
+    gap: 32px;
+    padding: 32px clamp(20px, 4vw, 48px) 60px;
+  }
+
+  .pdp-info {
+    top: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pdp-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 24px 20px 56px;
+  }
+
+  .pdp-breadcrumb {
+    padding: 16px 20px 0;
+  }
+
+  .pdp-info {
+    position: static;
+  }
+
+  .pdp-gallery-stack {
+    gap: 14px;
+  }
+
+  .pdp-gallery-image-wrapper {
+    border-radius: 14px;
+  }
+
+  .pdp-title {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+    margin-bottom: 20px;
+  }
+
+  .pdp-price-block {
+    margin-bottom: 24px;
+  }
+
+  .pdp-cta-group {
+    flex-direction: column;
+  }
+
+  .pdp-trust {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
