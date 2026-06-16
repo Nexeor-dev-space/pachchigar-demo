@@ -20,6 +20,8 @@ export const metadata: Metadata = {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AnimationProvider } from "@/providers/AnimationProvider";
+import { CartProvider } from "@/providers/CartProvider";
+import { WishlistProvider } from "@/providers/WishlistProvider";
 import AnimationToggle from "@/components/AnimationToggle";
 
 export default function RootLayout({
@@ -30,16 +32,20 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
-        <AnimationProvider>
-          <Navbar />
-          <SmoothScrollProvider>
-            <div className="flex-grow">
-              {children}
-            </div>
-            <Footer />
-          </SmoothScrollProvider>
-          <AnimationToggle />
-        </AnimationProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <AnimationProvider>
+              <Navbar />
+              <SmoothScrollProvider>
+                <div className="flex-grow">
+                  {children}
+                </div>
+                <Footer />
+              </SmoothScrollProvider>
+              <AnimationToggle />
+            </AnimationProvider>
+          </WishlistProvider>
+        </CartProvider>
       </body>
     </html>
   );

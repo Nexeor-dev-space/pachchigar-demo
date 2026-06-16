@@ -387,3 +387,45 @@ export function getProductById(id: string): ProductData | undefined {
 export function getAllSlugs(): string[] {
   return PRODUCTS.map((p) => p.slug);
 }
+
+/* ── PLP Category Mapping ── */
+export const CATEGORY_MAP: Record<string, string[]> = {
+  "necklaces-pendants": ["Necklace"],
+  "bracelets-bangles": ["Bracelet", "Bangles"],
+  rings: ["Ring", "Rings"],
+  earrings: ["Earrings"],
+  more: [], // shows all products
+};
+
+/** Get products filtered by PLP category slug */
+export function getProductsByCategory(slug: string): ProductData[] {
+  const cats = CATEGORY_MAP[slug];
+  if (!cats || cats.length === 0) return PRODUCTS;
+  return PRODUCTS.filter((p) => cats.includes(p.category));
+}
+
+/** Parse price string to number for sorting (e.g. "₹2,85,000" → 285000) */
+export function parsePrice(priceStr: string): number {
+  return parseInt(priceStr.replace(/[₹,\s]/g, ""), 10) || 0;
+}
+
+/** Get all unique values for a detail label across products */
+export function getUniqueDetailValues(
+  products: ProductData[],
+  label: string
+): string[] {
+  const values = new Set<string>();
+  products.forEach((p) => {
+    const detail = p.details.find(
+      (d) => d.label.toLowerCase() === label.toLowerCase()
+    );
+    if (detail) values.add(detail.value);
+  });
+  return Array.from(values);
+}
+
+/** Get all unique categories across products */
+export function getUniqueCategories(products: ProductData[]): string[] {
+  return Array.from(new Set(products.map((p) => p.category)));
+}
+

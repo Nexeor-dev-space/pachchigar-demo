@@ -7,36 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAnimation } from "@/providers/AnimationProvider";
 import { ANIMATED_PRODUCTS, STATIC_PRODUCTS, ALL_PRODUCTS, type ProductData as Product } from "@/data/products";
+import ProductCard from "@/components/ProductCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════ */
 
 const GRID_GAP = 28;
-
-/* ═══════════════════════════════════════════ */
-
-function ProductCard({ product }: { product: Product }) {
-  return (
-    <Link
-      href={`/products/${product.slug}`}
-      className="group block luxury-product-card gpu-accelerate"
-    >
-      <div className="card-image-area relative w-full overflow-hidden rounded-t-[16px]" style={{ paddingBottom: "100%", background: "#FAF7F2" }}>
-        <Image src={product.image} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-contain p-6 sm:p-8 transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]" />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] transition-colors duration-500 rounded-t-[16px]" />
-      </div>
-      <div className="card-info-area px-5 pt-3 pb-4 bg-white rounded-b-[16px]">
-        <h3 className="product-title">{product.name}</h3>
-        <div className="flex flex-wrap items-center justify-between mt-1.5 gap-x-2 gap-y-1">
-          <span className="product-category">{product.category}</span>
-          <span className="product-price">{product.price}</span>
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 /* ═══════════════════════════════════════════ */
 
