@@ -1,14 +1,50 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ShoppingBag, Check, Heart, Minus, Plus } from "lucide-react";
 import type { ProductData } from "@/data/products";
+import { useCart } from "@/providers/CartProvider";
+import { useWishlist } from "@/providers/WishlistProvider";
 
 /* ═══════════════════════════════════════════
    PRODUCT HERO — Editorial Luxury PDP Section
    ═══════════════════════════════════════════ */
 
 export default function ProductHero({ product }: { product: ProductData }) {
+  const { addToCart, isInCart, getQuantity, updateQuantity } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const inCart = isInCart(product.id);
+  const quantity = getQuantity(product.id);
+  const wishlisted = isInWishlist(product.id);
+
+  const handleAddToCart = useCallback(() => {
+    addToCart({
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      image: product.image,
+      price: product.price,
+      priceNumeric: parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+    });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
+  }, [addToCart, product]);
+
+  const handleToggleWishlist = useCallback(() => {
+    toggleWishlist({
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      image: product.image,
+      price: product.price,
+      priceNumeric: parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+    });
+  }, [toggleWishlist, product]);
+
   return (
     <section
       className="pdp-hero relative"
@@ -88,6 +124,9 @@ export default function ProductHero({ product }: { product: ProductData }) {
               <span className="pdp-price">{product.price}</span>
               <span className="pdp-price-note">Price inclusive of taxes</span>
             </div>
+            <p className="font-sans text-[10px] text-[#5A4A42]/50 tracking-wide mt-1">
+              *This is an estimated price, actual price may differ as per actual weights.
+            </p>
 
             {/* Editorial Divider */}
             <div className="pdp-divider" />
@@ -107,27 +146,115 @@ export default function ProductHero({ product }: { product: ProductData }) {
 
             {/* CTA Buttons */}
             <div className="pdp-cta-group">
-              <button className="pdp-cta-primary" type="button">
-                <span className="pdp-cta-primary-text">Enquire Now</span>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  className="pdp-cta-arrow"
+              {inCart && !justAdded ? (
+                /* ── In-cart: quantity stepper + label ── */
+                <div className="pdp-cta-primary flex items-center justify-between">
+                  <span className="pdp-cta-primary-text">In Cart</span>
+                  <div
+                    className="flex items-center rounded-lg overflow-hidden"
+                    style={{ border: "1px solid rgba(255,255,255,0.2)" }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => updateQuantity(product.id, quantity - 1)}
+                      className="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus size={14} strokeWidth={2} />
+                    </button>
+                    <span className="w-8 h-8 flex items-center justify-center text-[12px] font-semibold border-x border-white/20">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleAddToCart}
+                      className="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus size={14} strokeWidth={2} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* ── Default: Add to Cart ── */
+                <button
+                  className="pdp-cta-primary"
+                  type="button"
+                  onClick={handleAddToCart}
                 >
-                  <path
-                    d="M3 8h10M9 4l4 4-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                  <span className="pdp-cta-primary-text">
+                    {justAdded ? "Added to Cart" : "Add to Cart"}
+                  </span>
+                  {justAdded ? (
+                    <Check size={16} strokeWidth={2} className="pdp-cta-arrow" />
+                  ) : (
+                    <ShoppingBag size={16} strokeWidth={1.5} className="pdp-cta-arrow" />
+                  )}
+                </button>
+              )}
+
+              {/* Wishlist Toggle */}
+              <button
+                className={`pdp-cta-secondary flex items-center justify-center gap-2 transition-all duration-300 ${
+                  wishlisted ? "!text-[#5E2E36] !border-[#5E2E36]/30" : ""
+                }`}
+                type="button"
+                onClick={handleToggleWishlist}
+              >
+                <Heart
+                  size={16}
+                  strokeWidth={wishlisted ? 0 : 1.5}
+                  fill={wishlisted ? "currentColor" : "none"}
+                />
+                {wishlisted ? "Saved to Wishlist" : "Add to Wishlist"}
               </button>
-              <button className="pdp-cta-secondary" type="button">
+
+              {/* Customize */}
+              <Link
+                href={`/customize/${product.slug}`}
+                className="pdp-cta-secondary text-center"
+              >
                 Customize This Design
-              </button>
+              </Link>
+            </div>
+
+            {/* ── Service Buttons (Video Call + Try At Home) ── */}
+            <div className="flex gap-3 mt-4">
+              <a
+                href="https://wa.me/917990032811?text=I%20want%20to%20schedule%20a%20video%20call"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:shadow-md"
+                style={{
+                  background: "linear-gradient(135deg, #2D241E, #3A302A)",
+                  color: "#FDFAF5",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15.1 7.01a4 4 0 0 1 .9 6.99" />
+                  <path d="M17.7 4.41a8 8 0 0 1 .3 15.18" />
+                  <rect x="2" y="6" width="7" height="12" rx="2" />
+                  <path d="M9 12h6" />
+                  <rect x="15" y="6" width="7" height="12" rx="2" />
+                </svg>
+                Video Call
+              </a>
+              <a
+                href="https://wa.me/917990032811?text=I%20want%20to%20try%20this%20product%20at%20home"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:shadow-md"
+                style={{
+                  background: "linear-gradient(135deg, #CBA135, #B8922E)",
+                  color: "#2D241E",
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                Try At Home
+              </a>
             </div>
 
             {/* Editorial Divider */}

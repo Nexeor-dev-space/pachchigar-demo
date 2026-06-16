@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { Search, User, Heart, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCart } from '@/providers/CartProvider';
+import { useWishlist } from '@/providers/WishlistProvider';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const { totalItems } = useCart();
+  const { totalItems: wishlistTotal } = useWishlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,14 +44,14 @@ export default function Navbar() {
   }, []);
 
   const navLinks: { label: string; href: string; children?: { label: string; href: string; external?: boolean }[] }[] = [
-    { label: "NECKLACES & PENDANT", href: "/collections/necklaces" },
-    { label: "BRACELET & BANGLES", href: "/collections/bracelets" },
+    { label: "NECKLACES & PENDANT", href: "/collections/necklaces-pendants" },
+    { label: "BRACELET & BANGLES", href: "/collections/bracelets-bangles" },
     { label: "RINGS", href: "/collections/rings" },
     { label: "EARRINGS", href: "/collections/earrings" },
-    { label: "MORE", href: "/collections/most-gifted" },
+    { label: "MORE", href: "/collections/more" },
     {
       label: "SERVICES",
-      href: "#",
+      href: "/services",
       children: [
         { label: "Book Video Call Appointment", href: "https://calendly.com/pachchigarandsonsonline/30min?back=1", external: true },
         { label: "Book Try At Home", href: "https://calendly.com/pachchigarandsonsonline/book-video-call-clone", external: true },
@@ -90,38 +95,50 @@ export default function Navbar() {
               {navLinks.map((link) =>
                 link.children ? (
                   <div key={link.label} className="relative group">
-                    <button
+                    <Link
+                      href={link.href}
                       className="flex items-center gap-1 whitespace-nowrap font-sans text-[12px] font-medium tracking-[0.18em] uppercase text-[#2C2A28]/80 hover:text-[#2C2A28] transition-colors duration-300"
                     >
                       {link.label}
                       <ChevronDown size={12} strokeWidth={2} className="transition-transform duration-300 group-hover:rotate-180" />
-                    </button>
+                    </Link>
                     <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-wine transition-all duration-300 ease-out group-hover:w-full" />
                     {/* Dropdown */}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                       <div className="bg-[#FCFBF9]/95 backdrop-blur-md border border-[#E2D5C3]/40 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.06)] py-3 px-2 min-w-[240px]">
-                        {link.children.map((child) => (
-                          <a
-                            key={child.label}
-                            href={child.href}
-                            {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                            className="block px-4 py-2.5 font-sans text-[11px] font-medium tracking-[0.1em] text-[#2C2A28]/70 hover:text-wine hover:bg-[#F5EFE5]/60 rounded-lg transition-all duration-200 whitespace-nowrap"
-                          >
-                            {child.label}
-                          </a>
-                        ))}
+                        {link.children.map((child) =>
+                          child.external ? (
+                            <a
+                              key={child.label}
+                              href={child.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-2.5 font-sans text-[11px] font-medium tracking-[0.1em] text-[#2C2A28]/70 hover:text-wine hover:bg-[#F5EFE5]/60 rounded-lg transition-all duration-200 whitespace-nowrap"
+                            >
+                              {child.label}
+                            </a>
+                          ) : (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              className="block px-4 py-2.5 font-sans text-[11px] font-medium tracking-[0.1em] text-[#2C2A28]/70 hover:text-wine hover:bg-[#F5EFE5]/60 rounded-lg transition-all duration-200 whitespace-nowrap"
+                            >
+                              {child.label}
+                            </Link>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <a
+                  <Link
                     key={link.label}
                     href={link.href}
                     className="group relative whitespace-nowrap font-sans text-[12px] font-medium tracking-[0.18em] uppercase text-[#2C2A28]/80 hover:text-[#2C2A28] transition-colors duration-300"
                   >
                     {link.label}
                     <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-wine transition-all duration-300 ease-out group-hover:w-full" />
-                  </a>
+                  </Link>
                 )
               )}
             </nav>
@@ -140,19 +157,23 @@ export default function Navbar() {
                 <User size={20} strokeWidth={1.5} />
               </button>
 
-              <button className="hidden md:block relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Wishlist">
+              <Link href="/wishlist" className="hidden md:block relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Wishlist">
                 <Heart size={20} strokeWidth={1.5} />
-                <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5 group-hover:scale-110 transition-transform">
-                  0
-                </span>
-              </button>
+                {wishlistTotal > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5 group-hover:scale-110 transition-transform">
+                    {wishlistTotal}
+                  </span>
+                )}
+              </Link>
 
-              <button className="relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Cart">
+              <Link href="/cart" className="relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Cart">
                 <ShoppingBag size={20} strokeWidth={1.5} />
-                <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5 group-hover:scale-110 transition-transform">
-                  0
-                </span>
-              </button>
+                {totalItems > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5 group-hover:scale-110 transition-transform">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
         </div>
@@ -246,26 +267,38 @@ export default function Navbar() {
                 <nav className="flex flex-col gap-6 mt-2">
                   {navLinks.map((link) => (
                     <div key={link.label} className="border-b border-gray-100 pb-4 w-full">
-                      <a
-                        href={link.children ? undefined : link.href}
+                      <Link
+                        href={link.href}
                         className="font-sans text-[11px] font-medium tracking-[0.18em] uppercase text-[#2C2A28] w-full block"
-                        onClick={() => { if (!link.children) setIsMobileMenuOpen(false); }}
+                        onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {link.label}
-                      </a>
+                      </Link>
                       {link.children && (
                         <div className="mt-3 flex flex-col gap-2 pl-3 border-l-2 border-[#E2D5C3]/40">
-                          {link.children.map((child) => (
-                            <a
-                              key={child.label}
-                              href={child.href}
-                              {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                              className="font-sans text-[10px] font-medium tracking-[0.1em] text-[#5A4A42] hover:text-wine transition-colors py-1"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {child.label}
-                            </a>
-                          ))}
+                          {link.children.map((child) =>
+                            child.external ? (
+                              <a
+                                key={child.label}
+                                href={child.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-sans text-[10px] font-medium tracking-[0.1em] text-[#5A4A42] hover:text-wine transition-colors py-1"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {child.label}
+                              </a>
+                            ) : (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                className="font-sans text-[10px] font-medium tracking-[0.1em] text-[#5A4A42] hover:text-wine transition-colors py-1"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {child.label}
+                              </Link>
+                            )
+                          )}
                         </div>
                       )}
                     </div>
@@ -279,21 +312,28 @@ export default function Navbar() {
                     </div>
                     <span className="text-sm tracking-widest uppercase">Account</span>
                   </button>
-                  <button className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
+                  <Link href="/wishlist" className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+                    <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
                       <Heart size={20} strokeWidth={1.5} />
+                      {wishlistTotal > 0 && (
+                        <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5">
+                          {wishlistTotal}
+                        </span>
+                      )}
                     </div>
                     <span className="text-sm tracking-widest uppercase">Wishlist</span>
-                  </button>
-                  <button className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors">
+                  </Link>
+                  <Link href="/cart" className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                     <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
                       <ShoppingBag size={20} strokeWidth={1.5} />
-                      <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5">
-                        0
-                      </span>
+                      {totalItems > 0 && (
+                        <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5">
+                          {totalItems}
+                        </span>
+                      )}
                     </div>
                     <span className="text-sm tracking-widest uppercase">Cart</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
