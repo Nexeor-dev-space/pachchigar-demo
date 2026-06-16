@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════
    CENTRALIZED PRODUCT DATA
-   Matches the Pachchigar-and-sons-ecom data model:
-   gallery, description, availability, details.
+   Extended with story narratives and care
+   instructions for the full PDP experience.
    ═══════════════════════════════════════════ */
 
 export interface ProductData {
@@ -15,6 +15,12 @@ export interface ProductData {
   description: string;
   availability: string;
   details: { label: string; value: string }[];
+  story: {
+    narrative: string;
+    craftsmanship: string;
+    inspiration: string;
+  };
+  care: string[];
 }
 
 export const PRODUCTS: ProductData[] = [
@@ -40,6 +46,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Closure", value: "Hidden Box Clasp with Safety" },
       { label: "Certification", value: "BIS Hallmark, IGI Certified" },
     ],
+    story: {
+      narrative:
+        "Born from the idea of wearing a rainbow, this bracelet traces its origins to a rare collection of natural sapphires discovered across three continents. Each stone was chosen not just for clarity, but for the emotion its colour evokes — from the serenity of Ceylon blue to the passion of Mozambique pink.",
+      craftsmanship:
+        "Over 120 hours of meticulous handwork go into every piece. Our master artisans individually calibrate each gemstone, ensuring a seamless colour gradient that flows like liquid light around the wrist. The hidden box clasp is engineered with a dual-safety mechanism, invisible to the eye yet reassuringly secure.",
+      inspiration:
+        "Inspired by the ephemeral beauty of light refracting through crystal, this design pays homage to the Pachchigar tradition of finding the extraordinary in nature. It is jewellery that doesn't merely adorn — it tells the story of the earth itself.",
+    },
+    care: [
+      "Store in the provided velvet-lined box when not worn",
+      "Avoid direct contact with perfumes, lotions, and chemicals",
+      "Clean gently with a soft, lint-free cloth after each wear",
+      "Have the clasp mechanism inspected annually by a certified jeweller",
+      "Remove before swimming, bathing, or strenuous activity",
+    ],
   },
   {
     id: "necklace",
@@ -62,6 +83,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Accent Stones", value: "VS-Grade Brilliant Diamonds" },
       { label: "Chain Length", value: "18 inches, adjustable" },
       { label: "Certification", value: "BIS Hallmark, GIA Report" },
+    ],
+    story: {
+      narrative:
+        "This pendant began as a vision — to capture the colour of devotion in a single stone. The Colombian emerald at its heart was unearthed from the Muzo mines, where the rarest greens in the world lie hidden beneath ancient rock. Its vivid saturation and exceptional transparency make it a once-in-a-generation find.",
+      craftsmanship:
+        "The heart shape was cut by a third-generation lapidary in Jaipur, requiring 48 hours of precision faceting to achieve perfect symmetry. The diamond halo — 32 VS-grade brilliants — is set in a seamless micro-pavé technique that creates the illusion of an uninterrupted ring of light around the emerald.",
+      inspiration:
+        "Love, in the Pachchigar tradition, is not merely spoken — it is worn. This pendant draws from the Mughal custom of gifting emeralds as tokens of eternal affection, reimagined for the woman who carries her heart with quiet strength.",
+    },
+    care: [
+      "Emeralds are softer than diamonds — handle with care to avoid scratches",
+      "Store separately from harder gemstones in a soft pouch",
+      "Clean with lukewarm water and a soft brush; avoid ultrasonic cleaners",
+      "Have prong settings checked every 6 months",
+      "Avoid sudden temperature changes which may cause fractures",
     ],
   },
   {
@@ -86,6 +122,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Band Width", value: "6mm at crown, 3mm at base" },
       { label: "Certification", value: "BIS Hallmark, IGI Certified" },
     ],
+    story: {
+      narrative:
+        "The Paraíba tourmaline is among the rarest gemstones on earth — found in only a handful of mines in Brazil and Mozambique. This particular stone, with its electric neon blue-green hue, was selected from a parcel of fewer than twenty specimens, each exhibiting the copper-infused glow that makes Paraíbas unmistakable.",
+      craftsmanship:
+        "The floral setting required the creation of a bespoke wax model, sculpted entirely by hand over three weeks. Each petal is individually cast, textured, and assembled around the centre stone. The lattice band features over 200 hand-pierced openings, creating a lace-like transparency that feels weightless on the finger.",
+      inspiration:
+        "Drawing from the lotus motifs found in ancient Indian temple architecture, this ring celebrates the idea of beauty emerging from complexity. It is a modern heirloom — rooted in tradition, yet utterly contemporary in its expression.",
+    },
+    care: [
+      "Paraíba tourmalines have moderate hardness — avoid impact against hard surfaces",
+      "Remove ring before household work or exercise",
+      "Clean with a soft damp cloth; avoid harsh chemical cleaners",
+      "Store in the provided ring box to prevent scratching",
+      "Have the setting inspected annually to ensure stone security",
+    ],
   },
   {
     id: "earring-1",
@@ -108,6 +159,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Total Weight", value: "18.6 grams (pair)" },
       { label: "Length", value: "2.8 inches" },
       { label: "Certification", value: "BIS Hallmark" },
+    ],
+    story: {
+      narrative:
+        "Kundan is the oldest form of jewellery-making in India, originating in the royal courts of Rajasthan over 2,500 years ago. These earrings honour that unbroken lineage — every uncut diamond is set using the same technique that adorned Mughal empresses, yet the silhouette speaks to the sensibilities of today.",
+      craftsmanship:
+        "Each earring passes through the hands of five specialist artisans. The Kundan-setter carefully places uncut diamonds into beds of pure gold foil. The Meenakari artist hand-paints enamel in layers, firing each colour separately at precise temperatures. The result is a palette of royal blue and emerald green that will never fade.",
+      inspiration:
+        "These earrings were conceived as wearable heritage — a bridge between the grandeur of India's jewelled past and the refined taste of the modern woman. The graduated drop shape was designed to create a gentle pendulum motion, catching light in a way that feels alive.",
+    },
+    care: [
+      "Kundan jewellery contains a lac core — avoid exposure to water and moisture",
+      "Store flat in the provided silk-lined case to preserve shape",
+      "Wipe gently with a dry, soft cotton cloth after wearing",
+      "Keep away from heat sources which may soften the lac core",
+      "Avoid contact with perfumes, hairsprays, and cosmetics",
     ],
   },
   {
@@ -132,6 +198,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Colour", value: "D (Colourless)" },
       { label: "Certification", value: "GIA Certified" },
     ],
+    story: {
+      narrative:
+        "The Royal Solitaire represents the purest expression of a diamond's beauty. This particular stone — a D-colour, VVS1-clarity round brilliant — was selected from over 500 candidates for its exceptional fire and scintillation. Under proper lighting, it breaks white light into a spectrum of colours that seems to pulse with its own inner life.",
+      craftsmanship:
+        "The cathedral setting elevates the diamond 2mm above the band, allowing maximum light to enter from below and creating the coveted 'hearts and arrows' pattern visible under a loupe. The micro-pavé band features 28 precisely matched diamonds, each hand-set under 10× magnification to create an uninterrupted river of brilliance.",
+      inspiration:
+        "In the Pachchigar philosophy, a solitaire is not merely a ring — it is a promise cast in light. This design strips away everything unnecessary, allowing the diamond's own character to speak. It is a meditation on the beauty of singularity.",
+    },
+    care: [
+      "Diamonds are the hardest natural material but can chip with sharp impact",
+      "Clean regularly with mild soapy water and a soft toothbrush",
+      "Have the platinum band polished annually to restore its mirror finish",
+      "Store separately to prevent the diamond from scratching other jewellery",
+      "Remove during heavy manual work to protect the setting",
+    ],
   },
   {
     id: "ring-2",
@@ -154,6 +235,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Accent Stones", value: "Natural Ruby & Emerald" },
       { label: "Total Weight", value: "12.8 grams" },
       { label: "Certification", value: "BIS Hallmark, IGI Certified" },
+    ],
+    story: {
+      narrative:
+        "This ring is a love letter to the Mughal jewellers who perfected the art of combining diamonds with coloured gemstones. The cushion-cut centre diamond, with its soft rounded corners and large facets, was the favoured shape of Indian royalty — prized for the way it holds pools of light in its depths.",
+      craftsmanship:
+        "The bezel setting is hand-fabricated from a single sheet of 18-karat gold, shaped and textured to create an ornate frame that echoes the jharokha windows of Rajasthani palaces. The filigree on the shank is engraved using a burin — a traditional steel tool — with each scroll taking several hours of focused, uninterrupted work.",
+      inspiration:
+        "Heritage, in the Pachchigar vocabulary, is not nostalgia. It is the living thread that connects the artisan's hand to centuries of accumulated wisdom. This ring embodies that belief — every detail is drawn from history, yet the whole feels unmistakably of today.",
+    },
+    care: [
+      "The intricate filigree requires gentle handling to preserve detail",
+      "Clean with a soft brush and lukewarm soapy water",
+      "Avoid abrasive cloths that could wear down the engraving over time",
+      "Store in the provided ring box away from humidity",
+      "Have coloured stone settings checked every 6 months",
     ],
   },
   {
@@ -178,6 +274,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Total Weight", value: "14.2 grams" },
       { label: "Certification", value: "BIS Hallmark, Gübelin Report" },
     ],
+    story: {
+      narrative:
+        "Zambian emeralds are celebrated for their deep, saturated green with a subtle bluish undertone — a colour often described as 'forest after rain.' This 3.6-carat oval was sourced directly from the Kagem mine and selected for its remarkable transparency, vivid colour, and minimal inclusions.",
+      craftsmanship:
+        "The split-shank design required advanced CAD modelling followed by hand-finishing to achieve the perfect balance between structural integrity and visual lightness. The baguette diamonds flanking the emerald are precision-cut to identical dimensions, creating a geometric frame that contrasts beautifully with the organic shape of the centre stone.",
+      inspiration:
+        "This ring draws from the concept of 'wabi-sabi meets luxury' — the idea that nature's imperfections are what make it beautiful. The emerald's natural jardín (garden of inclusions) is embraced as part of its identity, making each piece truly one of a kind.",
+    },
+    care: [
+      "Emeralds are often oil-treated — avoid ultrasonic and steam cleaning",
+      "Clean gently with lukewarm water and a soft cloth",
+      "Store away from direct sunlight which can dry natural oils in the stone",
+      "Remove before contact with household chemicals",
+      "Have the emerald re-oiled professionally every 2–3 years if needed",
+    ],
   },
   {
     id: "bangle-3",
@@ -201,6 +312,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Inner Diameter", value: "Custom Sized" },
       { label: "Certification", value: "BIS Hallmark" },
     ],
+    story: {
+      narrative:
+        "In Indian bridal tradition, the bangle is more than jewellery — it is a symbol of prosperity, love, and the continuity of family. This Polki bangle follows a design tradition that predates the Taj Mahal, using uncut diamonds that retain the raw, primal beauty of the stone as it was found in the earth.",
+      craftsmanship:
+        "The Jadau technique requires the artisan to heat gold to a precise temperature, then press each Polki diamond into a bed of lac by hand. There is no modern shortcut — the stone must be coaxed into position with patience and instinct. The Meenakari enamel on the reverse is equally painstaking: each colour is applied and fired separately, building a hidden palette of ruby red and forest green.",
+      inspiration:
+        "This bangle was conceived as a modern heirloom — a piece that a bride wears on her wedding day and passes to her daughter decades later. Its design honours the unbroken chain of Pachchigar craftsmanship that stretches back generations, ensuring that every bangle carries within it the story of the hands that made it.",
+    },
+    care: [
+      "Jadau jewellery is delicate — handle with exceptional care",
+      "Never immerse in water; the lac core is sensitive to moisture",
+      "Store flat in the original wooden box with silk lining",
+      "Keep away from direct heat and sunlight",
+      "Clean only with a dry, soft cotton cloth — no liquids or chemicals",
+    ],
   },
   {
     id: "bangle-2",
@@ -223,6 +349,21 @@ export const PRODUCTS: ProductData[] = [
       { label: "Total Weight", value: "28.5 grams" },
       { label: "Inner Diameter", value: "2.6 inches (Standard)" },
       { label: "Certification", value: "BIS Hallmark" },
+    ],
+    story: {
+      narrative:
+        "Pure gold, shaped by hand — there is perhaps no more ancient or honest form of jewellery-making. This bangle uses 22-karat gold, chosen for its rich, warm lustre that lower karatages cannot replicate. The slightly yielding nature of high-karat gold allows the artisan's hammer to leave its mark, giving each piece a subtle, organic texture.",
+      craftsmanship:
+        "The bangle begins as a solid gold rod, drawn and shaped by hand into a seamless circle. The engraving is executed using the 'repoussé' and 'chasing' techniques — the artisan works from both sides of the gold, pushing and defining the motifs with over 40 different steel tools. No two bangles are identical.",
+      inspiration:
+        "This design pays homage to the Pachchigar family's origins as goldsmiths in Surat's historic jewellery quarter. The motifs — lotuses, paisleys, and geometric borders — are drawn from the same pattern books used by the family's founders, ensuring that every bangle is a tangible link to over a century of craftsmanship.",
+    },
+    care: [
+      "22K gold is soft — avoid wearing during strenuous activity",
+      "Store individually in a soft cloth pouch to prevent surface scratches",
+      "Clean with warm water and mild soap; dry thoroughly",
+      "Polish gently with a jeweller's polishing cloth to maintain lustre",
+      "Have engravings checked periodically for wear",
     ],
   },
 ];

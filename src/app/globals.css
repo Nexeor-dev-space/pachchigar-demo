@@ -292,7 +292,7 @@ body {
 
 /* ── Breadcrumb ── */
 .pdp-breadcrumb {
-  padding: 24px clamp(24px, 5vw, 80px) 0;
+  padding: 100px clamp(24px, 5vw, 80px) 0;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -668,12 +668,12 @@ body {
 @media (max-width: 768px) {
   .pdp-hero-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
     padding: 24px 20px 56px;
   }
 
   .pdp-breadcrumb {
-    padding: 16px 20px 0;
+    padding: 80px 20px 0;
   }
 
   .pdp-info {
@@ -681,11 +681,31 @@ body {
   }
 
   .pdp-gallery-stack {
-    gap: 14px;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .pdp-gallery-stack::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pdp-gallery-stack {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .pdp-gallery-image-wrapper {
     border-radius: 14px;
+    flex: 0 0 85%;
+    scroll-snap-align: center;
   }
 
   .pdp-title {
