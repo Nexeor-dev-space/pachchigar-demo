@@ -3,8 +3,9 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Heart } from "lucide-react";
 import { useCart } from "@/providers/CartProvider";
+import { useWishlist } from "@/providers/WishlistProvider";
 
 /* ═══════════════════════════════════════════
    CART PAGE
@@ -22,6 +23,7 @@ function formatPrice(amount: number): string {
 export default function CartPage() {
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart } =
     useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
 
   return (
     <main
@@ -187,13 +189,42 @@ export default function CartPage() {
                           </button>
                         </div>
 
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="p-2 text-[#5A4A42]/50 hover:text-[#B94A4A] transition-colors"
-                          aria-label="Remove item"
-                        >
-                          <Trash2 size={16} strokeWidth={1.5} />
-                        </button>
+                        <div className="flex items-center gap-4">
+                          <button
+                            onClick={() => {
+                              toggleWishlist({
+                                id: item.id,
+                                slug: item.slug,
+                                name: item.name,
+                                image: item.image,
+                                price: item.price,
+                                priceNumeric: item.priceNumeric,
+                              });
+                              removeFromCart(item.id);
+                            }}
+                            className={`flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.04em] transition-colors ${
+                              isInWishlist(item.id)
+                                ? "text-[#5E2E36]"
+                                : "text-[#5A4A42]/60 hover:text-[#5E2E36]"
+                            }`}
+                            aria-label="Move to wishlist"
+                          >
+                            <Heart
+                              size={14}
+                              strokeWidth={1.5}
+                              fill={isInWishlist(item.id) ? "currentColor" : "none"}
+                            />
+                            Move to Wishlist
+                          </button>
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.04em] text-[#5A4A42]/60 hover:text-[#B94A4A] transition-colors"
+                            aria-label="Remove item"
+                          >
+                            <Trash2 size={14} strokeWidth={1.5} />
+                            Remove
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
