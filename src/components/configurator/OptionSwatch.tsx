@@ -31,14 +31,14 @@ export default function OptionSwatch({
   return (
     <button
       onClick={onClick}
-      className="flex flex-col items-center gap-2 group"
+      className="flex flex-col items-center gap-2 group p-1.5"
       type="button"
     >
       {/* Swatch circle */}
       <div
         className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           isActive
-            ? "scale-110 shadow-[0_0_0_3px_#FDFAF5,0_0_0_5px_#5E2E36]"
+            ? "shadow-[0_0_0_3px_#FDFAF5,0_0_0_5px_#5E2E36]"
             : "shadow-[0_0_0_2px_rgba(226,213,195,0.4)] group-hover:shadow-[0_0_0_2px_rgba(203,161,53,0.4)] group-hover:scale-105"
         }`}
         style={{ background: color }}

@@ -336,41 +336,77 @@ body {
   align-items: start;
 }
 
-/* ── Gallery ── */
+/* ── Gallery — Oka-style ── */
 .pdp-gallery {
   position: relative;
-}
-
-.pdp-gallery-stack {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
-.pdp-gallery-image-wrapper {
+/* Hero image container */
+.pdp-gallery-hero {
   border-radius: 16px;
   overflow: hidden;
   background: #FAF7F2;
   box-shadow:
     0 2px 24px rgba(0, 0, 0, 0.03),
     0 0 0 1px rgba(203, 161, 53, 0.04);
-  transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.pdp-gallery-image-wrapper:hover {
-  box-shadow:
-    0 8px 40px rgba(0, 0, 0, 0.06),
-    0 0 0 1px rgba(203, 161, 53, 0.08);
-}
-
-.pdp-gallery-image-inner {
+.pdp-gallery-hero-inner {
   position: relative;
   width: 100%;
   padding-bottom: 100%;
 }
 
-.pdp-gallery-image-inner img {
+.pdp-gallery-hero-slide {
+  position: absolute;
+  inset: 0;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-gallery-hero-slide img {
   padding: clamp(24px, 4vw, 48px);
+}
+
+/* Horizontal thumbnail strip */
+.pdp-thumbnail-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 4px 0;
+}
+
+.pdp-thumbnail-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.pdp-thumbnail {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FAF7F2;
+  border: 2px solid rgba(226, 213, 195, 0.4);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pdp-thumbnail:hover {
+  border-color: #CBA135;
+  box-shadow: 0 2px 12px rgba(203, 161, 53, 0.1);
+}
+
+.pdp-thumbnail-active {
+  border-color: #2D241E;
+  box-shadow: 0 2px 12px rgba(45, 36, 30, 0.12);
 }
 
 /* ── Product Info (Sticky) ── */
@@ -680,32 +716,21 @@ body {
     position: static;
   }
 
-  .pdp-gallery-stack {
-    flex-direction: row;
-    gap: 12px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
+  .pdp-gallery-hero {
+    border-radius: 14px;
+  }
+
+  .pdp-thumbnail-strip {
+    gap: 8px;
     margin: 0 -20px;
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  .pdp-gallery-stack::-webkit-scrollbar {
-    display: none;
-  }
-
-  .pdp-gallery-stack {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .pdp-gallery-image-wrapper {
-    border-radius: 14px;
-    flex: 0 0 85%;
-    scroll-snap-align: center;
+  .pdp-thumbnail {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
   }
 
   .pdp-title {

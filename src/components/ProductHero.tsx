@@ -1,38 +1,56 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, Check, Heart, Minus, Plus } from "lucide-react";
+import {
+  ShoppingBag,
+  Check,
+  Heart,
+  Minus,
+  Plus,
+  Video,
+  Home,
+  Palette,
+} from "lucide-react";
 import type { ProductData } from "@/data/products";
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
 
 /* ═══════════════════════════════════════════
-   PRODUCT HERO — Editorial Luxury PDP Section
+   PRODUCT HERO — Oka-Inspired Premium PDP
    ═══════════════════════════════════════════ */
 
 export default function ProductHero({ product }: { product: ProductData }) {
   const { addToCart, isInCart, getQuantity, updateQuantity } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+
+  const [activeImage, setActiveImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
+  const [localQty, setLocalQty] = useState(1);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const inCart = isInCart(product.id);
-  const quantity = getQuantity(product.id);
+  const cartQty = getQuantity(product.id);
   const wishlisted = isInWishlist(product.id);
 
   const handleAddToCart = useCallback(() => {
-    addToCart({
-      id: product.id,
-      slug: product.slug,
-      name: product.name,
-      image: product.image,
-      price: product.price,
-      priceNumeric: parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
-    });
+    // Add with localQty (first time) or increment
+    for (let i = 0; i < (inCart ? 1 : localQty); i++) {
+      addToCart({
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        priceNumeric:
+          parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+      });
+    }
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
-  }, [addToCart, product]);
+  }, [addToCart, product, inCart, localQty]);
 
   const handleToggleWishlist = useCallback(() => {
     toggleWishlist({
@@ -81,16 +99,22 @@ export default function ProductHero({ product }: { product: ProductData }) {
       {/* ── Main Layout ── */}
       <div className="pdp-hero-grid">
         {/* ═══════════════════════════════════
-           LEFT — Editorial Image Gallery
+           LEFT — Oka-Style Image Gallery
            ═══════════════════════════════════ */}
         <div className="pdp-gallery">
-          <div className="pdp-gallery-stack">
-            {product.gallery.map((src, i) => (
-              <div
-                key={`gallery-${i}`}
-                className="pdp-gallery-image-wrapper"
-              >
-                <div className="pdp-gallery-image-inner">
+          {/* Hero image */}
+          <div className="pdp-gallery-hero">
+            <div className="pdp-gallery-hero-inner">
+              {product.gallery.map((src, i) => (
+                <div
+                  key={`hero-${i}`}
+                  className="pdp-gallery-hero-slide"
+                  style={{
+                    opacity: activeImage === i ? 1 : 0,
+                    transform: activeImage === i ? "scale(1)" : "scale(1.02)",
+                    zIndex: activeImage === i ? 2 : 1,
+                  }}
+                >
                   <Image
                     src={src}
                     alt={`${product.name} — View ${i + 1}`}
@@ -100,9 +124,32 @@ export default function ProductHero({ product }: { product: ProductData }) {
                     priority={i === 0}
                   />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* Horizontal thumbnail strip */}
+          {product.gallery.length > 1 && (
+            <div className="pdp-thumbnail-strip" ref={thumbnailRef}>
+              {product.gallery.map((src, i) => (
+                <button
+                  key={`thumb-${i}`}
+                  type="button"
+                  onClick={() => setActiveImage(i)}
+                  className={`pdp-thumbnail ${activeImage === i ? "pdp-thumbnail-active" : ""}`}
+                  aria-label={`View image ${i + 1}`}
+                >
+                  <Image
+                    src={src}
+                    alt={`Thumbnail ${i + 1}`}
+                    fill
+                    sizes="80px"
+                    className="object-contain p-2"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ═══════════════════════════════════
@@ -116,24 +163,193 @@ export default function ProductHero({ product }: { product: ProductData }) {
               <span className="section-label">{product.category}</span>
             </div>
 
-            {/* Title */}
-            <h1 className="pdp-title">{product.name}</h1>
+            {/* Title + Wishlist heart */}
+            <div className="flex items-start justify-between gap-4">
+              <h1 className="pdp-title flex-1">{product.name}</h1>
+              <button
+                type="button"
+                onClick={handleToggleWishlist}
+                className={`mt-2 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  wishlisted
+                    ? "bg-[#5E2E36] text-white shadow-[0_2px_12px_rgba(94,46,54,0.25)]"
+                    : "bg-white text-[#5A4A42]/50 hover:text-[#5E2E36] hover:bg-[#FAF7F2] shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                }`}
+                style={{
+                  border: wishlisted
+                    ? "none"
+                    : "1px solid rgba(226,213,195,0.5)",
+                }}
+                aria-label={
+                  wishlisted ? "Remove from wishlist" : "Add to wishlist"
+                }
+              >
+                <Heart
+                  size={18}
+                  strokeWidth={wishlisted ? 0 : 1.5}
+                  fill={wishlisted ? "currentColor" : "none"}
+                />
+              </button>
+            </div>
 
             {/* Price */}
             <div className="pdp-price-block">
               <span className="pdp-price">{product.price}</span>
               <span className="pdp-price-note">Price inclusive of taxes</span>
             </div>
-            <p className="font-sans text-[10px] text-[#5A4A42]/50 tracking-wide mt-1">
-              *This is an estimated price, actual price may differ as per actual weights.
+            <p className="font-sans text-[10px] text-[#5A4A42]/50 tracking-wide mt-1 mb-6">
+              *This is an estimated price, actual price may differ as per actual
+              weights.
             </p>
+
+            {/* ══════════════════════════════
+               ADD TO CART ROW
+               Quantity selector + Add button
+               ══════════════════════════════ */}
+            <div className="flex items-stretch gap-3 mb-4">
+              {/* Quantity selector */}
+              <div
+                className="flex items-center rounded-xl overflow-hidden flex-shrink-0"
+                style={{
+                  border: "1px solid #E2D5C3",
+                  background: "#FFFFFF",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (inCart) {
+                      updateQuantity(product.id, cartQty - 1);
+                    } else {
+                      setLocalQty((q) => Math.max(1, q - 1));
+                    }
+                  }}
+                  className="w-11 h-12 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
+                  aria-label="Decrease quantity"
+                >
+                  <Minus size={14} strokeWidth={2} />
+                </button>
+                <span className="w-11 h-12 flex items-center justify-center font-sans text-[13px] font-semibold text-[#2D241E] border-x border-[#E2D5C3]">
+                  {inCart ? cartQty : localQty}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (inCart) {
+                      updateQuantity(product.id, cartQty + 1);
+                    } else {
+                      setLocalQty((q) => q + 1);
+                    }
+                  }}
+                  className="w-11 h-12 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
+                  aria-label="Increase quantity"
+                >
+                  <Plus size={14} strokeWidth={2} />
+                </button>
+              </div>
+
+              {/* Add to Cart button */}
+              <button
+                className="pdp-cta-primary flex-1"
+                type="button"
+                onClick={handleAddToCart}
+                style={{ marginBottom: 0 }}
+              >
+                <span className="pdp-cta-primary-text">
+                  {justAdded
+                    ? "Added to Cart"
+                    : inCart
+                      ? "Update Cart"
+                      : "Add to Cart"}
+                </span>
+                {justAdded ? (
+                  <Check
+                    size={16}
+                    strokeWidth={2}
+                    className="pdp-cta-arrow"
+                  />
+                ) : (
+                  <ShoppingBag
+                    size={16}
+                    strokeWidth={1.5}
+                    className="pdp-cta-arrow"
+                  />
+                )}
+              </button>
+            </div>
+
+            {/* ══════════════════════════════
+               SECONDARY CTAs
+               Customize + Video Call + Try At Home
+               ══════════════════════════════ */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              {/* Customize */}
+              <Link
+                href={`/customize/${product.slug}`}
+                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                style={{
+                  border: "1px solid #E2D5C3",
+                }}
+              >
+                <Palette size={15} strokeWidth={1.5} />
+                Customize
+              </Link>
+
+              {/* Video Call */}
+              <a
+                href="https://wa.me/917990032811?text=I%20want%20to%20schedule%20a%20video%20call"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                style={{
+                  border: "1px solid #E2D5C3",
+                }}
+              >
+                <Video size={15} strokeWidth={1.5} />
+                Video Call
+              </a>
+
+              {/* Try At Home */}
+              <a
+                href="https://wa.me/917990032811?text=I%20want%20to%20try%20this%20product%20at%20home"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                style={{
+                  border: "1px solid #E2D5C3",
+                }}
+              >
+                <Home size={15} strokeWidth={1.5} />
+                Try At Home
+              </a>
+            </div>
 
             {/* Editorial Divider */}
             <div className="pdp-divider" />
 
-            {/* Description */}
+            {/* Description — collapsible */}
             <div className="pdp-description">
-              <p>{product.description}</p>
+              <p
+                className={!descExpanded ? "line-clamp-3" : ""}
+                style={
+                  !descExpanded
+                    ? {
+                        WebkitMaskImage:
+                          "linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.3))",
+                        maskImage:
+                          "linear-gradient(to bottom, #000 60%, rgba(0,0,0,0.3))",
+                      }
+                    : undefined
+                }
+              >
+                {product.description}
+              </p>
+              <button
+                type="button"
+                onClick={() => setDescExpanded((prev) => !prev)}
+                className="font-sans text-[11px] font-semibold tracking-[0.08em] text-[#5E2E36] hover:text-[#2D241E] transition-colors mt-2 inline-block"
+              >
+                {descExpanded ? "See Less ↑" : "See More ↓"}
+              </button>
             </div>
 
             {/* Availability */}
@@ -142,119 +358,6 @@ export default function ProductHero({ product }: { product: ProductData }) {
               <span className="pdp-availability-text">
                 {product.availability}
               </span>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="pdp-cta-group">
-              {inCart && !justAdded ? (
-                /* ── In-cart: quantity stepper + label ── */
-                <div className="pdp-cta-primary flex items-center justify-between">
-                  <span className="pdp-cta-primary-text">In Cart</span>
-                  <div
-                    className="flex items-center rounded-lg overflow-hidden"
-                    style={{ border: "1px solid rgba(255,255,255,0.2)" }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => updateQuantity(product.id, quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
-                      aria-label="Decrease quantity"
-                    >
-                      <Minus size={14} strokeWidth={2} />
-                    </button>
-                    <span className="w-8 h-8 flex items-center justify-center text-[12px] font-semibold border-x border-white/20">
-                      {quantity}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleAddToCart}
-                      className="w-8 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
-                      aria-label="Increase quantity"
-                    >
-                      <Plus size={14} strokeWidth={2} />
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                /* ── Default: Add to Cart ── */
-                <button
-                  className="pdp-cta-primary"
-                  type="button"
-                  onClick={handleAddToCart}
-                >
-                  <span className="pdp-cta-primary-text">
-                    {justAdded ? "Added to Cart" : "Add to Cart"}
-                  </span>
-                  {justAdded ? (
-                    <Check size={16} strokeWidth={2} className="pdp-cta-arrow" />
-                  ) : (
-                    <ShoppingBag size={16} strokeWidth={1.5} className="pdp-cta-arrow" />
-                  )}
-                </button>
-              )}
-
-              {/* Wishlist Toggle */}
-              <button
-                className={`pdp-cta-secondary flex items-center justify-center gap-2 transition-all duration-300 ${
-                  wishlisted ? "!text-[#5E2E36] !border-[#5E2E36]/30" : ""
-                }`}
-                type="button"
-                onClick={handleToggleWishlist}
-              >
-                <Heart
-                  size={16}
-                  strokeWidth={wishlisted ? 0 : 1.5}
-                  fill={wishlisted ? "currentColor" : "none"}
-                />
-                {wishlisted ? "Saved to Wishlist" : "Add to Wishlist"}
-              </button>
-
-              {/* Customize */}
-              <Link
-                href={`/customize/${product.slug}`}
-                className="pdp-cta-secondary text-center"
-              >
-                Customize This Design
-              </Link>
-            </div>
-
-            {/* ── Service Buttons (Video Call + Try At Home) ── */}
-            <div className="flex gap-3 mt-4">
-              <a
-                href="https://wa.me/917990032811?text=I%20want%20to%20schedule%20a%20video%20call"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:shadow-md"
-                style={{
-                  background: "linear-gradient(135deg, #2D241E, #3A302A)",
-                  color: "#FDFAF5",
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M15.1 7.01a4 4 0 0 1 .9 6.99" />
-                  <path d="M17.7 4.41a8 8 0 0 1 .3 15.18" />
-                  <rect x="2" y="6" width="7" height="12" rx="2" />
-                  <path d="M9 12h6" />
-                  <rect x="15" y="6" width="7" height="12" rx="2" />
-                </svg>
-                Video Call
-              </a>
-              <a
-                href="https://wa.me/917990032811?text=I%20want%20to%20try%20this%20product%20at%20home"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 hover:shadow-md"
-                style={{
-                  background: "linear-gradient(135deg, #CBA135, #B8922E)",
-                  color: "#2D241E",
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-                Try At Home
-              </a>
             </div>
 
             {/* Editorial Divider */}
@@ -276,21 +379,48 @@ export default function ProductHero({ product }: { product: ProductData }) {
             {/* Trust Signal */}
             <div className="pdp-trust">
               <div className="pdp-trust-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>
                 <span>Certified Authentic</span>
               </div>
               <div className="pdp-trust-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
                   <path d="M16 3l-4 4-4-4" />
                 </svg>
                 <span>Complimentary Packaging</span>
               </div>
               <div className="pdp-trust-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 6v6l4 2" />
                 </svg>
