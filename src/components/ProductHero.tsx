@@ -188,7 +188,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
               >
                 <span className="pdp-cta-primary-text">
                   {justAdded
-                    ? "Added ✓"
+                    ? "Added"
                     : inCart
                       ? "Go to Cart"
                       : "Add to Cart"}
