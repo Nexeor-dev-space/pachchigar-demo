@@ -3,12 +3,12 @@
 import { useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ShoppingBag,
   Check,
   Heart,
-  Minus,
-  Plus,
+  ArrowRight,
   Video,
   Home,
   Palette,
@@ -22,35 +22,35 @@ import { useWishlist } from "@/providers/WishlistProvider";
    ═══════════════════════════════════════════ */
 
 export default function ProductHero({ product }: { product: ProductData }) {
-  const { addToCart, isInCart, getQuantity, updateQuantity } = useCart();
+  const { addToCart, isInCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const router = useRouter();
 
   const [activeImage, setActiveImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
-  const [localQty, setLocalQty] = useState(1);
   const [descExpanded, setDescExpanded] = useState(false);
   const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const inCart = isInCart(product.id);
-  const cartQty = getQuantity(product.id);
   const wishlisted = isInWishlist(product.id);
 
   const handleAddToCart = useCallback(() => {
-    // Add with localQty (first time) or increment
-    for (let i = 0; i < (inCart ? 1 : localQty); i++) {
-      addToCart({
-        id: product.id,
-        slug: product.slug,
-        name: product.name,
-        image: product.image,
-        price: product.price,
-        priceNumeric:
-          parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
-      });
+    if (inCart) {
+      router.push("/cart");
+      return;
     }
+    addToCart({
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      image: product.image,
+        price: product.price,
+      priceNumeric:
+        parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+    });
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
-  }, [addToCart, product, inCart, localQty]);
+  }, [addToCart, product, inCart, router]);
 
   const handleToggleWishlist = useCallback(() => {
     toggleWishlist({
@@ -163,33 +163,8 @@ export default function ProductHero({ product }: { product: ProductData }) {
               <span className="section-label">{product.category}</span>
             </div>
 
-            {/* Title + Wishlist heart */}
-            <div className="flex items-start justify-between gap-4">
-              <h1 className="pdp-title flex-1">{product.name}</h1>
-              <button
-                type="button"
-                onClick={handleToggleWishlist}
-                className={`mt-2 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                  wishlisted
-                    ? "bg-[#5E2E36] text-white shadow-[0_2px_12px_rgba(94,46,54,0.25)]"
-                    : "bg-white text-[#5A4A42]/50 hover:text-[#5E2E36] hover:bg-[#FAF7F2] shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
-                }`}
-                style={{
-                  border: wishlisted
-                    ? "none"
-                    : "1px solid rgba(226,213,195,0.5)",
-                }}
-                aria-label={
-                  wishlisted ? "Remove from wishlist" : "Add to wishlist"
-                }
-              >
-                <Heart
-                  size={18}
-                  strokeWidth={wishlisted ? 0 : 1.5}
-                  fill={wishlisted ? "currentColor" : "none"}
-                />
-              </button>
-            </div>
+            {/* Title */}
+            <h1 className="pdp-title">{product.name}</h1>
 
             {/* Price */}
             <div className="pdp-price-block">
@@ -202,78 +177,54 @@ export default function ProductHero({ product }: { product: ProductData }) {
             </p>
 
             {/* ══════════════════════════════
-               ADD TO CART ROW
-               Quantity selector + Add button
+               ADD TO CART + WISHLIST ROW
                ══════════════════════════════ */}
             <div className="flex items-stretch gap-3 mb-4">
-              {/* Quantity selector */}
-              <div
-                className="flex items-center rounded-xl overflow-hidden flex-shrink-0"
-                style={{
-                  border: "1px solid #E2D5C3",
-                  background: "#FFFFFF",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (inCart) {
-                      updateQuantity(product.id, cartQty - 1);
-                    } else {
-                      setLocalQty((q) => Math.max(1, q - 1));
-                    }
-                  }}
-                  className="w-11 h-12 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus size={14} strokeWidth={2} />
-                </button>
-                <span className="w-11 h-12 flex items-center justify-center font-sans text-[13px] font-semibold text-[#2D241E] border-x border-[#E2D5C3]">
-                  {inCart ? cartQty : localQty}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (inCart) {
-                      updateQuantity(product.id, cartQty + 1);
-                    } else {
-                      setLocalQty((q) => q + 1);
-                    }
-                  }}
-                  className="w-11 h-12 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
-                  aria-label="Increase quantity"
-                >
-                  <Plus size={14} strokeWidth={2} />
-                </button>
-              </div>
-
-              {/* Add to Cart button */}
+              {/* Add to Cart / Go to Cart */}
               <button
-                className="pdp-cta-primary flex-1"
                 type="button"
                 onClick={handleAddToCart}
-                style={{ marginBottom: 0 }}
+                className="pdp-cta-primary flex-1 group/cart"
               >
                 <span className="pdp-cta-primary-text">
                   {justAdded
-                    ? "Added to Cart"
+                    ? "Added ✓"
                     : inCart
-                      ? "Update Cart"
+                      ? "Go to Cart"
                       : "Add to Cart"}
                 </span>
                 {justAdded ? (
-                  <Check
-                    size={16}
-                    strokeWidth={2}
-                    className="pdp-cta-arrow"
-                  />
+                  <Check size={16} strokeWidth={2} className="pdp-cta-arrow" />
+                ) : inCart ? (
+                  <ArrowRight size={16} strokeWidth={1.5} className="pdp-cta-arrow" />
                 ) : (
-                  <ShoppingBag
-                    size={16}
-                    strokeWidth={1.5}
-                    className="pdp-cta-arrow"
-                  />
+                  <ShoppingBag size={16} strokeWidth={1.5} className="pdp-cta-arrow" />
                 )}
+              </button>
+
+              {/* Wishlist heart */}
+              <button
+                type="button"
+                onClick={handleToggleWishlist}
+                className={`flex-shrink-0 w-14 h-auto rounded-xl flex items-center justify-center transition-all duration-300 ${
+                  wishlisted
+                    ? "bg-[#5E2E36] text-white shadow-[0_2px_12px_rgba(94,46,54,0.2)]"
+                    : "bg-white text-[#5A4A42]/50 hover:text-[#5E2E36] hover:bg-[#FAF7F2] shadow-[0_1px_4px_rgba(0,0,0,0.04)]"
+                }`}
+                style={{
+                  border: wishlisted
+                    ? "1px solid #5E2E36"
+                    : "1px solid #E2D5C3",
+                }}
+                aria-label={
+                  wishlisted ? "Remove from wishlist" : "Add to wishlist"
+                }
+              >
+                <Heart
+                  size={20}
+                  strokeWidth={wishlisted ? 0 : 1.5}
+                  fill={wishlisted ? "currentColor" : "none"}
+                />
               </button>
             </div>
 
