@@ -18,12 +18,14 @@ interface ConfigPreviewProps {
   image: string;
   name: string;
   config: ConfigState;
+  onReset: () => void;
 }
 
 export default function ConfigPreview({
   image,
   name,
   config,
+  onReset,
 }: ConfigPreviewProps) {
   const previewFilter = getPreviewFilter(config);
   const stoneAccent = getStoneAccent(config.stone);
@@ -99,16 +101,20 @@ export default function ConfigPreview({
         )}
       </div>
 
-      {/* Rotate hint */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-40">
+      {/* Reset button */}
+      <button
+        type="button"
+        onClick={onReset}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-40 hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+      >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A4A42" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="1 4 1 10 7 10" />
           <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
         </svg>
         <span className="font-sans text-[9px] tracking-[0.15em] uppercase text-[#5A4A42]">
-          Interactive Preview
+          Reset Configuration
         </span>
-      </div>
+      </button>
     </div>
   );
 }

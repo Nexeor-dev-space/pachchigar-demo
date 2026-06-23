@@ -8,18 +8,30 @@ import {
   METAL_OPTIONS,
   STONE_OPTIONS,
   FINISH_OPTIONS,
+  RING_SIZE_OPTIONS,
+  SETTING_STYLE_OPTIONS,
+  CHAIN_LENGTH_OPTIONS,
+  CHAIN_STYLE_OPTIONS,
+  PENDANT_SIZE_OPTIONS,
+  BRACELET_SIZE_OPTIONS,
+  CLASP_TYPE_OPTIONS,
+  EARRING_STYLE_OPTIONS,
+  EARRING_BACK_OPTIONS,
   MAX_ENGRAVING_CHARS,
   type ConfigState,
+  type JewelryCategory,
+  type SelectOption,
 } from "@/data/configurator";
 
 /* ═══════════════════════════════════════════
    CONFIG PANEL
-   Right-side customization options panel
+   Category-aware customization options panel
    with accordion sections.
    ═══════════════════════════════════════════ */
 
 interface ConfigPanelProps {
   config: ConfigState;
+  category: JewelryCategory;
   onChange: (config: ConfigState) => void;
 }
 
@@ -92,94 +104,280 @@ function AccordionSection({
   );
 }
 
-export default function ConfigPanel({ config, onChange }: ConfigPanelProps) {
+/* ── Reusable pill-button selector ── */
+function PillSelector({
+  options,
+  value,
+  onSelect,
+}: {
+  options: SelectOption[];
+  value: string;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2 sm:gap-3">
+      {options.map((opt) => (
+        <button
+          key={opt.id}
+          type="button"
+          onClick={() => onSelect(opt.id)}
+          className={`px-5 py-2.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 border ${
+            value === opt.id
+              ? "bg-[#2D241E] text-[#FDFAF5] border-[#2D241E] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
+              : "bg-transparent text-[#5A4A42] border-[#E2D5C3] hover:border-[#CBA135] hover:text-[#2D241E]"
+          }`}
+        >
+          {opt.label}
+          {opt.priceDelta > 0 && (
+            <span className="ml-1.5 text-[9px] font-medium opacity-60">
+              +₹{(opt.priceDelta / 1000).toFixed(0)}K
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ── Reusable square-button grid (for sizes) ── */
+function SizeGrid({
+  options,
+  value,
+  onSelect,
+  hint,
+}: {
+  options: SelectOption[];
+  value: string;
+  onSelect: (id: string) => void;
+  hint: string;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => (
+          <button
+            key={opt.id}
+            type="button"
+            onClick={() => onSelect(opt.id)}
+            className={`w-11 h-11 rounded-xl font-sans text-[12px] font-semibold transition-all duration-300 border ${
+              value === opt.id
+                ? "bg-[#2D241E] text-[#FDFAF5] border-[#2D241E] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
+                : "bg-transparent text-[#5A4A42] border-[#E2D5C3] hover:border-[#CBA135] hover:text-[#2D241E]"
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+      <p className="font-sans text-[10px] text-[#5A4A42]/50 tracking-wide">
+        {value
+          ? `Selected: ${options.find((o) => o.id === value)?.label ?? value}`
+          : hint}
+      </p>
+    </div>
+  );
+}
+
+export default function ConfigPanel({ config, category, onChange }: ConfigPanelProps) {
   const [openSection, setOpenSection] = useState(0);
 
   const toggle = (idx: number) => {
     setOpenSection(openSection === idx ? -1 : idx);
   };
 
-  return (
-    <div className="space-y-3">
-      {/* ── 1. Metal Color ── */}
-      <AccordionSection
-        step={1}
-        title="Metal Color"
-        isOpen={openSection === 0}
-        onToggle={() => toggle(0)}
-      >
-        <div className="flex flex-wrap gap-4 sm:gap-5 justify-start">
-          {METAL_OPTIONS.map((opt) => (
-            <OptionSwatch
-              key={opt.id}
-              color={opt.swatch}
-              label={opt.label}
-              priceDelta={opt.priceDelta}
-              isActive={config.metal === opt.id}
-              onClick={() => onChange({ ...config, metal: opt.id })}
-            />
-          ))}
-        </div>
-      </AccordionSection>
+  /* Build ordered list of sections based on category */
+  const sections: { title: string; content: React.ReactNode }[] = [];
 
-      {/* ── 2. Stone Type ── */}
-      <AccordionSection
-        step={2}
-        title="Stone Type"
-        isOpen={openSection === 1}
-        onToggle={() => toggle(1)}
-      >
-        <div className="flex flex-wrap gap-4 sm:gap-5 justify-start">
-          {STONE_OPTIONS.map((opt) => (
-            <OptionSwatch
-              key={opt.id}
-              color={opt.swatch}
-              label={opt.label}
-              priceDelta={opt.priceDelta}
-              isActive={config.stone === opt.id}
-              onClick={() => onChange({ ...config, stone: opt.id })}
-            />
-          ))}
-        </div>
-      </AccordionSection>
+  // ── 1. Metal (always) ──
+  sections.push({
+    title: "Metal Type",
+    content: (
+      <div className="flex flex-wrap gap-4 sm:gap-5 justify-start">
+        {METAL_OPTIONS.map((opt) => (
+          <OptionSwatch
+            key={opt.id}
+            color={opt.swatch}
+            label={opt.label}
+            priceDelta={opt.priceDelta}
+            isActive={config.metal === opt.id}
+            onClick={() => onChange({ ...config, metal: opt.id })}
+          />
+        ))}
+      </div>
+    ),
+  });
 
-      {/* ── 3. Finish ── */}
-      <AccordionSection
-        step={3}
-        title="Finish Type"
-        isOpen={openSection === 2}
-        onToggle={() => toggle(2)}
-      >
-        <div className="flex flex-wrap gap-2 sm:gap-3">
-          {FINISH_OPTIONS.map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => onChange({ ...config, finish: opt.id })}
-              className={`px-5 py-2.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 border ${
-                config.finish === opt.id
-                  ? "bg-[#2D241E] text-[#FDFAF5] border-[#2D241E] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
-                  : "bg-transparent text-[#5A4A42] border-[#E2D5C3] hover:border-[#CBA135] hover:text-[#2D241E]"
-              }`}
-            >
-              {opt.label}
-              {opt.priceDelta > 0 && (
-                <span className="ml-1.5 text-[9px] font-medium opacity-60">
-                  +₹{(opt.priceDelta / 1000).toFixed(0)}K
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      </AccordionSection>
+  // ── 2. Stone (always) ──
+  sections.push({
+    title: "Gemstone Type",
+    content: (
+      <div className="flex flex-wrap gap-4 sm:gap-5 justify-start">
+        {STONE_OPTIONS.map((opt) => (
+          <OptionSwatch
+            key={opt.id}
+            color={opt.swatch}
+            label={opt.label}
+            priceDelta={opt.priceDelta}
+            isActive={config.stone === opt.id}
+            onClick={() => onChange({ ...config, stone: opt.id })}
+          />
+        ))}
+      </div>
+    ),
+  });
 
-      {/* ── 4. Engraving ── */}
-      <AccordionSection
-        step={4}
-        title="Personal Engraving"
-        isOpen={openSection === 3}
-        onToggle={() => toggle(3)}
-      >
+  // ── Category-specific sections ──
+  switch (category) {
+    case "ring":
+      sections.push({
+        title: "Setting Style",
+        content: (
+          <PillSelector
+            options={SETTING_STYLE_OPTIONS}
+            value={config.settingStyle}
+            onSelect={(id) => onChange({ ...config, settingStyle: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Finish Type",
+        content: (
+          <PillSelector
+            options={FINISH_OPTIONS}
+            value={config.finish}
+            onSelect={(id) => onChange({ ...config, finish: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Ring Size",
+        content: (
+          <SizeGrid
+            options={RING_SIZE_OPTIONS}
+            value={config.ringSize}
+            onSelect={(id) => onChange({ ...config, ringSize: id })}
+            hint="Select your ring size. Not sure? Visit us for a free sizing."
+          />
+        ),
+      });
+      break;
+
+    case "necklace":
+      sections.push({
+        title: "Chain Length",
+        content: (
+          <PillSelector
+            options={CHAIN_LENGTH_OPTIONS}
+            value={config.chainLength}
+            onSelect={(id) => onChange({ ...config, chainLength: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Chain Style",
+        content: (
+          <PillSelector
+            options={CHAIN_STYLE_OPTIONS}
+            value={config.chainStyle}
+            onSelect={(id) => onChange({ ...config, chainStyle: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Pendant Size",
+        content: (
+          <PillSelector
+            options={PENDANT_SIZE_OPTIONS}
+            value={config.pendantSize}
+            onSelect={(id) => onChange({ ...config, pendantSize: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Finish Type",
+        content: (
+          <PillSelector
+            options={FINISH_OPTIONS}
+            value={config.finish}
+            onSelect={(id) => onChange({ ...config, finish: id })}
+          />
+        ),
+      });
+      break;
+
+    case "bracelet":
+      sections.push({
+        title: "Bracelet Size",
+        content: (
+          <SizeGrid
+            options={BRACELET_SIZE_OPTIONS}
+            value={config.braceletSize}
+            onSelect={(id) => onChange({ ...config, braceletSize: id })}
+            hint="Select your bracelet size for a perfect fit."
+          />
+        ),
+      });
+      sections.push({
+        title: "Clasp Type",
+        content: (
+          <PillSelector
+            options={CLASP_TYPE_OPTIONS}
+            value={config.claspType}
+            onSelect={(id) => onChange({ ...config, claspType: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Finish Type",
+        content: (
+          <PillSelector
+            options={FINISH_OPTIONS}
+            value={config.finish}
+            onSelect={(id) => onChange({ ...config, finish: id })}
+          />
+        ),
+      });
+      break;
+
+    case "earring":
+      sections.push({
+        title: "Earring Style",
+        content: (
+          <PillSelector
+            options={EARRING_STYLE_OPTIONS}
+            value={config.earringStyle}
+            onSelect={(id) => onChange({ ...config, earringStyle: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Back Closure",
+        content: (
+          <PillSelector
+            options={EARRING_BACK_OPTIONS}
+            value={config.earringBack}
+            onSelect={(id) => onChange({ ...config, earringBack: id })}
+          />
+        ),
+      });
+      sections.push({
+        title: "Finish Type",
+        content: (
+          <PillSelector
+            options={FINISH_OPTIONS}
+            value={config.finish}
+            onSelect={(id) => onChange({ ...config, finish: id })}
+          />
+        ),
+      });
+      break;
+  }
+
+  // ── Engraving (not for earrings) ──
+  if (category !== "earring") {
+    sections.push({
+      title: "Personal Engraving",
+      content: (
         <div className="space-y-3">
           <div className="relative">
             <input
@@ -215,7 +413,23 @@ export default function ConfigPanel({ config, onChange }: ConfigPanelProps) {
               : "Leave blank for no engraving."}
           </p>
         </div>
-      </AccordionSection>
+      ),
+    });
+  }
+
+  return (
+    <div className="space-y-3">
+      {sections.map((section, i) => (
+        <AccordionSection
+          key={section.title}
+          step={i + 1}
+          title={section.title}
+          isOpen={openSection === i}
+          onToggle={() => toggle(i)}
+        >
+          {section.content}
+        </AccordionSection>
+      ))}
     </div>
   );
 }

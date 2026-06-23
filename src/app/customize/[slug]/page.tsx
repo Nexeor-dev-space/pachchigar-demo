@@ -1,15 +1,19 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { notFound, useSearchParams } from "next/navigation";
+import { ArrowLeft, ChevronUp } from "lucide-react";
 import { getProductBySlug, parsePrice } from "@/data/products";
 import {
   DEFAULT_CONFIG,
   calculateTotalPrice,
   getConfigSummary,
+  serializeConfig,
+  deserializeConfig,
+  formatPrice,
+  getCategoryType,
   type ConfigState,
 } from "@/data/configurator";
 import { useCart } from "@/providers/CartProvider";
@@ -35,16 +39,55 @@ export default function ConfiguratorPage({
 
   const basePrice = parsePrice(product.price);
   const { addToCart } = useCart();
+  const searchParams = useSearchParams();
+  const category = getCategoryType(product.category);
 
-  const [config, setConfig] = useState<ConfigState>(DEFAULT_CONFIG);
+  /* ── Init config from URL params (if present) ── */
+  const [config, setConfig] = useState<ConfigState>(() => {
+    if (typeof window !== "undefined" && searchParams) {
+      const fromUrl = deserializeConfig(searchParams);
+      // Only use URL config if at least one non-default param exists
+      const hasCustom =
+        fromUrl.metal !== DEFAULT_CONFIG.metal ||
+        fromUrl.stone !== DEFAULT_CONFIG.stone ||
+        fromUrl.finish !== DEFAULT_CONFIG.finish ||
+        fromUrl.engraving !== DEFAULT_CONFIG.engraving;
+      if (hasCustom) return fromUrl;
+    }
+    return DEFAULT_CONFIG;
+  });
+
+  /* ── Sync config changes to URL ── */
+  useEffect(() => {
+    const params = serializeConfig(config, category);
+    const url = params
+      ? `${window.location.pathname}?${params}`
+      : window.location.pathname;
+    window.history.replaceState(null, "", url);
+  }, [config]);
+
+  /* ── Mobile sticky bar visibility ── */
+  const summaryRef = useRef<HTMLDivElement>(null);
+  const [showMobileBar, setShowMobileBar] = useState(false);
+
+  useEffect(() => {
+    const el = summaryRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowMobileBar(!entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const totalPrice = useMemo(
-    () => calculateTotalPrice(basePrice, config),
-    [basePrice, config]
+    () => calculateTotalPrice(basePrice, config, category),
+    [basePrice, config, category]
   );
 
   const handleAddToCart = useCallback(() => {
-    const summary = getConfigSummary(config);
+    const summary = getConfigSummary(config, category);
     addToCart({
       id: `${product.id}-custom-${config.metal}-${config.stone}-${config.finish}`,
       slug: product.slug,
@@ -135,6 +178,7 @@ export default function ConfiguratorPage({
                   image={product.image}
                   name={product.name}
                   config={config}
+                  onReset={() => setConfig(DEFAULT_CONFIG)}
                 />
               </div>
             </motion.div>
@@ -151,19 +195,69 @@ export default function ConfiguratorPage({
               className="flex flex-col gap-6"
             >
               {/* Options Panel */}
-              <ConfigPanel config={config} onChange={setConfig} />
+              <ConfigPanel config={config} category={category} onChange={setConfig} />
 
               {/* Summary */}
-              <ConfigSummary
-                productName={product.name}
-                totalPrice={totalPrice}
-                config={config}
-                onAddToCart={handleAddToCart}
-              />
+              <div ref={summaryRef}>
+                <ConfigSummary
+                  productName={product.name}
+                  productSlug={product.slug}
+                  totalPrice={totalPrice}
+                  basePrice={basePrice}
+                  config={config}
+                  category={category}
+                  onAddToCart={handleAddToCart}
+                />
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* ── Mobile Sticky Bottom Bar ── */}
+      <AnimatePresence>
+        {showMobileBar && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
+            style={{
+              background: "rgba(253,250,245,0.97)",
+              backdropFilter: "blur(16px)",
+              borderTop: "1px solid rgba(203,161,53,0.1)",
+              boxShadow: "0 -4px 24px rgba(0,0,0,0.06)",
+            }}
+          >
+            <div className="flex items-center justify-between px-5 py-3.5 max-w-lg mx-auto">
+              <div>
+                <span className="font-sans text-[9px] font-medium tracking-[0.15em] uppercase text-[#5A4A42]/50 block">
+                  Total
+                </span>
+                <span className="font-serif text-[20px] font-semibold text-[#2D241E] leading-none">
+                  {formatPrice(totalPrice)}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  document
+                    .getElementById("config-summary")
+                    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.15em] uppercase text-[#FDFAF5] transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #2D241E, #3A302A)",
+                }}
+              >
+                <ChevronUp size={14} strokeWidth={2} />
+                View Summary
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
