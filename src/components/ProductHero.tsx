@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,8 @@ import {
   Video,
   Home,
   Palette,
+  Share2,
+  Zap,
 } from "lucide-react";
 import type { ProductData } from "@/data/products";
 import { useCart } from "@/providers/CartProvider";
@@ -29,10 +31,18 @@ export default function ProductHero({ product }: { product: ProductData }) {
   const [activeImage, setActiveImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
   const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const inCart = isInCart(product.id);
   const wishlisted = isInWishlist(product.id);
+
+  /* ── Auto-dismiss toast ── */
+  useEffect(() => {
+    if (!toastMsg) return;
+    const t = setTimeout(() => setToastMsg(""), 2500);
+    return () => clearTimeout(t);
+  }, [toastMsg]);
 
   const handleAddToCart = useCallback(() => {
     if (inCart) {
@@ -52,6 +62,48 @@ export default function ProductHero({ product }: { product: ProductData }) {
     setTimeout(() => setJustAdded(false), 2000);
   }, [addToCart, product, inCart, router]);
 
+  const handleBuyNow = useCallback(() => {
+    if (!inCart) {
+      addToCart({
+        id: product.id,
+        slug: product.slug,
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        priceNumeric:
+          parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+      });
+    }
+    router.push("/cart");
+  }, [addToCart, product, inCart, router]);
+
+  const handleShare = useCallback(async () => {
+    const url = `${window.location.origin}/products/${product.slug}`;
+    const shareData = {
+      title: `${product.name} — Pachchigar & Sons`,
+      text: `Check out ${product.name} at ${product.price}`,
+      url,
+    };
+    if (
+      typeof navigator !== "undefined" &&
+      navigator.share &&
+      /Mobi|Android/i.test(navigator.userAgent)
+    ) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {
+        // User cancelled — fallback
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setToastMsg("Product link copied.");
+    } catch {
+      setToastMsg("Could not copy link.");
+    }
+  }, [product]);
+
   const handleToggleWishlist = useCallback(() => {
     toggleWishlist({
       id: product.id,
@@ -64,6 +116,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
   }, [toggleWishlist, product]);
 
   return (
+    <>
     <section
       className="pdp-hero relative"
       style={{
@@ -179,7 +232,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
             {/* ══════════════════════════════
                ADD TO CART + WISHLIST ROW
                ══════════════════════════════ */}
-            <div className="flex items-stretch gap-3 mb-4">
+            <div className="flex items-stretch gap-3 mb-3">
               {/* Add to Cart / Go to Cart */}
               <button
                 type="button"
@@ -226,7 +279,43 @@ export default function ProductHero({ product }: { product: ProductData }) {
                   fill={wishlisted ? "currentColor" : "none"}
                 />
               </button>
+
+              {/* Share */}
+              <button
+                type="button"
+                onClick={handleShare}
+                className="flex-shrink-0 w-14 h-auto rounded-xl flex items-center justify-center transition-all duration-300 bg-white text-[#5A4A42]/50 hover:text-[#2D241E] hover:bg-[#FAF7F2] shadow-[0_1px_4px_rgba(0,0,0,0.04)]"
+                style={{ border: "1px solid #E2D5C3" }}
+                aria-label="Share product"
+              >
+                <Share2 size={18} strokeWidth={1.5} />
+              </button>
             </div>
+
+            {/* Buy Now */}
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:shadow-[0_4px_16px_rgba(45,36,30,0.12)] hover:-translate-y-[1px] mb-4"
+              style={{
+                background: "#FAF7F2",
+                color: "#2D241E",
+                border: "1px solid rgba(203,161,53,0.25)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#2D241E";
+                e.currentTarget.style.color = "#FDFAF5";
+                e.currentTarget.style.borderColor = "#2D241E";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#FAF7F2";
+                e.currentTarget.style.color = "#2D241E";
+                e.currentTarget.style.borderColor = "rgba(203,161,53,0.25)";
+              }}
+            >
+              <Zap size={15} strokeWidth={1.5} />
+              Buy Now
+            </button>
 
             {/* ══════════════════════════════
                SECONDARY CTAs
@@ -382,5 +471,16 @@ export default function ProductHero({ product }: { product: ProductData }) {
         </div>
       </div>
     </section>
+
+    {/* ── Share Toast ── */}
+    {toastMsg && (
+      <div
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] text-[#FDFAF5] shadow-[0_8px_32px_rgba(0,0,0,0.15)] animate-[fadeInUp_0.3s_ease-out]"
+        style={{ background: "#2D241E" }}
+      >
+        {toastMsg}
+      </div>
+    )}
+    </>
   );
 }
