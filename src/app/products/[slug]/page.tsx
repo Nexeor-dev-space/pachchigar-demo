@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, PRODUCTS } from "@/data/products";
 import ProductHero from "@/components/ProductHero";
 import ProductStory from "@/components/pdp/ProductStory";
-import ProductSpecifications from "@/components/pdp/ProductSpecifications";
 import ProductAccordions from "@/components/pdp/ProductAccordions";
 import TrustAssurance from "@/components/pdp/TrustAssurance";
 import ShowroomSection from "@/components/pdp/ShowroomSection";
@@ -48,9 +47,6 @@ export default function ProductDetailPage({
     <main>
       {/* ── Hero: Gallery + Quick Info ── */}
       <ProductHero product={product} />
-
-      {/* ── Specifications: Luxury Grid Cards ── */}
-      <ProductSpecifications product={product} />
 
       {/* ── The Story: Narrative, Craftsmanship, Inspiration ── */}
       <ProductStory product={product} />
