@@ -116,7 +116,6 @@ export default function ProductHero({ product }: { product: ProductData }) {
   }, [toggleWishlist, product]);
 
   return (
-    <>
     <section
       className="pdp-hero relative"
       style={{
@@ -470,17 +469,16 @@ export default function ProductHero({ product }: { product: ProductData }) {
           </div>
         </div>
       </div>
-    </section>
 
-    {/* ── Share Toast ── */}
-    {toastMsg && (
-      <div
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] text-[#FDFAF5] shadow-[0_8px_32px_rgba(0,0,0,0.15)] animate-[fadeInUp_0.3s_ease-out]"
-        style={{ background: "#2D241E" }}
-      >
-        {toastMsg}
-      </div>
-    )}
-    </>
+      {/* ── Share Toast ── */}
+      {toastMsg && (
+        <div
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] text-[#FDFAF5] shadow-[0_8px_32px_rgba(0,0,0,0.15)] animate-[fadeInUp_0.3s_ease-out]"
+          style={{ background: "#2D241E" }}
+        >
+          {toastMsg}
+        </div>
+      )}
+    </section>
   );
 }
