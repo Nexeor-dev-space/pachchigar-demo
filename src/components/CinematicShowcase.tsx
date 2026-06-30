@@ -1,15 +1,81 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
+import { Heart, ShoppingBag, Check } from "lucide-react";
 import { useAnimation } from "@/providers/AnimationProvider";
 import { ANIMATED_PRODUCTS, STATIC_PRODUCTS, ALL_PRODUCTS, type ProductData as Product } from "@/data/products";
+import { useCart } from "@/providers/CartProvider";
+import { useWishlist } from "@/providers/WishlistProvider";
 import ProductCard from "@/components/ProductCard";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── Hover action icons for animated cards ── */
+function AnimatedCardActions({ product }: { product: Product }) {
+  const { addToCart, isInCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const inCart = isInCart(product.id);
+  const wishlisted = isInWishlist(product.id);
+
+  return (
+    <div className="absolute right-3 top-3 flex flex-col gap-2 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleWishlist({
+            id: product.id,
+            slug: product.slug,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            priceNumeric: parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+          });
+        }}
+        aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+        className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md ${
+          wishlisted
+            ? "bg-[#5E2E36] text-white shadow-[0_2px_12px_rgba(94,46,54,0.3)]"
+            : "bg-white/80 text-[#2C2A28]/60 hover:text-[#5E2E36] hover:bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+        }`}
+        style={{ border: wishlisted ? "none" : "1px solid rgba(203,161,53,0.08)" }}
+      >
+        <Heart size={15} strokeWidth={wishlisted ? 0 : 1.8} fill={wishlisted ? "currentColor" : "none"} />
+      </button>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          addToCart({
+            id: product.id,
+            slug: product.slug,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            priceNumeric: parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+          });
+          setJustAdded(true);
+          setTimeout(() => setJustAdded(false), 1500);
+        }}
+        aria-label={inCart ? "In cart" : "Add to cart"}
+        className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-md ${
+          inCart || justAdded
+            ? "bg-[#2D241E] text-[#FDFAF5] shadow-[0_2px_12px_rgba(45,36,30,0.25)]"
+            : "bg-white/80 text-[#2C2A28]/60 hover:text-[#2D241E] hover:bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
+        }`}
+        style={{ border: inCart || justAdded ? "none" : "1px solid rgba(203,161,53,0.08)" }}
+      >
+        {justAdded ? <Check size={15} strokeWidth={2} /> : <ShoppingBag size={15} strokeWidth={1.8} />}
+      </button>
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════ */
 
@@ -29,6 +95,7 @@ export default function CinematicShowcase() {
   const cardBgRefs = useRef<(HTMLDivElement | null)[]>([]);
   const shadowRefs = useRef<(HTMLDivElement | null)[]>([]);
   const imageBgRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const actionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const gridHeaderRef = useRef<HTMLDivElement>(null);
   const staticGridRef = useRef<HTMLDivElement>(null);
 
@@ -248,6 +315,7 @@ export default function CinematicShowcase() {
         imageBgRefs.current.forEach(el => { if (el) gsap.set(el, { backgroundColor: "transparent" }); });
         shadowRefs.current.forEach(el => { if (el) gsap.set(el, { opacity: 0.25 }); });
         labelRefs.current.forEach(el => { if (el) gsap.set(el, { opacity: 0 }); });
+        actionRefs.current.forEach(el => { if (el) gsap.set(el, { opacity: 0, pointerEvents: "none" }); });
         if (headerRef.current) gsap.set(headerRef.current, { opacity: 1, y: 0 });
         if (gridHeaderRef.current) gsap.set(gridHeaderRef.current, { opacity: 0, y: 20 });
 
@@ -303,6 +371,7 @@ export default function CinematicShowcase() {
           if (cardBgRefs.current[i]) tl.to(cardBgRefs.current[i], { opacity: 1, duration: 0.20, ease: "power2.inOut" }, 0.40 + i * 0.02);
           if (imageBgRefs.current[i]) tl.to(imageBgRefs.current[i], { backgroundColor: "#FAF7F2", duration: 0.20, ease: "power2.inOut" }, 0.40 + i * 0.02);
           if (cardInfoRefs.current[i]) tl.to(cardInfoRefs.current[i], { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.50 + i * 0.03);
+          if (actionRefs.current[i]) tl.to(actionRefs.current[i], { opacity: 1, pointerEvents: "auto", duration: 0.18, ease: "power2.out" }, 0.50 + i * 0.03);
         });
 
         tl.to(gridHeaderRef.current, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, 0.62);
@@ -438,11 +507,15 @@ export default function CinematicShowcase() {
               <div className="absolute inset-0 z-10">
                 {ANIMATED_PRODUCTS.map((product, i) => (
                   <div key={product.id} ref={(el) => { floatingRefs.current[i] = el; }} className="absolute gpu-accelerate" style={{ transformOrigin: "top left" }}>
-                    <Link href={`/products/${product.slug}`} className="block cursor-pointer">
+                    <Link href={`/products/${product.slug}`} className="block cursor-pointer group">
                       <div ref={(el) => { cardBgRefs.current[i] = el; }} className="absolute pointer-events-none"
                         style={{ inset: 0, bottom: -72, borderRadius: 16, background: "#FFFFFF", boxShadow: "0 2px 24px rgba(0,0,0,0.04), 0 0 0 1px rgba(203,161,53,0.05)", opacity: 0 }} />
                       <div ref={(el) => { imageBgRefs.current[i] = el; }} className="relative w-full overflow-hidden" style={{ paddingBottom: "100%", borderRadius: "16px 16px 0 0" }}>
                         <Image src={product.image} alt={product.name} fill sizes="380px" className="object-contain p-6 sm:p-8" priority />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.02] transition-colors duration-500 rounded-t-[16px]" />
+                        <div ref={(el) => { actionRefs.current[i] = el; }} style={{ opacity: 0, pointerEvents: "none" }}>
+                          <AnimatedCardActions product={product} />
+                        </div>
                       </div>
                       <div ref={(el) => { shadowRefs.current[i] = el; }} className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
                         style={{ bottom: "-4%", width: "60%", height: 16, borderRadius: "50%", background: "radial-gradient(ellipse, rgba(43,43,43,0.2) 0%, transparent 70%)", filter: "blur(16px)" }} />
