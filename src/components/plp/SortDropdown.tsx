@@ -8,14 +8,20 @@ export type SortOption =
   | "newest"
   | "price-asc"
   | "price-desc"
-  | "best-selling";
+  | "best-selling"
+  | "popularity"
+  | "rating"
+  | "alpha";
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "featured", label: "Featured" },
-  { value: "newest", label: "Newest" },
+  { value: "newest", label: "Newest Arrivals" },
+  { value: "best-selling", label: "Best Selling" },
+  { value: "popularity", label: "Popularity" },
+  { value: "rating", label: "Customer Rating" },
   { value: "price-asc", label: "Price: Low to High" },
   { value: "price-desc", label: "Price: High to Low" },
-  { value: "best-selling", label: "Best Selling" },
+  { value: "alpha", label: "Alphabetical" },
 ];
 
 interface SortDropdownProps {

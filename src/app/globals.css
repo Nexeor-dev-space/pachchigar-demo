@@ -298,6 +298,40 @@ body {
 }
 
 /* ═══════════════════════════════════════════
+   MEGA MENU — Link Styles
+   ═══════════════════════════════════════════ */
+
+.mega-link {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(44, 42, 40, 0.6);
+  transition: color 0.3s ease;
+  padding-bottom: 1px;
+}
+
+.mega-link:hover {
+  color: #2C2A28;
+}
+
+.mega-link-underline {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 0.5px;
+  background: linear-gradient(90deg, rgba(203,161,53,0.5), rgba(94,46,54,0.3));
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mega-link:hover .mega-link-underline {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════
    PRODUCT DETAIL PAGE — Hero Section
    ═══════════════════════════════════════════ */
 
