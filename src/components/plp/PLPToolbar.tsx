@@ -8,6 +8,7 @@ interface PLPToolbarProps {
   sortValue: SortOption;
   onSortChange: (value: SortOption) => void;
   onFilterToggle: () => void;
+  activeFilterCount?: number;
 }
 
 export default function PLPToolbar({
@@ -15,6 +16,7 @@ export default function PLPToolbar({
   sortValue,
   onSortChange,
   onFilterToggle,
+  activeFilterCount = 0,
 }: PLPToolbarProps) {
   return (
     <div
@@ -35,6 +37,14 @@ export default function PLPToolbar({
           className="transition-colors duration-300 group-hover:text-[#CBA135]"
         />
         <span>Filter</span>
+        {activeFilterCount > 0 && (
+          <span
+            className="font-sans text-[8px] font-bold min-w-[16px] h-[16px] flex items-center justify-center rounded-full px-0.5"
+            style={{ background: '#5E2E36', color: '#FDFAF5' }}
+          >
+            {activeFilterCount}
+          </span>
+        )}
       </button>
 
       {/* Center: Count */}

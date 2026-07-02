@@ -7,15 +7,18 @@ import ProductCard from "@/components/ProductCard";
 import PLPToolbar from "@/components/plp/PLPToolbar";
 import FilterDrawer, {
   type FilterState,
+  countActiveFilters,
 } from "@/components/plp/FilterDrawer";
 import type { SortOption } from "@/components/plp/SortDropdown";
 import {
   getProductsByCategory,
-  getUniqueCategories,
-  getUniqueDetailValues,
   parsePrice,
   CATEGORY_MAP,
 } from "@/data/products";
+import {
+  getFiltersForCategory,
+  parsePriceRange,
+} from "@/data/filterConfig";
 
 /* ── Category metadata ── */
 const CATEGORIES: Record<
@@ -70,45 +73,71 @@ export default function CollectionPage({
     [params.category]
   );
 
+  /* ── Category-aware filter groups ── */
+  const filterGroups = useMemo(
+    () => getFiltersForCategory(params.category),
+    [params.category]
+  );
+
   /* ── Filter + Sort state ── */
   const [sortValue, setSortValue] = useState<SortOption>("featured");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterState>({
-    categories: [],
-    metals: [],
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const init: FilterState = {};
+    filterGroups.forEach((g) => {
+      init[g.key] = [];
+    });
+    return init;
   });
-
-  /* ── Derive available filter options from base products ── */
-  const availableCategories = useMemo(
-    () => getUniqueCategories(baseProducts),
-    [baseProducts]
-  );
-  const availableMetals = useMemo(
-    () => getUniqueDetailValues(baseProducts, "Metal"),
-    [baseProducts]
-  );
 
   /* ── Apply filters ── */
   const filteredProducts = useMemo(() => {
     let products = [...baseProducts];
 
-    if (filters.categories.length > 0) {
-      products = products.filter((p) =>
-        filters.categories.includes(p.category)
-      );
-    }
+    for (const group of filterGroups) {
+      const selected = filters[group.key] ?? [];
+      if (selected.length === 0) continue;
 
-    if (filters.metals.length > 0) {
-      products = products.filter((p) => {
-        const metalDetail = p.details.find(
-          (d) => d.label.toLowerCase() === "metal"
-        );
-        return metalDetail && filters.metals.includes(metalDetail.value);
-      });
+      if (group.key === "price") {
+        /* Price range filter */
+        products = products.filter((p) => {
+          const price = parsePrice(p.price);
+          return selected.some((rangeVal) => {
+            const { min, max } = parsePriceRange(rangeVal);
+            return price >= min && price < max;
+          });
+        });
+      } else if (group.key === "metal") {
+        products = products.filter((p) => {
+          const metalDetail = p.details.find(
+            (d) => d.label.toLowerCase() === "metal"
+          );
+          if (!metalDetail) return false;
+          return selected.some((s) =>
+            metalDetail.value.toLowerCase().includes(s.toLowerCase())
+          );
+        });
+      } else if (group.key === "stone") {
+        products = products.filter((p) => {
+          const stoneDetail = p.details.find(
+            (d) =>
+              d.label.toLowerCase() === "stones" ||
+              d.label.toLowerCase() === "centre stone" ||
+              d.label.toLowerCase() === "stone"
+          );
+          if (!stoneDetail) return false;
+          return selected.some((s) =>
+            stoneDetail.value.toLowerCase().includes(s.toLowerCase())
+          );
+        });
+      }
+      /* Other filter keys (occasion, style, etc.) are presentation-only
+         since products don't have those fields in data yet.
+         They will filter once product data is enriched. */
     }
 
     return products;
-  }, [baseProducts, filters]);
+  }, [baseProducts, filters, filterGroups]);
 
   /* ── Apply sort ── */
   const sortedProducts = useMemo(() => {
@@ -125,12 +154,18 @@ export default function CollectionPage({
         );
       case "newest":
         return products.reverse();
+      case "alpha":
+        return products.sort((a, b) => a.name.localeCompare(b.name));
       case "best-selling":
+      case "popularity":
+      case "rating":
       case "featured":
       default:
         return products;
     }
   }, [filteredProducts, sortValue]);
+
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <>
@@ -141,72 +176,8 @@ export default function CollectionPage({
             "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 40%, #F5EFE5 70%, #FDFAF5 100%)",
         }}
       >
-        {/* ── Page Header ── */}
-        <section className="pt-32 sm:pt-40 pb-8 sm:pb-12">
-          <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
-            {/* Decorative line */}
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 48, opacity: 0.5 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.1,
-              }}
-              className="mx-auto mb-6"
-              style={{
-                height: 1,
-                background:
-                  "linear-gradient(90deg, transparent, #CBA135, transparent)",
-              }}
-            />
-
-            {/* Eyebrow */}
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.2,
-              }}
-              className="section-label block text-center mb-5"
-            >
-              {meta.eyebrow}
-            </motion.span>
-
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.3,
-              }}
-              className="heading-xl text-center mb-6"
-            >
-              {meta.title}
-            </motion.h1>
-
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.45,
-              }}
-              className="body-l text-center max-w-lg mx-auto"
-            >
-              {meta.description}
-            </motion.p>
-          </div>
-        </section>
-
         {/* ── Product Grid Section ── */}
-        <section className="pb-24 sm:pb-32">
+        <section className="pt-32 sm:pt-36 pb-24 sm:pb-32">
           <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
             {/* Toolbar */}
             <motion.div
@@ -223,8 +194,59 @@ export default function CollectionPage({
                 sortValue={sortValue}
                 onSortChange={setSortValue}
                 onFilterToggle={() => setIsFilterOpen(true)}
+                activeFilterCount={activeFilterCount}
               />
             </motion.div>
+
+            {/* Active Filter Chips (above grid) */}
+            {activeFilterCount > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-wrap items-center gap-2 mb-6"
+              >
+                {filterGroups.map((group) =>
+                  (filters[group.key] ?? []).map((val) => {
+                    const opt = group.options.find((o) => o.value === val);
+                    return (
+                      <button
+                        key={`${group.key}-${val}`}
+                        onClick={() => {
+                          const next = (filters[group.key] ?? []).filter(
+                            (v) => v !== val
+                          );
+                          setFilters({ ...filters, [group.key]: next });
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-[10px] font-medium tracking-[0.06em] transition-all duration-200 hover:bg-[#5E2E36] hover:text-white hover:border-[#5E2E36]"
+                        style={{
+                          background: "#FAF7F2",
+                          color: "#2D241E",
+                          border: "1px solid rgba(203,161,53,0.15)",
+                        }}
+                      >
+                        {opt?.label ?? val}
+                        <span className="text-[#2C2A28]/40 group-hover:text-white">
+                          ✕
+                        </span>
+                      </button>
+                    );
+                  })
+                )}
+                <button
+                  onClick={() => {
+                    const empty: FilterState = {};
+                    filterGroups.forEach((g) => {
+                      empty[g.key] = [];
+                    });
+                    setFilters(empty);
+                  }}
+                  className="font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5E2E36]/60 hover:text-[#5E2E36] transition-colors ml-1"
+                >
+                  Clear All
+                </button>
+              </motion.div>
+            )}
 
             {/* Product Grid */}
             {sortedProducts.length > 0 ? (
@@ -265,9 +287,13 @@ export default function CollectionPage({
                   selection.
                 </p>
                 <button
-                  onClick={() =>
-                    setFilters({ categories: [], metals: [] })
-                  }
+                  onClick={() => {
+                    const empty: FilterState = {};
+                    filterGroups.forEach((g) => {
+                      empty[g.key] = [];
+                    });
+                    setFilters(empty);
+                  }}
                   className="mt-6 font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#5E2E36] hover:text-[#2D241E] transition-colors"
                 >
                   Clear Filters
@@ -284,8 +310,7 @@ export default function CollectionPage({
         onClose={() => setIsFilterOpen(false)}
         filters={filters}
         onFiltersChange={setFilters}
-        availableCategories={availableCategories}
-        availableMetals={availableMetals}
+        filterGroups={filterGroups}
       />
     </>
   );
