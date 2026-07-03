@@ -18,6 +18,7 @@ import {
 import type { ProductData } from "@/data/products";
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
+import CustomizeDrawer from "@/components/CustomizeDrawer";
 
 /* ═══════════════════════════════════════════
    PRODUCT HERO — Oka-Inspired Premium PDP
@@ -33,6 +34,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
   const [descExpanded, setDescExpanded] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [activeDetailsTab, setActiveDetailsTab] = useState<"details" | "breakup">("details");
+  const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
   const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const inCart = isInCart(product.id);
@@ -323,8 +325,9 @@ export default function ProductHero({ product }: { product: ProductData }) {
                ══════════════════════════════ */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               {/* Customize */}
-              <Link
-                href={`/customize/${product.slug}`}
+              <button
+                type="button"
+                onClick={() => setIsCustomizeOpen(true)}
                 className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
                 style={{
                   border: "1px solid #E2D5C3",
@@ -332,7 +335,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
               >
                 <Palette size={15} strokeWidth={1.5} />
                 Customize
-              </Link>
+              </button>
 
               {/* Video Call */}
               <a
@@ -646,6 +649,12 @@ export default function ProductHero({ product }: { product: ProductData }) {
           {toastMsg}
         </div>
       )}
+      {/* ── Customize Drawer ── */}
+      <CustomizeDrawer
+        product={product}
+        isOpen={isCustomizeOpen}
+        onClose={() => setIsCustomizeOpen(false)}
+      />
     </section>
   );
 }
