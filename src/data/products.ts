@@ -4,6 +4,13 @@
    instructions for the full PDP experience.
    ═══════════════════════════════════════════ */
 
+export interface PriceBreakupItem {
+  label: string;
+  amount: string;
+  /** 'add' (default) | 'subtract' for discounts | 'total' for the final row */
+  type?: "add" | "subtract" | "total";
+}
+
 export interface ProductData {
   id: string;
   slug: string;
@@ -21,6 +28,7 @@ export interface ProductData {
     inspiration: string;
   };
   care: string[];
+  priceBreakup?: PriceBreakupItem[];
 }
 
 export const PRODUCTS: ProductData[] = [
@@ -61,6 +69,15 @@ export const PRODUCTS: ProductData[] = [
       "Have the clasp mechanism inspected annually by a certified jeweller",
       "Remove before swimming, bathing, or strenuous activity",
     ],
+    priceBreakup: [
+      { label: "Gold Value (18K, 32.4g)", amount: "₹1,62,000" },
+      { label: "Natural Multi-Sapphire", amount: "₹68,000" },
+      { label: "Diamond Value", amount: "₹22,000" },
+      { label: "Making Charges", amount: "₹18,500" },
+      { label: "Wastage Charges", amount: "₹5,200" },
+      { label: "GST (3%)", amount: "₹9,300" },
+      { label: "Total", amount: "₹2,85,000", type: "total" },
+    ],
   },
   {
     id: "necklace",
@@ -98,6 +115,15 @@ export const PRODUCTS: ProductData[] = [
       "Clean with lukewarm water and a soft brush; avoid ultrasonic cleaners",
       "Have prong settings checked every 6 months",
       "Avoid sudden temperature changes which may cause fractures",
+    ],
+    priceBreakup: [
+      { label: "Gold Value (18K)", amount: "₹1,20,000" },
+      { label: "Colombian Emerald (3.2 ct)", amount: "₹2,85,000" },
+      { label: "VS-Grade Diamonds", amount: "₹98,000" },
+      { label: "Making Charges", amount: "₹22,000" },
+      { label: "Wastage Charges", amount: "₹4,100" },
+      { label: "GST (3%)", amount: "₹15,900" },
+      { label: "Total", amount: "₹5,45,000", type: "total" },
     ],
   },
   {
@@ -137,6 +163,16 @@ export const PRODUCTS: ProductData[] = [
       "Store in the provided ring box to prevent scratching",
       "Have the setting inspected annually to ensure stone security",
     ],
+    priceBreakup: [
+      { label: "Gold Value (18K)", amount: "₹85,000" },
+      { label: "Paraiba Tourmaline (4.8 ct)", amount: "₹1,92,000" },
+      { label: "Aquamarine Cabochons", amount: "₹32,000" },
+      { label: "Diamond Accents", amount: "₹28,000" },
+      { label: "Making Charges", amount: "₹24,500" },
+      { label: "Wastage Charges", amount: "₹3,600" },
+      { label: "GST (3%)", amount: "₹9,900" },
+      { label: "Total", amount: "₹3,75,000", type: "total" },
+    ],
   },
   {
     id: "earring-1",
@@ -174,6 +210,14 @@ export const PRODUCTS: ProductData[] = [
       "Wipe gently with a dry, soft cotton cloth after wearing",
       "Keep away from heat sources which may soften the lac core",
       "Avoid contact with perfumes, hairsprays, and cosmetics",
+    ],
+    priceBreakup: [
+      { label: "Gold Value (22K, 18.6g)", amount: "₹1,02,000" },
+      { label: "Uncut Polki Diamonds", amount: "₹38,000" },
+      { label: "Meenakari Enamel Work", amount: "₹8,500" },
+      { label: "Making Charges", amount: "₹10,200" },
+      { label: "GST (3%)", amount: "₹6,300" },
+      { label: "Total", amount: "₹1,65,000", type: "total" },
     ],
   },
   {
@@ -213,6 +257,15 @@ export const PRODUCTS: ProductData[] = [
       "Store separately to prevent the diamond from scratching other jewellery",
       "Remove during heavy manual work to protect the setting",
     ],
+    priceBreakup: [
+      { label: "Platinum 950 Value", amount: "₹62,000" },
+      { label: "Round Brilliant Diamond (1.5 ct, D/VVS1)", amount: "₹2,65,000" },
+      { label: "Micro-Pavé Diamonds (28 pcs)", amount: "₹18,000" },
+      { label: "Making Charges", amount: "₹16,800" },
+      { label: "Wastage Charges", amount: "₹2,400" },
+      { label: "GST (3%)", amount: "₹10,800" },
+      { label: "Total", amount: "₹3,75,000", type: "total" },
+    ],
   },
   {
     id: "ring-2",
@@ -250,6 +303,15 @@ export const PRODUCTS: ProductData[] = [
       "Avoid abrasive cloths that could wear down the engraving over time",
       "Store in the provided ring box away from humidity",
       "Have coloured stone settings checked every 6 months",
+    ],
+    priceBreakup: [
+      { label: "Gold Value (18K, 12.8g)", amount: "₹78,000" },
+      { label: "Cushion Diamond (2.1 ct)", amount: "₹1,42,000" },
+      { label: "Natural Ruby & Emerald", amount: "₹35,000" },
+      { label: "Making Charges (Hand-Engraved Filigree)", amount: "₹18,500" },
+      { label: "Wastage Charges", amount: "₹3,200" },
+      { label: "GST (3%)", amount: "₹8,300" },
+      { label: "Total", amount: "₹2,85,000", type: "total" },
     ],
   },
   {
@@ -289,6 +351,15 @@ export const PRODUCTS: ProductData[] = [
       "Remove before contact with household chemicals",
       "Have the emerald re-oiled professionally every 2–3 years if needed",
     ],
+    priceBreakup: [
+      { label: "Gold Value (18K White, 14.2g)", amount: "₹92,000" },
+      { label: "Zambian Emerald (3.6 ct)", amount: "₹2,15,000" },
+      { label: "Brilliant & Baguette Diamonds", amount: "₹72,000" },
+      { label: "Making Charges", amount: "₹28,500" },
+      { label: "Wastage Charges", amount: "₹5,100" },
+      { label: "GST (3%)", amount: "₹12,400" },
+      { label: "Total", amount: "₹4,25,000", type: "total" },
+    ],
   },
   {
     id: "bangle-3",
@@ -327,6 +398,15 @@ export const PRODUCTS: ProductData[] = [
       "Keep away from direct heat and sunlight",
       "Clean only with a dry, soft cotton cloth — no liquids or chemicals",
     ],
+    priceBreakup: [
+      { label: "Gold Value (22K)", amount: "₹2,85,000" },
+      { label: "Uncut Polki Diamonds", amount: "₹1,48,000" },
+      { label: "Jadau & Meenakari Artistry", amount: "₹62,000" },
+      { label: "Making Charges", amount: "₹28,000" },
+      { label: "Wastage Charges", amount: "₹6,200" },
+      { label: "GST (3%)", amount: "₹15,800" },
+      { label: "Total", amount: "₹5,45,000", type: "total" },
+    ],
   },
   {
     id: "bangle-2",
@@ -364,6 +444,13 @@ export const PRODUCTS: ProductData[] = [
       "Clean with warm water and mild soap; dry thoroughly",
       "Polish gently with a jeweller's polishing cloth to maintain lustre",
       "Have engravings checked periodically for wear",
+    ],
+    priceBreakup: [
+      { label: "Gold Value (22K, 28.5g)", amount: "₹1,82,000" },
+      { label: "Making Charges (Hand-Hammered)", amount: "₹38,000" },
+      { label: "Wastage Charges", amount: "₹10,800" },
+      { label: "GST (3%)", amount: "₹14,200" },
+      { label: "Total", amount: "₹2,45,000", type: "total" },
     ],
   },
 ];

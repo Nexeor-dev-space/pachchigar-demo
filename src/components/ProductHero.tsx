@@ -32,6 +32,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
   const [justAdded, setJustAdded] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
+  const [activeDetailsTab, setActiveDetailsTab] = useState<"details" | "breakup">("details");
   const thumbnailRef = useRef<HTMLDivElement>(null);
 
   const inCart = isInCart(product.id);
@@ -402,17 +403,183 @@ export default function ProductHero({ product }: { product: ProductData }) {
             {/* Editorial Divider */}
             <div className="pdp-divider" />
 
-            {/* Product Details */}
+            {/* ══════════════════════════════
+               JEWELLERY DETAILS — Segmented Tabs
+               ══════════════════════════════ */}
             <div className="pdp-details">
-              <h3 className="pdp-details-heading">Product Details</h3>
-              <dl className="pdp-details-list">
-                {product.details.map((detail) => (
-                  <div key={detail.label} className="pdp-detail-row">
-                    <dt className="pdp-detail-label">{detail.label}</dt>
-                    <dd className="pdp-detail-value">{detail.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              {/* ── Segmented Tab Control ── */}
+              <div
+                className="flex rounded-xl p-1 mb-6"
+                role="tablist"
+                aria-label="Product information tabs"
+                style={{
+                  background: "rgba(226,213,195,0.25)",
+                  border: "1px solid rgba(226,213,195,0.4)",
+                }}
+              >
+                {[
+                  { key: "details" as const, label: "Product Details" },
+                  { key: "breakup" as const, label: "Price Breakup" },
+                ].map((tab) => {
+                  const isActive = activeDetailsTab === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-controls={`tabpanel-${tab.key}`}
+                      id={`tab-${tab.key}`}
+                      onClick={() => setActiveDetailsTab(tab.key)}
+                      className="flex-1 relative py-2.5 px-4 rounded-[10px] font-sans text-[11px] font-semibold tracking-[0.14em] uppercase transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-[#5E2E36]/40"
+                      style={{
+                        background: isActive
+                          ? "#FDFAF5"
+                          : "transparent",
+                        color: isActive ? "#5E2E36" : "#5A4A42",
+                        boxShadow: isActive
+                          ? "0 1px 6px rgba(45,36,30,0.08), 0 1px 2px rgba(45,36,30,0.04)"
+                          : "none",
+                      }}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* ── Tab Content ── */}
+              <div
+                className="relative overflow-hidden"
+                style={{ minHeight: "120px" }}
+              >
+                {/* Product Details Panel */}
+                <div
+                  id="tabpanel-details"
+                  role="tabpanel"
+                  aria-labelledby="tab-details"
+                  className="transition-all duration-300 ease-out"
+                  style={{
+                    opacity: activeDetailsTab === "details" ? 1 : 0,
+                    transform: activeDetailsTab === "details" ? "translateX(0)" : "translateX(-12px)",
+                    position: activeDetailsTab === "details" ? "relative" : "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    pointerEvents: activeDetailsTab === "details" ? "auto" : "none",
+                  }}
+                >
+                  <dl className="pdp-details-list">
+                    {product.details.map((detail) => (
+                      <div key={detail.label} className="pdp-detail-row">
+                        <dt className="pdp-detail-label">{detail.label}</dt>
+                        <dd className="pdp-detail-value">{detail.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                {/* Price Breakup Panel */}
+                <div
+                  id="tabpanel-breakup"
+                  role="tabpanel"
+                  aria-labelledby="tab-breakup"
+                  className="transition-all duration-300 ease-out"
+                  style={{
+                    opacity: activeDetailsTab === "breakup" ? 1 : 0,
+                    transform: activeDetailsTab === "breakup" ? "translateX(0)" : "translateX(12px)",
+                    position: activeDetailsTab === "breakup" ? "relative" : "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    pointerEvents: activeDetailsTab === "breakup" ? "auto" : "none",
+                  }}
+                >
+                  {product.priceBreakup && product.priceBreakup.length > 0 ? (
+                    <div>
+                      <dl className="flex flex-col gap-0">
+                        {product.priceBreakup
+                          .filter((item) => item.type !== "total")
+                          .map((item, i, arr) => (
+                            <div
+                              key={item.label}
+                              className="flex items-start justify-between py-3"
+                              style={{
+                                borderBottom:
+                                  i < arr.length - 1
+                                    ? "1px solid rgba(226,213,195,0.4)"
+                                    : "none",
+                              }}
+                            >
+                              <dt
+                                className="font-sans text-[0.78rem] font-normal pr-4 flex-1"
+                                style={{ color: "#5A4A42", opacity: 0.7, letterSpacing: "0.02em" }}
+                              >
+                                {item.label}
+                              </dt>
+                              <dd
+                                className="font-sans text-[0.78rem] font-medium tabular-nums text-right shrink-0"
+                                style={{
+                                  color: item.type === "subtract" ? "#2E7D32" : "#2D241E",
+                                  letterSpacing: "0.01em",
+                                }}
+                              >
+                                {item.type === "subtract" ? `- ${item.amount}` : item.amount}
+                              </dd>
+                            </div>
+                          ))}
+                      </dl>
+
+                      {/* Total Row */}
+                      {product.priceBreakup.find((i) => i.type === "total") && (
+                        <>
+                          <div
+                            className="h-px my-1"
+                            style={{
+                              background:
+                                "linear-gradient(90deg, #A36E52, rgba(163,110,82,0.3) 60%, transparent)",
+                            }}
+                          />
+                          <div className="flex items-center justify-between py-3">
+                            <span
+                              className="font-sans text-[0.8rem] font-bold tracking-[0.04em] uppercase"
+                              style={{ color: "#2D241E" }}
+                            >
+                              Total Price
+                            </span>
+                            <span
+                              className="font-sans text-[0.95rem] font-bold tabular-nums"
+                              style={{ color: "#A36E52" }}
+                            >
+                              {product.priceBreakup.find((i) => i.type === "total")?.amount}
+                            </span>
+                          </div>
+                        </>
+                      )}
+
+                      {/* Footnote */}
+                      <div
+                        className="mt-3 pt-3"
+                        style={{ borderTop: "1px solid rgba(226,213,195,0.3)" }}
+                      >
+                        <p
+                          className="font-sans text-[10px] font-normal leading-relaxed"
+                          style={{ color: "#5A4A42", opacity: 0.55 }}
+                        >
+                          *Prices based on current metal &amp; stone rates. Final price may vary based on actual weight at the time of billing.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <p
+                      className="font-sans text-[0.8rem] text-center py-8"
+                      style={{ color: "#5A4A42", opacity: 0.5 }}
+                    >
+                      Price breakup is not available for this product.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Trust Signal */}
