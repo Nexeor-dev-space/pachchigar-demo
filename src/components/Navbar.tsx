@@ -8,16 +8,21 @@ import { useCart } from '@/providers/CartProvider';
 import { useWishlist } from '@/providers/WishlistProvider';
 import MegaMenu from '@/components/MegaMenu';
 import { getMegaMenuPanel, type MegaMenuPanel } from '@/data/megaMenuData';
+import ProfileDropdown from '@/components/ProfileDropdown';
+
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const megaEnterTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const megaLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const profileEnterTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const profileLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { totalItems } = useCart();
   const { totalItems: wishlistTotal } = useWishlist();
 
@@ -46,6 +51,7 @@ export default function Navbar() {
       if (e.key === 'Escape') {
         setIsSearchOpen(false);
         setActiveMegaMenu(null);
+        setIsProfileOpen(false);
       }
     };
     window.addEventListener('keydown', handleEsc);
@@ -61,6 +67,7 @@ export default function Navbar() {
     megaEnterTimer.current = setTimeout(() => {
       setActiveMegaMenu(key);
       setIsSearchOpen(false);
+      setIsProfileOpen(false);
     }, 120);
   }, []);
 
@@ -94,6 +101,8 @@ export default function Navbar() {
     return () => {
       if (megaEnterTimer.current) clearTimeout(megaEnterTimer.current);
       if (megaLeaveTimer.current) clearTimeout(megaLeaveTimer.current);
+      if (profileEnterTimer.current) clearTimeout(profileEnterTimer.current);
+      if (profileLeaveTimer.current) clearTimeout(profileLeaveTimer.current);
     };
   }, []);
 
@@ -124,7 +133,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-[72px]" style={{ paddingTop: '0.3rem', paddingBottom: '0.3rem' }}>
 
             {/* ── LEFT: Mobile Menu + Logo ── */}
-            <div className="flex items-center gap-3 min-w-0 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="md:hidden text-[#2C2A28] p-1 hover:text-wine transition-colors"
@@ -143,7 +152,7 @@ export default function Navbar() {
             </div>
 
             {/* ── CENTER: Navigation Links (Desktop) ── */}
-            <nav className="hidden md:flex items-center justify-center gap-7 lg:gap-9 xl:gap-11 absolute left-1/2 -translate-x-1/2">
+            <nav className="hidden lg:flex flex-1 items-center justify-center gap-4 lg:gap-6 xl:gap-8 px-4 min-w-0">
               {navLinks.map((link) => {
                 const hasMega = !!getMegaMenuPanel(link.label);
                 const isActive = activeMegaMenu === link.label;
@@ -157,10 +166,10 @@ export default function Navbar() {
                   >
                     <Link
                       href={link.href}
-                      className={`flex items-center gap-1 whitespace-nowrap font-sans text-[12px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 ${
+                      className={`flex items-center gap-1 whitespace-nowrap font-sans text-[12px] font-medium tracking-[0.2em] uppercase transition-colors duration-300 ${
                         isActive
                           ? 'text-[#2C2A28]'
-                          : 'text-[#2C2A28]/80 hover:text-[#2C2A28]'
+                          : 'text-[#2C2A28]/80 hover:text-wine'
                       }`}
                       onClick={() => setActiveMegaMenu(null)}
                     >
@@ -186,18 +195,42 @@ export default function Navbar() {
             </nav>
 
             {/* ── RIGHT: Utility Icons ── */}
-            <div className="flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
+            <div className="flex items-center justify-end gap-2 sm:gap-3 lg:gap-4 shrink-0">
               <button
-                onClick={() => { setIsSearchOpen(!isSearchOpen); setActiveMegaMenu(null); }}
+                onClick={() => { setIsSearchOpen(!isSearchOpen); setActiveMegaMenu(null); setIsProfileOpen(false); }}
                 className="text-[#2C2A28] hover:text-wine transition-colors p-1.5"
                 aria-label="Search"
               >
                 <Search size={20} strokeWidth={1.5} />
               </button>
 
-              <button className="hidden md:block text-[#2C2A28] hover:text-wine transition-colors p-1.5" aria-label="Account">
-                <User size={20} strokeWidth={1.5} />
-              </button>
+              <div
+                className="hidden md:block relative"
+                onMouseEnter={() => {
+                  if (profileLeaveTimer.current) { clearTimeout(profileLeaveTimer.current); profileLeaveTimer.current = null; }
+                  profileEnterTimer.current = setTimeout(() => {
+                    setIsProfileOpen(true); setIsSearchOpen(false); setActiveMegaMenu(null);
+                  }, 120);
+                }}
+                onMouseLeave={() => {
+                  if (profileEnterTimer.current) { clearTimeout(profileEnterTimer.current); profileEnterTimer.current = null; }
+                  profileLeaveTimer.current = setTimeout(() => {
+                    setIsProfileOpen(false);
+                  }, 150);
+                }}
+              >
+                <button
+                  className={`text-[#2C2A28] hover:text-wine transition-colors p-1.5 ${
+                    isProfileOpen ? 'text-wine' : ''
+                  }`}
+                  aria-label="Account"
+                  aria-expanded={isProfileOpen}
+                  aria-haspopup="true"
+                >
+                  <User size={20} strokeWidth={1.5} />
+                </button>
+                <ProfileDropdown isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+              </div>
 
               <Link href="/wishlist" className="hidden md:block relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Wishlist">
                 <Heart size={20} strokeWidth={1.5} />
@@ -432,13 +465,41 @@ export default function Navbar() {
                   })}
                 </nav>
 
-                <div className="mt-auto pt-8 flex flex-col gap-6 border-t border-gray-200/60">
-                  <button className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
-                      <User size={20} strokeWidth={1.5} />
+                <div className="mt-auto pt-8 flex flex-col gap-5 border-t border-gray-200/60">
+
+                  {/* Mobile Account Section */}
+                  <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100/80">
+                    <div
+                      className="w-8 h-[2px] rounded-full mb-3"
+                      style={{ background: "linear-gradient(90deg, #5E2E36, #A36E52)" }}
+                    />
+                    <h3 className="font-serif font-medium text-[1rem] leading-tight" style={{ color: "#2D241E" }}>
+                      Your Account
+                    </h3>
+                    <p className="font-sans text-[12px] leading-[1.6] mt-1 font-light" style={{ color: "#5A4A42" }}>
+                      Access your account &amp; manage your orders.
+                    </p>
+                    <div className="flex gap-2.5 mt-4">
+                      <Link
+                        href="#"
+                        className="flex-1 text-center font-sans text-[11px] font-semibold uppercase tracking-[0.16em] py-2.5 px-3 rounded-xl transition-all duration-300"
+                        style={{ background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff" }}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Sign Up
+                      </Link>
+                      <Link
+                        href="#"
+                        className="flex-1 text-center font-sans text-[11px] font-semibold uppercase tracking-[0.16em] py-2.5 px-3 rounded-xl transition-all duration-300"
+                        style={{ border: "1.5px solid #5E2E36", color: "#5E2E36" }}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Log In
+                      </Link>
                     </div>
-                    <span className="text-sm tracking-widest uppercase">Account</span>
-                  </button>
+                  </div>
+
+
                   <Link href="/wishlist" className="flex items-center gap-4 text-[#2C2A28] hover:text-wine transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                     <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-gray-100">
                       <Heart size={20} strokeWidth={1.5} />
