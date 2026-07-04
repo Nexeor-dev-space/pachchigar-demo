@@ -23,6 +23,7 @@ import { AnimationProvider } from "@/providers/AnimationProvider";
 import { CartProvider } from "@/providers/CartProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
 import AnimationToggle from "@/components/AnimationToggle";
+import { AuthProvider } from "@/providers/AuthProvider";
 import OnboardingPopup from "@/components/OnboardingPopup";
 
 export default function RootLayout({
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
+        <AuthProvider>
         <CartProvider>
           <WishlistProvider>
             <AnimationProvider>
@@ -48,6 +50,7 @@ export default function RootLayout({
             </AnimationProvider>
           </WishlistProvider>
         </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

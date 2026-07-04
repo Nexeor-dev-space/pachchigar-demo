@@ -9,6 +9,7 @@ import { useWishlist } from '@/providers/WishlistProvider';
 import MegaMenu from '@/components/MegaMenu';
 import { getMegaMenuPanel, type MegaMenuPanel } from '@/data/megaMenuData';
 import ProfileDropdown from '@/components/ProfileDropdown';
+import { useAuth } from '@/providers/AuthProvider';
 
 
 export default function Navbar() {
@@ -25,6 +26,7 @@ export default function Navbar() {
   const profileLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { totalItems } = useCart();
   const { totalItems: wishlistTotal } = useWishlist();
+  const auth = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -220,7 +222,7 @@ export default function Navbar() {
                 }}
               >
                 <button
-                  className={`text-[#2C2A28] hover:text-wine transition-colors p-1.5 ${
+                  className={`relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 ${
                     isProfileOpen ? 'text-wine' : ''
                   }`}
                   aria-label="Account"
@@ -228,6 +230,9 @@ export default function Navbar() {
                   aria-haspopup="true"
                 >
                   <User size={20} strokeWidth={1.5} />
+                  {auth.isAuthenticated && (
+                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-[#FCFBF9]" />
+                  )}
                 </button>
                 <ProfileDropdown isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
               </div>

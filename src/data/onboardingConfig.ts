@@ -1,42 +1,35 @@
 /* ═══════════════════════════════════════════
    ONBOARDING POPUP CONFIGURATION
    All content is configurable for future
-   CMS / backend integration. Marketing teams
-   can swap banners, text, and offers without
-   touching code.
+   CMS / backend integration.
    ═══════════════════════════════════════════ */
 
 export interface OnboardingConfig {
-  /** Master switch — set to false to disable the popup globally */
   enabled: boolean;
 
+  /**
+   * Demo mode: when true, the popup reappears on every page refresh
+   * until the user authenticates. Set to false for production
+   * (uses localStorage + frequencyDays).
+   */
+  demoMode: boolean;
+
   trigger: {
-    /** Delay in ms before showing the popup on page load */
     delayMs: number;
-    /** Enable exit-intent detection on desktop (mouse leaves viewport top) */
     exitIntent: boolean;
-    /** Number of days before showing the popup again after dismissal */
     frequencyDays: number;
   };
 
   content: {
-    /** Banner/artwork image at the top of the popup */
     bannerImage: string;
-    /** Main welcome title */
     title: string;
-    /** Short subtitle / description */
     subtitle: string;
-    /** List of value-proposition offer highlights */
     offers: string[];
-    /** Primary CTA button text for the phone input step */
     ctaText: string;
-    /** Privacy / disclaimer text below the form */
     privacyText: string;
-    /** Success message shown after OTP verification */
     successMessage: string;
   };
 
-  /** Reserved for future promotional campaign types */
   campaign?: {
     type: "default" | "spin-wheel" | "scratch-card" | "lucky-draw" | "festival";
     data?: Record<string, unknown>;
@@ -53,11 +46,12 @@ export const STORAGE_KEYS = {
 /* ─── Default configuration ─── */
 export const ONBOARDING_CONFIG: OnboardingConfig = {
   enabled: true,
+  demoMode: true, // ← Flip to false for production
 
   trigger: {
-    delayMs: 6000,       // 6 seconds
-    exitIntent: true,    // detect mouse leaving viewport
-    frequencyDays: 7,    // once per 7 days
+    delayMs: 6000,
+    exitIntent: true,
+    frequencyDays: 7,
   },
 
   content: {
