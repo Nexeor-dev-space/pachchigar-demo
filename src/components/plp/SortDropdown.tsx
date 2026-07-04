@@ -49,7 +49,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 font-sans text-[11px] font-semibold tracking-[0.18em] uppercase text-[#2C2A28]/70 hover:text-[#2C2A28] transition-colors duration-300"
+        className="flex items-center gap-2 font-sans text-[13px] font-semibold tracking-[0.1em] uppercase text-[#2C2A28]/80 hover:text-[#2C2A28] transition-colors duration-300"
       >
         <span className="hidden sm:inline">Sort by:</span>
         <span className="text-[#2D241E]">{activeLabel}</span>
@@ -84,7 +84,7 @@ export default function SortDropdown({ value, onChange }: SortDropdownProps) {
                 onChange(option.value);
                 setIsOpen(false);
               }}
-              className={`w-full text-left px-4 py-2.5 rounded-lg font-sans text-[11px] font-medium tracking-[0.08em] transition-all duration-200 ${
+              className={`w-full text-left px-4 py-2.5 rounded-lg font-sans text-[13px] font-medium transition-all duration-200 ${
                 value === option.value
                   ? "text-[#5E2E36] bg-[#F5EFE5]/60"
                   : "text-[#2C2A28]/65 hover:text-[#5E2E36] hover:bg-[#F5EFE5]/40"
