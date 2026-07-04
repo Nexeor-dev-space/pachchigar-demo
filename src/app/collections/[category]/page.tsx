@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { notFound } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import PLPToolbar from "@/components/plp/PLPToolbar";
+import FilterSidebar from "@/components/plp/FilterSidebar";
 import FilterDrawer, {
   type FilterState,
   countActiveFilters,
 } from "@/components/plp/FilterDrawer";
-import type { SortOption } from "@/components/plp/SortDropdown";
+import SortDropdown, { type SortOption } from "@/components/plp/SortDropdown";
+import PLPMobileBar from "@/components/plp/PLPMobileBar";
 import {
   getProductsByCategory,
   parsePrice,
@@ -167,6 +170,14 @@ export default function CollectionPage({
 
   const activeFilterCount = countActiveFilters(filters);
 
+  const clearAllFilters = () => {
+    const empty: FilterState = {};
+    filterGroups.forEach((g) => {
+      empty[g.key] = [];
+    });
+    setFilters(empty);
+  };
+
   return (
     <>
       <main
@@ -176,141 +187,189 @@ export default function CollectionPage({
             "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 40%, #F5EFE5 70%, #FDFAF5 100%)",
         }}
       >
-        {/* ── Product Grid Section ── */}
-        <section className="pt-32 sm:pt-36 pb-24 sm:pb-32">
-          <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
-            {/* Toolbar */}
+        {/* ════════════════════════════════════════════
+            HEADER SECTION — Breadcrumb + Title + Sort
+            ════════════════════════════════════════════ */}
+        <section className="pt-28 sm:pt-32 pb-0">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-14">
+            {/* Breadcrumb */}
+            <motion.nav
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-2 mb-4"
+              aria-label="Breadcrumb"
+            >
+              <Link
+                href="/"
+                className="font-sans text-[13px] text-[#5A4A42]/70 hover:text-[#5E2E36] transition-colors"
+              >
+                Home
+              </Link>
+              <ChevronRight size={13} className="text-[#5A4A42]/40" />
+              <Link
+                href="/"
+                className="font-sans text-[13px] text-[#5A4A42]/70 hover:text-[#5E2E36] transition-colors"
+              >
+                Collections
+              </Link>
+              <ChevronRight size={13} className="text-[#5A4A42]/40" />
+              <span className="font-sans text-[13px] font-medium text-[#2D241E]">
+                {meta.title}
+              </span>
+            </motion.nav>
+
+            {/* Title row + Sort */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.55,
-              }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              className="flex items-center justify-between gap-4"
             >
-              <PLPToolbar
-                productCount={sortedProducts.length}
-                sortValue={sortValue}
-                onSortChange={setSortValue}
-                onFilterToggle={() => setIsFilterOpen(true)}
-                activeFilterCount={activeFilterCount}
-              />
-            </motion.div>
+              <span className="font-sans text-[14px] font-medium text-[#5A4A42]/70">
+                {sortedProducts.length} {sortedProducts.length === 1 ? "Product" : "Products"}
+              </span>
 
-            {/* Active Filter Chips (above grid) */}
-            {activeFilterCount > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-wrap items-center gap-2 mb-6"
-              >
-                {filterGroups.map((group) =>
-                  (filters[group.key] ?? []).map((val) => {
-                    const opt = group.options.find((o) => o.value === val);
-                    return (
-                      <button
-                        key={`${group.key}-${val}`}
-                        onClick={() => {
-                          const next = (filters[group.key] ?? []).filter(
-                            (v) => v !== val
-                          );
-                          setFilters({ ...filters, [group.key]: next });
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-[10px] font-medium tracking-[0.06em] transition-all duration-200 hover:bg-[#5E2E36] hover:text-white hover:border-[#5E2E36]"
-                        style={{
-                          background: "#FAF7F2",
-                          color: "#2D241E",
-                          border: "1px solid rgba(203,161,53,0.15)",
+              <div className="hidden lg:flex items-center gap-4">
+                <SortDropdown value={sortValue} onChange={setSortValue} />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ════════════════════════════════════════════
+            MAIN CONTENT — Sidebar + Product Grid
+            ════════════════════════════════════════════ */}
+        <section className="pb-24 sm:pb-32">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-14 pt-6 lg:pt-8">
+            <div className="flex items-start gap-8 xl:gap-10">
+              {/* ── Left: Filter Sidebar (desktop) ── */}
+              <FilterSidebar
+                filters={filters}
+                onFiltersChange={setFilters}
+                filterGroups={filterGroups}
+              />
+
+              {/* ── Right: Grid Area ── */}
+              <div className="flex-1 min-w-0">
+                {/* Active Filter Chips */}
+                {activeFilterCount > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-wrap items-center gap-2 mb-5"
+                  >
+                    {filterGroups.map((group) =>
+                      (filters[group.key] ?? []).map((val) => {
+                        const opt = group.options.find((o) => o.value === val);
+                        return (
+                          <button
+                            key={`${group.key}-${val}`}
+                            onClick={() => {
+                              const next = (filters[group.key] ?? []).filter(
+                                (v) => v !== val
+                              );
+                              setFilters({ ...filters, [group.key]: next });
+                            }}
+                            className="flex items-center gap-2 px-3.5 py-2 rounded-full font-sans text-[12px] font-medium transition-all duration-200 hover:bg-[#5E2E36] hover:text-white hover:border-[#5E2E36]"
+                            style={{
+                              background: "#FAF7F2",
+                              color: "#2D241E",
+                              border: "1px solid rgba(203,161,53,0.2)",
+                            }}
+                          >
+                            {opt?.label ?? val}
+                            <span className="text-[#2C2A28]/50 group-hover:text-white">
+                              ✕
+                            </span>
+                          </button>
+                        );
+                      })
+                    )}
+                    <button
+                      onClick={clearAllFilters}
+                      className="font-sans text-[12px] font-semibold tracking-[0.1em] uppercase text-[#5E2E36]/80 hover:text-[#5E2E36] transition-colors ml-2"
+                    >
+                      Clear All
+                    </button>
+                  </motion.div>
+                )}
+
+                {/* Product Grid */}
+                {sortedProducts.length > 0 ? (
+                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                    {sortedProducts.map((product, i) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.7,
+                          ease: [0.22, 1, 0.36, 1],
+                          delay: 0.3 + i * 0.05,
                         }}
                       >
-                        {opt?.label ?? val}
-                        <span className="text-[#2C2A28]/40 group-hover:text-white">
-                          ✕
-                        </span>
-                      </button>
-                    );
-                  })
-                )}
-                <button
-                  onClick={() => {
-                    const empty: FilterState = {};
-                    filterGroups.forEach((g) => {
-                      empty[g.key] = [];
-                    });
-                    setFilters(empty);
-                  }}
-                  className="font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5E2E36]/60 hover:text-[#5E2E36] transition-colors ml-1"
-                >
-                  Clear All
-                </button>
-              </motion.div>
-            )}
-
-            {/* Product Grid */}
-            {sortedProducts.length > 0 ? (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-7">
-                {sortedProducts.map((product, i) => (
+                        <ProductCard product={product} />
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
                   <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      duration: 0.7,
+                      duration: 0.6,
                       ease: [0.22, 1, 0.36, 1],
-                      delay: 0.6 + i * 0.08,
+                      delay: 0.3,
+                    }}
+                    className="text-center py-20 sm:py-28 rounded-2xl"
+                    style={{
+                      background: "#FAF7F2",
+                      border: "1px solid rgba(203,161,53,0.08)",
                     }}
                   >
-                    <ProductCard product={product} />
+                    <span className="font-sans text-[13px] font-bold tracking-[0.15em] uppercase text-[#2D241E]/60 block mb-4">No Results</span>
+                    <p className="font-sans text-[15px] text-[#5A4A42]/70 max-w-sm mx-auto leading-relaxed">
+                      No products match your current filters. Try adjusting your
+                      selection.
+                    </p>
+                    <button
+                      onClick={clearAllFilters}
+                      className="mt-6 font-sans text-[13px] font-semibold tracking-[0.12em] uppercase text-[#5E2E36] hover:text-[#2D241E] transition-colors"
+                    >
+                      Clear Filters
+                    </button>
                   </motion.div>
-                ))}
+                )}
               </div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: 0.5,
-                }}
-                className="text-center py-20 sm:py-28 rounded-2xl"
-                style={{
-                  background: "#FAF7F2",
-                  border: "1px solid rgba(203,161,53,0.08)",
-                }}
-              >
-                <span className="section-label block mb-3">No Results</span>
-                <p className="body-m max-w-sm mx-auto">
-                  No products match your current filters. Try adjusting your
-                  selection.
-                </p>
-                <button
-                  onClick={() => {
-                    const empty: FilterState = {};
-                    filterGroups.forEach((g) => {
-                      empty[g.key] = [];
-                    });
-                    setFilters(empty);
-                  }}
-                  className="mt-6 font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#5E2E36] hover:text-[#2D241E] transition-colors"
-                >
-                  Clear Filters
-                </button>
-              </motion.div>
-            )}
+            </div>
           </div>
         </section>
       </main>
 
-      {/* Filter Drawer */}
+      {/* Filter Drawer — Mobile/Tablet */}
       <FilterDrawer
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         filters={filters}
         onFiltersChange={setFilters}
         filterGroups={filterGroups}
+      />
+
+      {/* PLP Mobile Action Bar — Categories / Sort / Filter */}
+      <PLPMobileBar
+        sortValue={sortValue}
+        onSortChange={setSortValue}
+        onFilterOpen={() => setIsFilterOpen(true)}
+        activeFilterCount={activeFilterCount}
+        currentCategory={params.category}
+      />
+
+      {/* Spacer for mobile bottom bar */}
+      <div
+        className="h-[56px] lg:hidden"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       />
     </>
   );

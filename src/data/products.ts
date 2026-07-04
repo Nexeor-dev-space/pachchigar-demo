@@ -488,7 +488,43 @@ export const CATEGORY_MAP: Record<string, string[]> = {
 export function getProductsByCategory(slug: string): ProductData[] {
   const cats = CATEGORY_MAP[slug];
   if (!cats || cats.length === 0) return PRODUCTS;
-  return PRODUCTS.filter((p) => cats.includes(p.category));
+  const base = PRODUCTS.filter((p) => cats.includes(p.category));
+
+  /* ── DEMO MODE: Duplicate products with varied prices ──
+     Creates ~24 items per category for a realistic shop feel.
+     Each duplicate gets a realistic varied price so Price filter
+     works meaningfully during the demo.
+     Remove this block when real product data is available. */
+  const TARGET_COUNT = 24;
+  if (base.length >= TARGET_COUNT) return base;
+
+  /* Realistic price pool spanning all filter ranges */
+  const DEMO_PRICES = [
+    "₹7,500", "₹8,999", "₹9,450",            // Under ₹25,000
+    "₹12,800", "₹15,500", "₹18,750",
+    "₹21,000", "₹23,500",
+    "₹27,000", "₹32,500", "₹38,000",          // ₹25,000 – ₹50,000
+    "₹42,750", "₹47,999",
+    "₹55,000", "₹62,500", "₹78,000",          // ₹50,000 – ₹1,00,000
+    "₹85,500", "₹94,000",
+    "₹1,15,000", "₹1,45,000", "₹1,78,000",    // ₹1,00,000 – ₹2,00,000
+    "₹2,25,000", "₹3,50,000", "₹4,25,000",    // ₹2,00,000+
+  ];
+
+  const filled: ProductData[] = [];
+  let i = 0;
+  while (filled.length < TARGET_COUNT) {
+    const original = base[i % base.length];
+    const isDuplicate = i >= base.length;
+    filled.push({
+      ...original,
+      id: isDuplicate ? `${original.id}-demo-${i}` : original.id,
+      price: isDuplicate ? DEMO_PRICES[i % DEMO_PRICES.length] : original.price,
+    });
+    i++;
+  }
+  return filled;
+  /* ── END DEMO MODE ── */
 }
 
 /** Parse price string to number for sorting (e.g. "₹2,85,000" → 285000) */

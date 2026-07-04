@@ -354,7 +354,7 @@ export default function FilterDrawer({
                   background: "#2D241E",
                 }}
               >
-                Apply
+                Done
               </button>
             </div>
             </div>
