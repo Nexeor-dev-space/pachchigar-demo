@@ -25,6 +25,7 @@ import { WishlistProvider } from "@/providers/WishlistProvider";
 import AnimationToggle from "@/components/AnimationToggle";
 import { AuthProvider } from "@/providers/AuthProvider";
 import OnboardingPopup from "@/components/OnboardingPopup";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export default function RootLayout({
   children,
@@ -47,6 +48,7 @@ export default function RootLayout({
               </SmoothScrollProvider>
               <AnimationToggle />
               <OnboardingPopup />
+              <FloatingWhatsApp />
             </AnimationProvider>
           </WishlistProvider>
         </CartProvider>
