@@ -101,7 +101,7 @@ export default function CuratedCollections() {
   return (
     <section
       ref={ref}
-      className="py-20 sm:py-28 lg:py-32"
+      className="py-12 sm:py-16 lg:py-20"
       style={{
         background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
       }}
@@ -211,12 +211,6 @@ export default function CuratedCollections() {
                         >
                           {item.title}
                         </h3>
-                        <p
-                          className="font-sans text-[11px] sm:text-[12px] text-white/70 mb-3"
-                          style={{ textShadow: "0 1px 4px rgba(0,0,0,0.2)" }}
-                        >
-                          {item.tagline}
-                        </p>
 
                         {/* CTA */}
                         <div className="flex items-center gap-1.5">

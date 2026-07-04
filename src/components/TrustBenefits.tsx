@@ -373,7 +373,7 @@ export default function TrustBenefits() {
         }}
       />
 
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24 sm:py-32 lg:py-40">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-12 sm:py-16 lg:py-20">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
