@@ -25,24 +25,24 @@ interface GalleryTile {
 
 const TILES: GalleryTile[] = [
   // Column 0
-  { id: "t1",  src: "/images/community/tile-01.jpg", alt: "Customer wearing gold necklace",       delay: 0,   col: 0 },
-  { id: "t2",  src: "/images/community/tile-02.jpg", alt: "Close-up earrings detail",             delay: 2.5, col: 0 },
-  { id: "t3",  src: "/images/community/tile-03.jpg", alt: "Festive celebration moment",           delay: 1.0, col: 0 },
+  { id: "t1", src: "/images/community/tile-01.jpg", alt: "Customer wearing gold necklace", delay: 0, col: 0 },
+  { id: "t2", src: "/images/community/tile-02.jpg", alt: "Close-up earrings detail", delay: 2.5, col: 0 },
+  { id: "t3", src: "/images/community/tile-03.jpg", alt: "Festive celebration moment", delay: 1.0, col: 0 },
   // Column 1
-  { id: "t4",  src: "/images/community/tile-04.jpg", alt: "Wedding jewellery styling",            delay: 1.2, col: 1 },
-  { id: "t5",  src: "/images/community/tile-05.jpg", alt: "Gold bangles close-up",                delay: 3.0, col: 1 },
-  { id: "t6",  src: "/images/community/tile-06.jpg", alt: "Gifting moment",                       delay: 0.5, col: 1 },
+  { id: "t4", src: "/images/community/tile-04.jpg", alt: "Wedding jewellery styling", delay: 1.2, col: 1 },
+  { id: "t5", src: "/images/community/tile-05.jpg", alt: "Gold bangles close-up", delay: 3.0, col: 1 },
+  { id: "t6", src: "/images/community/tile-06.jpg", alt: "Gifting moment", delay: 0.5, col: 1 },
   // Column 2
-  { id: "t7",  src: "/images/community/tile-07.jpg", alt: "Bridal portrait with necklace",        delay: 0.8, col: 2 },
-  { id: "t8",  src: "/images/community/tile-08.jpg", alt: "Craftsmanship close-up",               delay: 2.0, col: 2 },
+  { id: "t7", src: "/images/community/tile-07.jpg", alt: "Bridal portrait with necklace", delay: 0.8, col: 2 },
+  { id: "t8", src: "/images/community/tile-08.jpg", alt: "Craftsmanship close-up", delay: 2.0, col: 2 },
   // Column 3
-  { id: "t9",  src: "/images/community/tile-09.jpg", alt: "Elegant lifestyle moment",             delay: 1.5, col: 3 },
-  { id: "t10", src: "/images/community/tile-10.jpg", alt: "Ring styling",                         delay: 3.5, col: 3 },
-  { id: "t11", src: "/images/community/tile-11.jpg", alt: "Customer unboxing",                    delay: 0.3, col: 3 },
+  { id: "t9", src: "/images/community/tile-09.jpg", alt: "Elegant lifestyle moment", delay: 1.5, col: 3 },
+  { id: "t10", src: "/images/community/tile-10.jpg", alt: "Ring styling", delay: 3.5, col: 3 },
+  { id: "t11", src: "/images/community/tile-11.jpg", alt: "Customer unboxing", delay: 0.3, col: 3 },
   // Column 4
-  { id: "t12", src: "/images/community/tile-12.jpg", alt: "Smiling customer with pendant",        delay: 2.2, col: 4 },
-  { id: "t13", src: "/images/community/tile-13.jpg", alt: "Diamond ring close-up",                delay: 0.7, col: 4 },
-  { id: "t14", src: "/images/community/tile-14.jpg", alt: "Wedding celebration",                  delay: 1.8, col: 4 },
+  { id: "t12", src: "/images/community/tile-12.jpg", alt: "Smiling customer with pendant", delay: 2.2, col: 4 },
+  { id: "t13", src: "/images/community/tile-13.jpg", alt: "Diamond ring close-up", delay: 0.7, col: 4 },
+  { id: "t14", src: "/images/community/tile-14.jpg", alt: "Wedding celebration", delay: 1.8, col: 4 },
 ];
 
 /* ── Floating particle component ── */
@@ -194,7 +194,13 @@ export default function CommunityStories() {
           }}
         />
 
-
+        {/* ── Top gradient blend into previous section ── */}
+        <div
+          className="absolute inset-x-0 top-0 h-24 z-[4] pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, #FDFAF5 0%, rgba(15,11,8,0.9) 70%, transparent 100%)",
+          }}
+        />
 
         {/* ── Bottom gradient blend into footer ── */}
         <div
@@ -230,13 +236,7 @@ export default function CommunityStories() {
           {/* Glassmorphic panel */}
           <div
             className="relative rounded-2xl overflow-hidden px-8 py-12 sm:px-12 sm:py-16"
-            style={{
-              background: "rgba(15,11,8,0.45)",
-              backdropFilter: "blur(20px) saturate(1.2)",
-              WebkitBackdropFilter: "blur(20px) saturate(1.2)",
-              border: "1px solid rgba(203,161,53,0.12)",
-              boxShadow: "0 8px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(203,161,53,0.05) inset",
-            }}
+
           >
             {/* Decorative top accent */}
             <div className="flex justify-center mb-6">
