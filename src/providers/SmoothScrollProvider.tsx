@@ -1,7 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import Lenis from "lenis";
+
+/* ═══════════════════════════════════════════
+   SMOOTH SCROLL PROVIDER
+   Provides a Lenis instance for smooth page
+   scrolling, with stop/start exposed via context
+   so overlays (drawers, modals) can lock scrolling.
+   ═══════════════════════════════════════════ */
+
+const LenisContext = createContext<{ stop: () => void; start: () => void }>({
+  stop: () => {},
+  start: () => {},
+});
+
+export function useLenis() {
+  return useContext(LenisContext);
+}
 
 export function SmoothScrollProvider({
   children,
@@ -32,5 +48,14 @@ export function SmoothScrollProvider({
     };
   }, []);
 
-  return <>{children}</>;
+  const controls = {
+    stop: () => lenisRef.current?.stop(),
+    start: () => lenisRef.current?.start(),
+  };
+
+  return (
+    <LenisContext.Provider value={controls}>
+      {children}
+    </LenisContext.Provider>
+  );
 }

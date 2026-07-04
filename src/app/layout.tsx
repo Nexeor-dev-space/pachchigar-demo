@@ -23,7 +23,10 @@ import { AnimationProvider } from "@/providers/AnimationProvider";
 import { CartProvider } from "@/providers/CartProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
 import AnimationToggle from "@/components/AnimationToggle";
+<<<<<<< HEAD
 import { AuthProvider } from "@/providers/AuthProvider";
+=======
+>>>>>>> origin/current
 import OnboardingPopup from "@/components/OnboardingPopup";
 
 export default function RootLayout({
