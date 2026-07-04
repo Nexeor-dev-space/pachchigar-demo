@@ -62,7 +62,7 @@ export default function SignatureWorlds() {
   return (
     <section
       ref={ref}
-      className="py-20 sm:py-28 lg:py-36"
+      className="py-12 sm:py-16 lg:py-20"
       style={{
         background:
           "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
