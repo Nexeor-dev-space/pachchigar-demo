@@ -409,12 +409,12 @@ export default function CinematicShowcase() {
           {/* Section header */}
           <div className="text-center px-6 pt-16 pb-6">
             <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-            <span className="section-label mb-3">The Collection</span>
+            <span className="section-label mb-3">Featured Highlights</span>
             <h2 className="heading-xl mb-4">
-              Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+              Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
             </h2>
             <p className="body-m max-w-sm mx-auto">
-              Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
+              Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
             </p>
           </div>
 
@@ -487,12 +487,12 @@ export default function CinematicShowcase() {
               {/* Section header (floating phase) */}
               <div ref={headerRef} className="absolute top-[6vh] sm:top-[8vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
                 <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-                <span className="section-label mb-3">The Collection</span>
+                <span className="section-label mb-3">Featured Highlights</span>
                 <h2 className="heading-xl mb-4">
-                  Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+                  Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
                 </h2>
                 <p className="body-m max-w-md mx-auto">
-                  Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
+                  Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
                 </p>
               </div>
 
@@ -556,12 +556,12 @@ export default function CinematicShowcase() {
           <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24">
             <div className="mb-12 text-center flex flex-col items-center">
               <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-              <span className="section-label mb-3">The Collection</span>
+              <span className="section-label mb-3">Featured Highlights</span>
               <h2 className="heading-xl mb-4">
-                Curated with care.<br /><span className="font-normal">Crafted with soul.</span>
+                Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
               </h2>
               <p className="body-m max-w-md mx-auto">
-                Each piece carries the weight of heritage and the lightness of modern design. A harmony of tradition and contemporary elegance.
+                Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
               </p>
             </div>
             <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>

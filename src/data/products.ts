@@ -457,8 +457,8 @@ export const PRODUCTS: ProductData[] = [
 
 /* ── Backward-compatible exports for CinematicShowcase ── */
 export const ANIMATED_PRODUCTS = PRODUCTS.slice(0, 3);
-export const STATIC_PRODUCTS = PRODUCTS.slice(3);
-export const ALL_PRODUCTS = PRODUCTS;
+export const STATIC_PRODUCTS: ProductData[] = []; // Removed — only 3 featured items shown
+export const ALL_PRODUCTS = PRODUCTS.slice(0, 3); // Only the 3 featured highlights
 
 /** Find a product by its URL slug */
 export function getProductBySlug(slug: string): ProductData | undefined {
