@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ═══════════════════════════════════════════
    FLOATING WHATSAPP BUTTON
    Premium chat support button fixed to the
-   bottom-right corner. Auto-adjusts position
-   on PLP pages where the mobile action bar
-   is present.
+   bottom-right corner. On mobile PLP pages,
+   sits above the Categories/Sort/Filter bar.
    ═══════════════════════════════════════════ */
 
 /* ── Configuration ── */
@@ -21,9 +21,12 @@ const WHATSAPP_CONFIG = {
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_CONFIG.phoneNumber}?text=${encodeURIComponent(WHATSAPP_CONFIG.defaultMessage)}`;
 
 export default function FloatingWhatsApp() {
+  const pathname = usePathname();
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipDismissed, setTooltipDismissed] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const isPLPPage = pathname.startsWith("/collections");
 
   useEffect(() => {
     setMounted(true);
@@ -44,11 +47,7 @@ export default function FloatingWhatsApp() {
 
   return (
     <div
-      className="fixed z-[180]"
-      style={{
-        right: "20px",
-        bottom: "24px",
-      }}
+      className={`fixed z-[180] right-5 bottom-6 ${isPLPPage ? "max-lg:bottom-[80px]" : ""}`}
     >
       {/* ── Tooltip ── */}
       <AnimatePresence>
