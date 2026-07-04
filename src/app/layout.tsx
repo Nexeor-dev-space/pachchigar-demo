@@ -23,6 +23,7 @@ import { AnimationProvider } from "@/providers/AnimationProvider";
 import { CartProvider } from "@/providers/CartProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
 import AnimationToggle from "@/components/AnimationToggle";
+import OnboardingPopup from "@/components/OnboardingPopup";
 
 export default function RootLayout({
   children,
@@ -43,6 +44,7 @@ export default function RootLayout({
                 <Footer />
               </SmoothScrollProvider>
               <AnimationToggle />
+              <OnboardingPopup />
             </AnimationProvider>
           </WishlistProvider>
         </CartProvider>
