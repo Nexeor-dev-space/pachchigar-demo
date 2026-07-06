@@ -106,7 +106,7 @@ export default function CuratedCollections() {
         background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
       }}
     >
-      <div className="max-w-[1380px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-14">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}

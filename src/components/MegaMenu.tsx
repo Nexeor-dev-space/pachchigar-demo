@@ -112,7 +112,7 @@ export default function MegaMenu({ panel, onClose }: MegaMenuProps) {
             "0 16px 56px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
         }}
       >
-        <div className="max-w-[1440px] mx-auto px-8 lg:px-12 xl:px-14 py-7 pb-8">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 py-7 pb-8">
           <div className="flex gap-0">
             {/* ═══════════════════════════════════
                LEFT — Text Columns

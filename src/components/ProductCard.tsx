@@ -85,9 +85,9 @@ export default function ProductCard({ product }: { product: ProductData }) {
     window.open(VIDEO_CALL_URL, "_blank", "noopener,noreferrer");
   }, []);
 
+  /* Grid cell — defines the space this card occupies.
+     `hover:z-30` raises the whole card above neighbours. */
   return (
-    /* Grid cell — defines the space this card occupies.
-       `hover:z-30` raises the whole card above neighbours. */
     <div className="relative group/card hover:z-30">
       {/* ── Spacer: holds the grid cell height (image + info + mobile CTA) ── */}
       <div className="invisible">

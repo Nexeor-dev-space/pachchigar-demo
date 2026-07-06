@@ -171,7 +171,7 @@ export default function HeroBanner() {
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
             className="absolute inset-0 z-10 flex items-center pointer-events-none"
           >
-            <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
+            <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
               <motion.div
                 className="w-full flex flex-col items-center justify-center pointer-events-auto relative"
                 variants={containerVariants}

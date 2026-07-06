@@ -108,7 +108,7 @@ export default function ConfiguratorPage({
     >
       {/* ── Top Bar ── */}
       <div className="pt-24 sm:pt-28 pb-4 sm:pb-6">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           <div className="flex items-center justify-between">
             <Link
               href={`/products/${product.slug}`}
@@ -131,7 +131,7 @@ export default function ConfiguratorPage({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           <div
             className="mx-auto mb-5"
             style={{
@@ -153,7 +153,7 @@ export default function ConfiguratorPage({
 
       {/* ── Configurator Layout ── */}
       <section className="pb-24 sm:pb-32">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16">
             {/* ── Left: Live Preview ── */}
             <motion.div

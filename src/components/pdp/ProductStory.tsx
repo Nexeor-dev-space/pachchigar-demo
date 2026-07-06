@@ -26,7 +26,7 @@ export default function ProductStory({ product }: { product: ProductData }) {
         background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
       }}
     >
-      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-14 sm:py-20">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 py-14 sm:py-20">
         {/* ── Section Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}

@@ -191,7 +191,7 @@ export default function CollectionPage({
             HEADER SECTION — Breadcrumb + Title + Sort
             ════════════════════════════════════════════ */}
         <section className="pt-28 sm:pt-32 pb-0">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-14">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
             {/* Breadcrumb */}
             <motion.nav
               initial={{ opacity: 0, y: 8 }}
@@ -241,7 +241,7 @@ export default function CollectionPage({
             MAIN CONTENT — Sidebar + Product Grid
             ════════════════════════════════════════════ */}
         <section className="pb-24 sm:pb-32">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-10 xl:px-14 pt-6 lg:pt-8">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 pt-6 lg:pt-8">
             <div className="flex items-start gap-8 xl:gap-10">
               {/* ── Left: Filter Sidebar (desktop) ── */}
               <FilterSidebar
