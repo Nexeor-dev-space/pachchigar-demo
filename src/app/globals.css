@@ -816,7 +816,9 @@ body {
 
 /* ── Gallery — Oka-style ── */
 .pdp-gallery {
-  position: relative;
+  position: sticky;
+  top: 120px;
+  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -889,8 +891,6 @@ body {
 
 /* ── Product Info (Sticky) ── */
 .pdp-info {
-  position: sticky;
-  top: 120px;
   align-self: start;
 }
 
@@ -1174,7 +1174,7 @@ body {
     padding: 32px clamp(20px, 4vw, 48px) 60px;
   }
 
-  .pdp-info {
+  .pdp-gallery {
     top: 100px;
   }
 }
@@ -1190,7 +1190,7 @@ body {
     padding: 80px 20px 0;
   }
 
-  .pdp-info {
+  .pdp-gallery {
     position: static;
   }
 
