@@ -487,7 +487,7 @@ export default function CinematicShowcase() {
               </div>
 
               {/* Grid header (card phase) — left position set by GSAP to match grid */}
-              <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(24px, 5vw, 80px)", opacity: 0 }}>
+              <div ref={gridHeaderRef} className="absolute z-30 pointer-events-none" style={{ top: "3%", left: "clamp(16px, 2vw, 32px)", opacity: 0 }}>
                 <div style={{ width: 36, height: 1, background: "linear-gradient(90deg, #CBA135, transparent)", opacity: 0.4, marginBottom: 12 }} />
                 <span className="section-label mb-1.5 !text-wine/60">Explore</span>
                 <h3 className="heading-m">Our Collection</h3>
@@ -527,7 +527,7 @@ export default function CinematicShowcase() {
             <div
               ref={staticGridRef}
               className="relative w-full"
-              style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
+              style={{ paddingLeft: "clamp(16px, 2vw, 32px)", paddingRight: "clamp(16px, 2vw, 32px)" }}
             >
               <div className="pb-8 sm:pb-10">
                 <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
@@ -541,7 +541,7 @@ export default function CinematicShowcase() {
             </div>
           </>
         ) : (
-          <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-16 sm:py-20 lg:py-24">
+          <div className="relative w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 py-16 sm:py-20 lg:py-24">
             <div className="mb-10 text-center flex flex-col items-center">
               <div className="mx-auto mb-4" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
               <span className="section-label mb-2">Featured Highlights</span>

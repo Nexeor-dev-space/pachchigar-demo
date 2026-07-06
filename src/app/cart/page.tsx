@@ -34,7 +34,7 @@ export default function CartPage() {
       }}
     >
       <section className="pt-32 sm:pt-40 pb-24 sm:pb-32">
-        <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}

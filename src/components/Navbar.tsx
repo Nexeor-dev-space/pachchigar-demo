@@ -149,7 +149,7 @@ export default function Navbar() {
            ROW 1 — Brand · Search · Utility Icons
            ═══════════════════════════════════════════ */}
         <div className="navbar-row-1">
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-[60px] md:h-[64px]">
 
               {/* ── LEFT: Mobile Menu + Logo ── */}
@@ -256,7 +256,7 @@ export default function Navbar() {
            ROW 2 — Navigation Links (Desktop/Tablet)
            ═══════════════════════════════════════════ */}
         <div className="navbar-row-2 hidden md:block">
-          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
             <nav className="flex items-center justify-center gap-4 lg:gap-6 xl:gap-8 h-[44px]">
               {navLinks.map((link) => {
                 const hasMega = !!getMegaMenuPanel(link.label);
