@@ -7,6 +7,7 @@ import TrustAssurance from "@/components/pdp/TrustAssurance";
 import ShowroomSection from "@/components/pdp/ShowroomSection";
 import RelatedProducts from "@/components/pdp/RelatedProducts";
 import CustomizationCTA from "@/components/pdp/CustomizationCTA";
+import MobileStickyCart from "@/components/pdp/MobileStickyCart";
 
 /* ══════════════════════════════════════════════
    PRODUCT DETAIL PAGE
@@ -65,6 +66,12 @@ export default function ProductDetailPage({
 
       {/* ── Bespoke CTA ── */}
       <CustomizationCTA />
+
+      {/* ── Bottom spacer for mobile sticky cart ── */}
+      <div className="pdp-mobile-bottom-spacer" />
+
+      {/* ── Mobile Sticky Add to Cart ── */}
+      <MobileStickyCart product={product} />
     </main>
   );
 }

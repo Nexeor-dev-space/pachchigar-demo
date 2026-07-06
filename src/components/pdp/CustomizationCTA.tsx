@@ -29,7 +29,7 @@ export default function CustomizationCTA() {
         }}
       />
 
-      <div className="relative max-w-[720px] mx-auto px-6 sm:px-10 py-28 sm:py-36 text-center">
+      <div className="relative max-w-[720px] mx-auto px-6 sm:px-10 py-16 sm:py-22 text-center">
         {/* Gold decorative line */}
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}

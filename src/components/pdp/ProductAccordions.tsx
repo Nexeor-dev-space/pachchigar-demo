@@ -169,13 +169,13 @@ export default function ProductAccordions({ product }: { product: ProductData })
         borderTop: "1px solid rgba(203,161,53,0.06)",
       }}
     >
-      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24 sm:py-28">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-14 sm:py-18">
         {/* ── Section Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-14 sm:mb-16"
+          className="text-center mb-8 sm:mb-10"
         >
           <div
             className="mx-auto mb-5"

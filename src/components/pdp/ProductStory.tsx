@@ -26,13 +26,13 @@ export default function ProductStory({ product }: { product: ProductData }) {
         background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
       }}
     >
-      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24 sm:py-32">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-14 sm:py-20">
         {/* ── Section Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-10 sm:mb-14"
         >
           <div
             className="mx-auto mb-6"

@@ -21,6 +21,8 @@ import { useWishlist } from "@/providers/WishlistProvider";
    overlay (absolute) — no grid shift.
    ═══════════════════════════════════════════ */
 
+const VIDEO_CALL_URL = "https://calendly.com/pachchigarandsonsonline/book-video-call-clone";
+
 export default function ProductCard({ product }: { product: ProductData }) {
   const { addToCart, isInCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -78,20 +80,24 @@ export default function ProductCard({ product }: { product: ProductData }) {
     },
     [gallery.length]
   );
-  const tryHome = useCallback((e: React.MouseEvent) => stop(e), []);
-  const videoCall = useCallback((e: React.MouseEvent) => stop(e), []);
+  const handleVideoCall = useCallback((e: React.MouseEvent) => {
+    stop(e);
+    window.open(VIDEO_CALL_URL, "_blank", "noopener,noreferrer");
+  }, []);
 
   return (
     /* Grid cell — defines the space this card occupies.
        `hover:z-30` raises the whole card above neighbours. */
     <div className="relative group/card hover:z-30">
-      {/* ── Spacer: holds the grid cell height (image + info) ── */}
+      {/* ── Spacer: holds the grid cell height (image + info + mobile CTA) ── */}
       <div className="invisible">
         <div style={{ paddingBottom: "100%" }} />
         <div className="px-4 pt-3 pb-4">
           <div className="h-[18px]" />
           <div className="h-[16px] mt-1" />
         </div>
+        {/* Mobile CTA spacer — matches the always-visible button height */}
+        <div className="lg:hidden h-[52px]" />
       </div>
 
       {/* ── Actual Card: absolute, overlays downward on hover ── */}
@@ -210,53 +216,46 @@ export default function ProductCard({ product }: { product: ProductData }) {
               </div>
             </div>
 
-            {/* ═══ HOVER ACTION BAR (integrated inside card) ═══
-                Desktop: fades in within the card border.
-                Zero height when hidden → auto when visible.
-                Seamlessly part of the card, not a detached panel. */}
+            {/* ═══ DESKTOP: Hover-only "Try Video Call" CTA ═══
+                Slides up + fades in within the card border.
+                Pill-shaped filled burgundy button. */}
             <div
-              className="hidden lg:block overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-h-0 opacity-0 group-hover/card:max-h-[52px] group-hover/card:opacity-100"
+              className="hidden lg:block overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] max-h-0 opacity-0 group-hover/card:max-h-[56px] group-hover/card:opacity-100"
             >
-              <div className="flex items-center gap-2 px-4 pb-3.5 pt-0.5">
-                {/* Try at Home */}
+              <div className="px-4 pb-3.5 pt-0.5">
                 <button
-                  onClick={tryHome}
-                  className="flex-1 h-[32px] rounded-full font-sans text-[10px] font-semibold tracking-[0.06em] uppercase transition-all duration-250 text-[#2D241E] border-[1.5px] border-[#2D241E]/15 hover:border-[#2D241E]/50 hover:bg-[#2D241E]/[0.04]"
-                >
-                  Try at Home
-                </button>
-
-                {/* Video */}
-                <button
-                  onClick={videoCall}
-                  aria-label="Video consultation"
-                  className="flex-shrink-0 w-[32px] h-[32px] rounded-full flex items-center justify-center transition-all duration-250 text-[#2D241E] border-[1.5px] border-[#2D241E]/15 hover:border-[#2D241E]/50 hover:bg-[#2D241E]/[0.04]"
+                  onClick={handleVideoCall}
+                  className="w-full h-[36px] rounded-full flex items-center justify-center gap-2 font-sans text-[10.5px] font-semibold tracking-[0.08em] uppercase transition-all duration-250 hover:-translate-y-px active:translate-y-0"
+                  style={{
+                    color: "#5E2E36",
+                    border: "1.5px solid rgba(94,46,54,0.2)",
+                    background: "rgba(94,46,54,0.02)",
+                  }}
                 >
                   <Video size={13} strokeWidth={1.8} />
+                  Try Video Call
                 </button>
               </div>
             </div>
+            {/* ═══ MOBILE: Always-visible "Try Video Call" CTA ═══
+                Full-width outlined pill inside the card,
+                below product info with proper spacing. */}
+            <div className="lg:hidden px-3 pt-1 pb-3">
+              <button
+                onClick={handleVideoCall}
+                className="w-full h-[40px] rounded-full flex items-center justify-center gap-2 font-sans text-[10px] font-semibold tracking-[0.06em] uppercase transition-all duration-200 active:scale-[0.98]"
+                style={{
+                  color: "#5E2E36",
+                  border: "1.5px solid rgba(94,46,54,0.2)",
+                  background: "rgba(94,46,54,0.02)",
+                }}
+              >
+                <Video size={13} strokeWidth={1.8} />
+                Try Video Call
+              </button>
+            </div>
           </div>
         </Link>
-
-        {/* ═══ MOBILE: Always-visible actions ═══ */}
-        <div className="lg:hidden flex items-center gap-2 px-3 pt-2 pb-1">
-          <button
-            onClick={tryHome}
-            className="flex-1 h-[32px] rounded-full font-sans text-[10px] font-semibold tracking-[0.06em] uppercase"
-            style={{ color: "#2D241E", border: "1.5px solid rgba(45,36,30,0.13)" }}
-          >
-            Try at Home
-          </button>
-          <button
-            onClick={videoCall}
-            aria-label="Video consultation"
-            className="w-[32px] h-[32px] rounded-full flex items-center justify-center"
-            style={{ color: "#2D241E", border: "1.5px solid rgba(45,36,30,0.13)" }}
-          >
-            <Video size={13} strokeWidth={1.8} />
-          </button>
-        </div>
       </div>
     </div>
   );
