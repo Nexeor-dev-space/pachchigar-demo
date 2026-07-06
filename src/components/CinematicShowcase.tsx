@@ -98,7 +98,7 @@ export default function CinematicShowcase() {
     const cx = vw / 2;
     const offsets = [-0.4, 0, 0.4];
     const baseSize = Math.min(vw * 0.26, 360);
-    return ANIMATED_PRODUCTS.map((_, i) => ({ x: cx + offsets[i] * spread, y: vh * 0.56, size: baseSize }));
+    return ANIMATED_PRODUCTS.map((_, i) => ({ x: cx + offsets[i] * spread, y: vh * 0.42, size: baseSize }));
   }, []);
 
   /* ── Compute grid layout mathematically ──
@@ -398,13 +398,13 @@ export default function CinematicShowcase() {
         <div ref={mobileShowcaseRef} className="relative">
           {/* Section header */}
           <div className="text-center px-6 pt-16 pb-6">
-            <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-            <span className="section-label mb-3">Featured Highlights</span>
-            <h2 className="heading-xl mb-4">
-              Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
+            <div className="mx-auto mb-4" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+            <span className="section-label mb-2">Featured Highlights</span>
+            <h2 className="heading-xl mb-3">
+              Handpicked for you. <span className="font-normal">Crafted with soul.</span>
             </h2>
-            <p className="body-m max-w-sm mx-auto">
-              Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
+            <p className="body-m max-w-lg mx-auto">
+              Discover our latest arrivals and carefully selected jewellery pieces.
             </p>
           </div>
 
@@ -475,14 +475,14 @@ export default function CinematicShowcase() {
               <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 35% 40%, rgba(203,161,53,0.025) 0%, transparent 55%)" }} />
 
               {/* Section header (floating phase) */}
-              <div ref={headerRef} className="absolute top-[6vh] sm:top-[8vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
-                <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-                <span className="section-label mb-3">Featured Highlights</span>
-                <h2 className="heading-xl mb-4">
-                  Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
+              <div ref={headerRef} className="absolute top-[6vh] sm:top-[7vh] left-0 right-0 z-30 text-center pointer-events-none px-6">
+                <div className="mx-auto mb-4" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+                <span className="section-label mb-2">Featured Highlights</span>
+                <h2 className="heading-xl mb-3">
+                  Handpicked for you. <span className="font-normal">Crafted with soul.</span>
                 </h2>
-                <p className="body-m max-w-md mx-auto">
-                  Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
+                <p className="body-m max-w-lg mx-auto">
+                  Discover our latest arrivals and carefully selected jewellery pieces.
                 </p>
               </div>
 
@@ -529,7 +529,7 @@ export default function CinematicShowcase() {
               className="relative w-full"
               style={{ paddingLeft: "clamp(24px, 5vw, 80px)", paddingRight: "clamp(24px, 5vw, 80px)" }}
             >
-              <div className="pb-20 sm:pb-28">
+              <div className="pb-8 sm:pb-10">
                 <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>
                   {STATIC_PRODUCTS.map((product) => (
                     <div key={product.id} className="static-card-item">
@@ -542,14 +542,14 @@ export default function CinematicShowcase() {
           </>
         ) : (
           <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-16 sm:py-20 lg:py-24">
-            <div className="mb-12 text-center flex flex-col items-center">
-              <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
-              <span className="section-label mb-3">Featured Highlights</span>
-              <h2 className="heading-xl mb-4">
-                Handpicked for you.<br /><span className="font-normal">Crafted with soul.</span>
+            <div className="mb-10 text-center flex flex-col items-center">
+              <div className="mx-auto mb-4" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
+              <span className="section-label mb-2">Featured Highlights</span>
+              <h2 className="heading-xl mb-3">
+                Handpicked for you. <span className="font-normal">Crafted with soul.</span>
               </h2>
-              <p className="body-m max-w-md mx-auto">
-                Discover our latest arrivals and carefully selected jewellery pieces, crafted to celebrate every occasion with timeless elegance.
+              <p className="body-m max-w-lg mx-auto">
+                Discover our latest arrivals and carefully selected jewellery pieces.
               </p>
             </div>
             <div className="grid grid-cols-3" style={{ gap: GRID_GAP }}>

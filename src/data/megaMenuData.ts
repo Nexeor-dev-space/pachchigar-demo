@@ -46,6 +46,73 @@ const PRICE_LINKS = (base: string): MegaMenuLink[] => [
 export const MEGA_MENU_PANELS: MegaMenuPanel[] = [
 
   /* ════════════════════════════════════════
+     GOLD
+     ════════════════════════════════════════ */
+  {
+    key: "GOLD",
+    columns: [
+      {
+        heading: "Shop by Category",
+        links: [
+          { label: "All Gold Jewellery", href: "/collections?metal=gold" },
+          { label: "Gold Earrings", href: "/collections/earrings?stone=gold" },
+          { label: "Gold Rings", href: "/collections/rings?stone=gold" },
+          { label: "Gold Nose Pins", href: "/collections?metal=gold&type=nose-pins" },
+          { label: "Gold Coins", href: "/collections?metal=gold&type=coins" },
+        ],
+      },
+      {
+        heading: "Wrist & Arms",
+        links: [
+          { label: "Gold Bangles", href: "/collections/bracelets-bangles?type=bangles" },
+          { label: "Gold Bracelets", href: "/collections/bracelets-bangles?type=gold" },
+          { label: "Gold Kadas", href: "/collections/bracelets-bangles?type=heritage-bangles" },
+          { label: "Bridal Bangles", href: "/collections/bracelets-bangles?type=bridal-bangles" },
+        ],
+      },
+      {
+        heading: "Neckline",
+        links: [
+          { label: "Gold Necklaces", href: "/collections/necklaces-pendants?type=gold-necklaces" },
+          { label: "Gold Pendants", href: "/collections/necklaces-pendants?metal=yellow-gold" },
+          { label: "Gold Chains", href: "/collections/necklaces-pendants?type=chains" },
+          { label: "Mangalsutras", href: "/collections/necklaces-pendants?type=mangalsutra" },
+        ],
+      },
+      {
+        heading: "Heritage",
+        links: [
+          { label: "Bridal Jewellery", href: "/collections?occasion=bridal&metal=gold" },
+          { label: "Temple Jewellery", href: "/collections?style=heritage&metal=gold" },
+          { label: "Kundan Gold", href: "/collections?style=heritage&metal=gold&type=kundan" },
+          { label: "Antique Gold", href: "/collections?style=heritage&metal=gold&type=antique" },
+          { label: "Men's Gold", href: "/collections?metal=gold&gender=men" },
+        ],
+      },
+    ],
+    editorial: [
+      {
+        image: "/images/collections/bangles-heritage.png",
+        alt: "Heritage gold bangles — Pachchigar & Sons",
+        label: "Heritage",
+        heading: "Crafted For Generations",
+        description: "Timeless gold designs inspired by centuries of tradition.",
+        cta: "Explore Heritage →",
+        ctaHref: "/collections?metal=gold&style=heritage",
+      },
+      {
+        image: "/images/collections/necklaces-bridal-haar.png",
+        alt: "Bridal gold necklace — Pachchigar & Sons",
+        label: "Bridal",
+        heading: "Just Launched",
+        description: "New bridal gold collection for your perfect day.",
+        cta: "Shop New →",
+        ctaHref: "/collections?metal=gold&occasion=bridal",
+      },
+    ],
+  },
+
+  /* ════════════════════════════════════════
      NECKLACES & PENDANT
      ════════════════════════════════════════ */
   {
@@ -471,6 +538,88 @@ export const MEGA_MENU_PANELS: MegaMenuPanel[] = [
         description: "Personal luxury, guided by artisans.",
         cta: "Book Now →",
         ctaHref: "https://calendly.com/pachchigarandsonsonline/30min?back=1",
+      },
+    ],
+  },
+
+  /* ════════════════════════════════════════
+     GIFTING
+     ════════════════════════════════════════ */
+  {
+    key: "GIFTING",
+    columns: [
+      {
+        heading: "By Occasion",
+        links: [
+          { label: "Anniversary Gifts", href: "/collections/gifting?occasion=anniversary" },
+          { label: "Birthday Gifts", href: "/collections/gifting?occasion=birthday" },
+          { label: "Wedding Gifts", href: "/collections/gifting?occasion=wedding" },
+          { label: "Engagement Gifts", href: "/collections/gifting?occasion=engagement" },
+          { label: "Bridal Gifts", href: "/collections/gifting?occasion=bridal" },
+          { label: "Festive Gifts", href: "/collections/gifting?occasion=festive" },
+          { label: "Housewarming Gifts", href: "/collections/gifting?occasion=housewarming" },
+          { label: "Corporate Gifts", href: "/collections/gifting?occasion=corporate" },
+        ],
+      },
+      {
+        heading: "By Price",
+        links: [
+          { label: "Under ₹10,000", href: "/collections/gifting?price=under-10000" },
+          { label: "₹10,000 – ₹25,000", href: "/collections/gifting?price=10000-25000" },
+          { label: "₹25,000 – ₹50,000", href: "/collections/gifting?price=25000-50000" },
+          { label: "₹50,000 – ₹1,00,000", href: "/collections/gifting?price=50000-100000" },
+          { label: "Above ₹1,00,000", href: "/collections/gifting?price=above-100000" },
+        ],
+      },
+      {
+        heading: "Gifting",
+        links: [
+          { label: "Wife", href: "/collections/gifting?for=wife" },
+          { label: "Husband", href: "/collections/gifting?for=husband" },
+          { label: "Mother", href: "/collections/gifting?for=mother" },
+          { label: "Father", href: "/collections/gifting?for=father" },
+          { label: "Daughter", href: "/collections/gifting?for=daughter" },
+          { label: "Son", href: "/collections/gifting?for=son" },
+          { label: "Sister", href: "/collections/gifting?for=sister" },
+          { label: "Brother", href: "/collections/gifting?for=brother" },
+          { label: "Friends", href: "/collections/gifting?for=friends" },
+          { label: "Self", href: "/collections/gifting?for=self" },
+        ],
+      },
+      {
+        heading: "Gift Collections",
+        links: [
+          { label: "Gold Jewellery", href: "/collections/gifting?collection=gold" },
+          { label: "Diamond Jewellery", href: "/collections/gifting?collection=diamond" },
+          { label: "Earrings", href: "/collections/gifting?collection=earrings" },
+          { label: "Rings", href: "/collections/gifting?collection=rings" },
+          { label: "Pendants", href: "/collections/gifting?collection=pendants" },
+          { label: "Bracelets", href: "/collections/gifting?collection=bracelets" },
+          { label: "Bangles", href: "/collections/gifting?collection=bangles" },
+          { label: "Necklaces", href: "/collections/gifting?collection=necklaces" },
+          { label: "Couple Gifts", href: "/collections/gifting?collection=couple" },
+          { label: "Personalized Jewellery", href: "/collections/gifting?collection=personalized" },
+        ],
+      },
+    ],
+    editorial: [
+      {
+        image: "/images/promo/gift-card-promo.png",
+        alt: "Luxury jewellery gift card — premium packaging",
+        label: "Gifting",
+        heading: "Gift Cards",
+        description: "The perfect gift, beautifully presented.",
+        cta: "Shop Gift Cards →",
+        ctaHref: "/collections/gifting?collection=gift-cards",
+      },
+      {
+        image: "/images/promo/gifting-occasion-promo.png",
+        alt: "Celebrate every occasion — luxury jewellery gifting",
+        label: "Celebrate",
+        heading: "Celebrate Every Occasion",
+        description: "Thoughtfully crafted gifts for life's special moments.",
+        cta: "Explore Gifts →",
+        ctaHref: "/collections/gifting",
       },
     ],
   },

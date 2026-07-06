@@ -221,59 +221,43 @@ function EditorialCard({
   const isExternal = card.ctaHref.startsWith("http");
 
   const cardClass =
-    "group/card block relative overflow-hidden rounded-2xl cursor-pointer h-full transition-shadow duration-500 hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)]";
-  const cardStyle = {
-    border: "1px solid rgba(203,161,53,0.1)",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.03)" as const,
-  };
+    "group/card block relative overflow-hidden rounded-xl cursor-pointer h-full";
 
   const inner = (
     <>
-      {/* Image */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{
-          paddingBottom: "75%",
-          background: "#FAF7F2",
-          borderRadius: "16px 16px 0 0",
-        }}
-      >
+      {/* Full-bleed image */}
+      <div className="relative w-full h-full min-h-[200px] overflow-hidden rounded-xl">
         <Image
           src={card.image}
           alt={card.alt}
           fill
-          sizes="200px"
-          className="object-contain p-3 transition-all duration-700 ease-out group-hover/card:scale-[1.04] group-hover/card:brightness-[1.02]"
+          sizes="220px"
+          className="object-cover transition-transform duration-700 ease-out group-hover/card:scale-[1.06]"
         />
-      </div>
 
-        {/* Text */}
-        <div className="px-3.5 py-3" style={{ background: "#FDFBF8" }}>
-          <span
-            className="font-sans text-[7.5px] font-semibold tracking-[0.28em] uppercase block mb-0.5"
-            style={{ color: "#CBA135" }}
-          >
-            {card.label}
-          </span>
+        {/* Bottom gradient overlay */}
+        <div
+          className="absolute inset-0 rounded-xl"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(15,11,8,0.75) 0%, rgba(15,11,8,0.3) 40%, transparent 70%)",
+          }}
+        />
+
+        {/* Title & CTA overlaid at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 p-4">
           <h4
-            className="font-serif text-[13px] leading-tight tracking-[0.01em] mb-0.5"
-            style={{ color: "#2C2A28" }}
+            className="font-serif text-[14px] leading-tight tracking-[0.01em] text-white mb-1.5"
           >
             {card.heading}
           </h4>
-          <p
-            className="font-sans text-[9.5px] tracking-[0.02em] mb-2"
-            style={{ color: "#5A4A42", opacity: 0.6 }}
-          >
-            {card.description}
-          </p>
           <span
-            className="inline-block font-sans text-[8.5px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 group-hover/card:text-[#5E2E36]"
-            style={{ color: "#2C2A28", opacity: 0.65 }}
+            className="inline-block font-sans text-[8.5px] font-semibold tracking-[0.2em] uppercase text-white/70 transition-colors duration-300 group-hover/card:text-[#CBA135]"
           >
             {card.cta}
           </span>
         </div>
+      </div>
     </>
   );
 
@@ -285,7 +269,6 @@ function EditorialCard({
           target="_blank"
           rel="noopener noreferrer"
           className={cardClass}
-          style={cardStyle}
           onClick={onClose}
         >
           {inner}
@@ -294,7 +277,6 @@ function EditorialCard({
         <Link
           href={card.ctaHref}
           className={cardClass}
-          style={cardStyle}
           onClick={onClose}
         >
           {inner}
