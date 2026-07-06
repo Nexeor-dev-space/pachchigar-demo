@@ -20,7 +20,7 @@ export default function ShowroomSection() {
         borderTop: "1px solid rgba(203,161,53,0.06)",
       }}
     >
-      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24 sm:py-32">
+      <div className="max-w-[1320px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-14 sm:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
           {/* ── Left: Editorial Copy ── */}
           <motion.div

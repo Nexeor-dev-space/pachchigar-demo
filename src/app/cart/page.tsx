@@ -159,7 +159,7 @@ export default function CartPage() {
                       </div>
 
                       {/* Quantity + Remove */}
-                      <div className="flex items-center justify-between mt-3 sm:mt-0">
+                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 sm:mt-0">
                         <div
                           className="flex items-center rounded-lg overflow-hidden"
                           style={{
@@ -189,7 +189,10 @@ export default function CartPage() {
                           </button>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        {/* Divider on desktop only */}
+                        <div className="hidden sm:block w-px h-5 bg-[#E2D5C3]/50" />
+
+                        <div className="flex items-center gap-3 sm:gap-4">
                           <button
                             onClick={() => {
                               toggleWishlist({
@@ -210,18 +213,18 @@ export default function CartPage() {
                             aria-label="Move to wishlist"
                           >
                             <Heart
-                              size={14}
+                              size={13}
                               strokeWidth={1.5}
                               fill={isInWishlist(item.id) ? "currentColor" : "none"}
                             />
-                            Move to Wishlist
+                            <span className="hidden xs:inline sm:inline">Move to</span> Wishlist
                           </button>
                           <button
                             onClick={() => removeFromCart(item.id)}
                             className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.04em] text-[#5A4A42]/60 hover:text-[#B94A4A] transition-colors"
                             aria-label="Remove item"
                           >
-                            <Trash2 size={14} strokeWidth={1.5} />
+                            <Trash2 size={13} strokeWidth={1.5} />
                             Remove
                           </button>
                         </div>
