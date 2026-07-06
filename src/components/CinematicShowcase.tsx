@@ -541,7 +541,7 @@ export default function CinematicShowcase() {
             </div>
           </>
         ) : (
-          <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-24">
+          <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-16 sm:py-20 lg:py-24">
             <div className="mb-12 text-center flex flex-col items-center">
               <div className="mx-auto mb-5" style={{ width: 48, height: 1, background: "linear-gradient(90deg, transparent, #CBA135, transparent)", opacity: 0.5 }} />
               <span className="section-label mb-3">Featured Highlights</span>
