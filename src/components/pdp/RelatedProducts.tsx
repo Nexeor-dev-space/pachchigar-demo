@@ -53,7 +53,7 @@ export default function RelatedProducts({ currentProductId }: { currentProductId
   const others = ALL_PRODUCTS.filter(
     (p) => p.id !== currentProductId && p.category !== currentProduct?.category
   );
-  const related = [...sameCategory, ...others].slice(0, 3);
+  const related = [...sameCategory, ...others].slice(0, 5);
 
   return (
     <section
@@ -84,8 +84,8 @@ export default function RelatedProducts({ currentProductId }: { currentProductId
           <h2 className="heading-l mt-3">You May Also Like</h2>
         </motion.div>
 
-        {/* ── Product Grid — 3 Columns ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
+        {/* ── Product Grid — 5 Columns ── */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
           {related.map((product, i) => (
             <motion.div
               key={product.id}

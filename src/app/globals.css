@@ -770,7 +770,7 @@ body {
 
 /* ── Breadcrumb ── */
 .pdp-breadcrumb {
-  padding: 100px clamp(16px, 2vw, 32px) 0;
+  padding: 16px clamp(20px, 3vw, 48px) 0;
   max-width: 1920px;
   margin: 0 auto;
 }
@@ -806,11 +806,11 @@ body {
 /* ── Main Grid ── */
 .pdp-hero-grid {
   display: grid;
-  grid-template-columns: 57% 43%;
+  grid-template-columns: 1fr 1.3fr;
   max-width: 1920px;
   margin: 0 auto;
-  padding: 32px clamp(16px, 2vw, 32px) 40px;
-  gap: clamp(40px, 5vw, 72px);
+  padding: 32px clamp(20px, 3vw, 48px) 40px;
+  gap: clamp(32px, 4vw, 56px);
   align-items: start;
 }
 
