@@ -8,7 +8,7 @@ import CommunityStories from "@/components/CommunityStories";
 
 export default function Home() {
   return (
-    <main>
+    <main className="flex flex-col">
       <HeroBanner />
       <CinematicShowcase />
       <SignatureWorlds />

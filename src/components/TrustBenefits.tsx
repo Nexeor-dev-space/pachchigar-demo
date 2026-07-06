@@ -341,19 +341,6 @@ export default function TrustBenefits() {
       className="relative overflow-hidden"
       style={{
         background: "#F7F2EB",
-        /* ── PARALLAX REVEAL ARCHITECTURE ──
-           Negative margin pulls this section UP by 30vh, 
-           overlapping the Give Boldly sticky while it's still pinned.
-           z-index: 2 (higher than Give Boldly z-index: 1) means
-           this section slides OVER the fullscreen image — creating
-           the premium "page unfolding" reveal effect. */
-        marginTop: "-30vh",
-        zIndex: 2,
-        position: "relative",
-        /* Rounded top edge — premium "page curling over" feel */
-        borderRadius: "24px 24px 0 0",
-        /* Soft shadow at top edge for depth separation */
-        boxShadow: "0 -20px 60px rgba(0,0,0,0.06)",
       }}
     >
       {/* Subtle top edge line for premium separation */}
@@ -373,7 +360,7 @@ export default function TrustBenefits() {
         }}
       />
 
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-12 sm:py-16 lg:py-20">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-20 py-16 sm:py-20 lg:py-24">
         <motion.div
           variants={staggerContainer}
           initial="hidden"

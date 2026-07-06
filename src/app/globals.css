@@ -274,28 +274,320 @@ body {
 }
 
 /* ═══════════════════════════════════════════
-   GIVE BOLDLY — Rotating Play Button Text
+   GIVE BOLDLY — Edge-to-Edge Premium Split
    ═══════════════════════════════════════════ */
 
-@keyframes spinSlow {
-  from {
-    transform: rotate(0deg);
+/* ── Section: full-width, no outer padding ── */
+.gb-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 600px;
+}
+
+/* ── LEFT: Video / Image Column ── */
+.gb-video-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.gb-video-link {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+}
+
+/* ── Play Button Ripple Rings ── */
+.gb-ripple {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: gbRipple 3s ease-out infinite;
+}
+
+.gb-ripple-2 {
+  animation-delay: 1.5s;
+}
+
+@keyframes gbRipple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(12px);
+/* ── Rotating play button text ── */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── RIGHT: Content Panel ── */
+.gb-content-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #FAF6EF 0%, #F5EFE5 50%, #FAF6EF 100%);
+  padding: clamp(40px, 5vw, 80px) clamp(32px, 5vw, 72px);
+}
+
+.gb-content-inner {
+  max-width: 520px;
+  width: 100%;
+}
+
+/* ── Gold decorative line ── */
+.gb-gold-line {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(90deg, #CBA135, rgba(203,161,53,0.15));
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+/* ── Heading ── */
+.gb-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.15;
+  color: #2D241E;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Description ── */
+.gb-description {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1rem, 1.2vw, 1.12rem);
+  line-height: 1.85;
+  color: #5A4A42;
+  font-weight: 400;
+  margin-bottom: 36px;
+  max-width: 460px;
+}
+
+/* ── Feature Grid ── */
+.gb-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 32px;
+  margin-bottom: 40px;
+}
+
+.gb-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.gb-feature-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(203, 161, 53, 0.06);
+  border: 1px solid rgba(203, 161, 53, 0.1);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-feature-item:hover .gb-feature-icon {
+  background: rgba(203, 161, 53, 0.1);
+  border-color: rgba(203, 161, 53, 0.18);
+  box-shadow: 0 2px 12px rgba(203, 161, 53, 0.08);
+}
+
+.gb-feature-title {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2D241E;
+  letter-spacing: 0.01em;
+  margin-bottom: 2px;
+}
+
+.gb-feature-desc {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.73rem;
+  font-weight: 400;
+  color: #5A4A42;
+  line-height: 1.55;
+  opacity: 0.7;
+}
+
+/* ── CTA Buttons ── */
+.gb-cta-group {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.gb-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: #2D241E;
+  color: #FDFAF5;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #5E2E36 0%, #3D3129 100%);
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-cta-primary:hover::before {
+  opacity: 1;
+}
+
+.gb-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(45, 36, 30, 0.2);
+}
+
+.gb-cta-primary-label {
+  position: relative;
+  z-index: 1;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.gb-cta-primary-arrow {
+  position: relative;
+  z-index: 1;
+  font-size: 1rem;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-cta-primary:hover .gb-cta-primary-arrow {
+  transform: translateX(4px);
+}
+
+.gb-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 36px;
+  background: transparent;
+  color: #2D241E;
+  border: 1px solid #E2D5C3;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-cta-secondary:hover {
+  border-color: #CBA135;
+  background: rgba(203, 161, 53, 0.04);
+  color: #5E2E36;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 1024px) {
+  .gb-section {
+    min-height: 480px;
   }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+
+  .gb-content-col {
+    padding: clamp(32px, 4vw, 56px) clamp(24px, 4vw, 48px);
+  }
+
+  .gb-features {
+    gap: 16px 20px;
+  }
+
+  .gb-video-link {
+    min-height: 420px;
   }
 }
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+  .gb-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .gb-video-link {
+    min-height: 400px;
+    aspect-ratio: 4 / 5;
+  }
+
+  .gb-content-col {
+    padding: 40px 24px 48px;
+  }
+
+  .gb-content-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gb-gold-line {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gb-description {
+    max-width: 100%;
+  }
+
+  .gb-features {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 300px;
+  }
+
+  .gb-feature-item {
+    text-align: left;
+  }
+
+  .gb-cta-group {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .gb-cta-primary,
+  .gb-cta-secondary {
+    width: 100%;
+  }
+}
+
 
 /* ═══════════════════════════════════════════
    MEGA MENU — Link Styles
@@ -823,36 +1115,117 @@ body {
   animation: community-float 18s ease-in-out infinite;
 }
 
-/* Gentle slow zoom on tiles */
+/* ── Slow upward drift on the entire mosaic grid — "living video" feel ── */
+@keyframes community-grid-drift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-40px);
+  }
+}
+
+.community-grid {
+  animation: community-grid-drift 30s ease-in-out infinite alternate;
+}
+
+/* ── Cinematic Ken Burns zoom on tiles — more dramatic ── */
 @keyframes community-tile-zoom {
   0%, 100% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.06);
+    transform: scale(1.08);
   }
 }
 
 .community-tile {
-  animation: community-tile-zoom 20s ease-in-out infinite;
+  animation: community-tile-zoom 18s ease-in-out infinite;
 }
 
-/* Subtle pan effect on tile images */
+/* Vary timing per tile for organic, non-synchronized motion */
+.community-tile:nth-child(odd) {
+  animation-duration: 22s;
+}
+.community-tile:nth-child(3n) {
+  animation-duration: 16s;
+  animation-direction: alternate-reverse;
+}
+
+/* ── Dramatic slow pan on tile images ── */
 @keyframes community-image-pan {
-  0%, 100% {
-    transform: scale(1.08) translate(0, 0);
+  0% {
+    transform: scale(1.1) translate(0, 0);
   }
-  25% {
-    transform: scale(1.12) translate(-1%, -1%);
+  20% {
+    transform: scale(1.15) translate(-1.5%, -1%);
   }
-  50% {
-    transform: scale(1.08) translate(0, -1.5%);
+  40% {
+    transform: scale(1.1) translate(0.5%, -2%);
   }
-  75% {
-    transform: scale(1.12) translate(1%, -0.5%);
+  60% {
+    transform: scale(1.18) translate(1%, -0.5%);
+  }
+  80% {
+    transform: scale(1.12) translate(-0.5%, -1.5%);
+  }
+  100% {
+    transform: scale(1.1) translate(0, 0);
   }
 }
 
 .community-tile-image {
-  animation: community-image-pan 25s ease-in-out infinite;
+  animation: community-image-pan 20s ease-in-out infinite;
 }
+
+.community-tile:nth-child(even) .community-tile-image {
+  animation-duration: 26s;
+  animation-direction: reverse;
+}
+
+/* ── Sweeping diagonal light beam ── */
+@keyframes community-light-sweep {
+  0% {
+    transform: translateX(-100%) rotate(-35deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(250%) rotate(-35deg);
+    opacity: 0;
+  }
+}
+
+.community-light-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.community-light-sweep::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(203, 161, 53, 0.03) 30%,
+    rgba(253, 248, 240, 0.06) 50%,
+    rgba(203, 161, 53, 0.03) 70%,
+    transparent 100%
+  );
+  transform: rotate(-35deg);
+  animation: community-light-sweep 12s ease-in-out infinite;
+  animation-delay: 3s;
+}
+

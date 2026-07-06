@@ -180,8 +180,8 @@ export default function CommunityStories() {
           className="absolute inset-0 z-[2]"
           style={{
             background: `
-              radial-gradient(ellipse 70% 60% at 50% 50%, rgba(15,11,8,0.55) 0%, rgba(15,11,8,0.82) 100%),
-              linear-gradient(180deg, rgba(15,11,8,0.6) 0%, rgba(15,11,8,0.3) 30%, rgba(15,11,8,0.3) 70%, rgba(15,11,8,0.7) 100%)
+              radial-gradient(ellipse 70% 60% at 50% 50%, rgba(15,11,8,0.35) 0%, rgba(15,11,8,0.6) 100%),
+              linear-gradient(180deg, rgba(15,11,8,0.35) 0%, rgba(15,11,8,0.18) 30%, rgba(15,11,8,0.18) 70%, rgba(15,11,8,0.45) 100%)
             `,
           }}
         />
@@ -190,23 +190,18 @@ export default function CommunityStories() {
         <div
           className="absolute inset-0 z-[3] pointer-events-none"
           style={{
-            boxShadow: "inset 0 0 120px 40px rgba(15,11,8,0.7)",
+            boxShadow: "inset 0 0 100px 30px rgba(15,11,8,0.4)",
           }}
         />
 
-        {/* ── Top gradient blend into previous section ── */}
-        <div
-          className="absolute inset-x-0 top-0 h-24 z-[4] pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, #FDFAF5 0%, rgba(15,11,8,0.9) 70%, transparent 100%)",
-          }}
-        />
+        {/* ── Animated light sweep — cinematic video feel ── */}
+        <div className="community-light-sweep" />
 
         {/* ── Bottom gradient blend into footer ── */}
         <div
-          className="absolute inset-x-0 bottom-0 h-20 z-[4] pointer-events-none"
+          className="absolute inset-x-0 bottom-0 h-16 z-[4] pointer-events-none"
           style={{
-            background: "linear-gradient(to top, rgba(15,11,8,1) 0%, transparent 100%)",
+            background: "linear-gradient(to top, rgba(15,11,8,0.5) 0%, transparent 100%)",
           }}
         />
       </div>
