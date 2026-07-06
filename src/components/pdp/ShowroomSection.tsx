@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 
 /* ═══════════════════════════════════════════
    SHOWROOM SECTION — "Visit Our Showroom"
@@ -78,86 +79,90 @@ export default function ShowroomSection() {
               boxShadow: "0 4px 24px rgba(0,0,0,0.03)",
             }}
           >
-            <div className="px-8 py-10 sm:px-10 sm:py-12">
-              {/* Card header */}
-              <div className="flex items-center gap-3 mb-8">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CBA135" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <span className="section-label !mb-0">Surat Flagship</span>
+            <div className="flex flex-col md:flex-row gap-0">
+              {/* Left: Contact Details */}
+              <div className="flex-1 px-8 py-10 sm:px-10 sm:py-12">
+                {/* Card header */}
+                <div className="flex items-center gap-3 mb-8">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CBA135" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <span className="section-label !mb-0">Surat Flagship</span>
+                </div>
+
+                {/* Details */}
+                <div className="space-y-6">
+                  {/* Address */}
+                  <div>
+                    <span className="block mb-1.5 font-sans uppercase tracking-[0.2em]" style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}>
+                      Address
+                    </span>
+                    <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
+                      Pachchigar &amp; Sons Jewellers<br />
+                      Chauta Bazaar, Ring Road,<br />
+                      Surat, Gujarat 395003
+                    </p>
+                  </div>
+
+                  {/* Contact */}
+                  <div>
+                    <span className="block mb-1.5 font-sans uppercase tracking-[0.2em]" style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}>
+                      Contact
+                    </span>
+                    <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
+                      +91 98250 00000<br />
+                      concierge@pachchigarandsons.com
+                    </p>
+                  </div>
+
+                  {/* Hours */}
+                  <div>
+                    <span className="block mb-1.5 font-sans uppercase tracking-[0.2em]" style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}>
+                      Hours
+                    </span>
+                    <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
+                      Mon – Sat: 10:30 AM – 8:00 PM<br />
+                      Sunday: By Appointment Only
+                    </p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="my-8" style={{ height: 1, background: "linear-gradient(90deg, rgba(203,161,53,0.12), transparent 80%)" }} />
+
+                {/* CTA */}
+                <a
+                  href="https://maps.google.com/?q=Pachchigar+Sons+Jewellers+Chauta+Bazaar+Surat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 group"
+                >
+                  <span className="cta-text gap-2 group">
+                    <span className="relative">
+                      Get Directions
+                      <span className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out" style={{ background: "#5E2E36" }} />
+                    </span>
+                    <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                  </span>
+                </a>
               </div>
 
-              {/* Details */}
-              <div className="space-y-6">
-                {/* Address */}
-                <div>
-                  <span
-                    className="block mb-1.5 font-sans uppercase tracking-[0.2em]"
-                    style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}
-                  >
-                    Address
-                  </span>
-                  <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
-                    Pachchigar & Sons Jewellers<br />
-                    Chauta Bazaar, Ring Road,<br />
-                    Surat, Gujarat 395003
-                  </p>
-                </div>
-
-                {/* Contact */}
-                <div>
-                  <span
-                    className="block mb-1.5 font-sans uppercase tracking-[0.2em]"
-                    style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}
-                  >
-                    Contact
-                  </span>
-                  <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
-                    +91 98250 00000<br />
-                    concierge@pachchigarandsons.com
-                  </p>
-                </div>
-
-                {/* Hours */}
-                <div>
-                  <span
-                    className="block mb-1.5 font-sans uppercase tracking-[0.2em]"
-                    style={{ fontSize: "0.6rem", color: "#5A4A42", opacity: 0.5 }}
-                  >
-                    Hours
-                  </span>
-                  <p className="font-serif" style={{ fontSize: "0.98rem", color: "#2D241E", lineHeight: 1.6 }}>
-                    Mon – Sat: 10:30 AM – 8:00 PM<br />
-                    Sunday: By Appointment Only
-                  </p>
+              {/* Right: Embedded Map */}
+              <div className="hidden md:flex items-stretch w-[48%] flex-shrink-0 p-4 pl-0">
+                <div className="w-full rounded-xl overflow-hidden" style={{ border: "1px solid rgba(203,161,53,0.08)" }}>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.023!2d72.8311!3d21.1959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDExJzQ1LjIiTiA3MsKwNDknNTIuMCJF!5e0!3m2!1sen!2sin!4v1700000000000"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, minHeight: 320, filter: "sepia(15%) saturate(90%) brightness(102%)" }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Pachchigar & Sons Showroom Location"
+                  />
                 </div>
               </div>
-
-              {/* Divider */}
-              <div
-                className="my-8"
-                style={{
-                  height: 1,
-                  background: "linear-gradient(90deg, rgba(203,161,53,0.12), transparent 80%)",
-                }}
-              />
-
-              {/* CTA */}
-              <a
-                href="https://maps.google.com/?q=Pachchigar+Sons+Surat"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 group"
-              >
-                <span className="cta-text gap-2 group">
-                  <span className="relative">
-                    Get Directions
-                    <span className="absolute left-0 -bottom-1 h-[1.5px] w-0 group-hover:w-full transition-all duration-700 ease-out" style={{ background: "#5E2E36" }} />
-                  </span>
-                  <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-                </span>
-              </a>
             </div>
           </motion.div>
         </div>

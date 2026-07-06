@@ -294,30 +294,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
               </button>
             </div>
 
-            {/* Buy Now */}
-            <button
-              type="button"
-              onClick={handleBuyNow}
-              className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:shadow-[0_4px_16px_rgba(45,36,30,0.12)] hover:-translate-y-[1px] mb-4"
-              style={{
-                background: "#FAF7F2",
-                color: "#2D241E",
-                border: "1px solid rgba(203,161,53,0.25)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#2D241E";
-                e.currentTarget.style.color = "#FDFAF5";
-                e.currentTarget.style.borderColor = "#2D241E";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "#FAF7F2";
-                e.currentTarget.style.color = "#2D241E";
-                e.currentTarget.style.borderColor = "rgba(203,161,53,0.25)";
-              }}
-            >
-              <Zap size={15} strokeWidth={1.5} />
-              Buy Now
-            </button>
+
 
             {/* ══════════════════════════════
                SECONDARY CTAs
@@ -464,11 +441,8 @@ export default function ProductHero({ product }: { product: ProductData }) {
                   className="transition-all duration-300 ease-out"
                   style={{
                     opacity: activeDetailsTab === "details" ? 1 : 0,
-                    transform: activeDetailsTab === "details" ? "translateX(0)" : "translateX(-12px)",
-                    position: activeDetailsTab === "details" ? "relative" : "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
+                    height: activeDetailsTab === "details" ? "auto" : 0,
+                    overflow: "hidden",
                     pointerEvents: activeDetailsTab === "details" ? "auto" : "none",
                   }}
                 >
@@ -490,11 +464,8 @@ export default function ProductHero({ product }: { product: ProductData }) {
                   className="transition-all duration-300 ease-out"
                   style={{
                     opacity: activeDetailsTab === "breakup" ? 1 : 0,
-                    transform: activeDetailsTab === "breakup" ? "translateX(0)" : "translateX(12px)",
-                    position: activeDetailsTab === "breakup" ? "relative" : "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
+                    height: activeDetailsTab === "breakup" ? "auto" : 0,
+                    overflow: "hidden",
                     pointerEvents: activeDetailsTab === "breakup" ? "auto" : "none",
                   }}
                 >
