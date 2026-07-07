@@ -11,6 +11,7 @@ import { getMegaMenuPanel, type MegaMenuPanel } from '@/data/megaMenuData';
 import ProfileDropdown from '@/components/ProfileDropdown';
 import { useAuth } from '@/providers/AuthProvider';
 import MobileMenu from '@/components/MobileMenu';
+import GoldRateModal, { GoldRateIcon } from '@/components/GoldRateModal';
 
 /* ═══════════════════════════════════════════════════════════════
    NAVBAR — Two-Row Premium Layout
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isGoldRateOpen, setIsGoldRateOpen] = useState(false);
   const megaEnterTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const megaLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const profileEnterTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -256,8 +258,8 @@ export default function Navbar() {
            ROW 2 — Navigation Links (Desktop/Tablet)
            ═══════════════════════════════════════════ */}
         <div className="navbar-row-2 hidden md:block">
-          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-            <nav className="flex items-center justify-center gap-4 lg:gap-6 xl:gap-8 h-[44px]">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-[44px]">
+            <nav className="flex-1 flex items-center justify-center gap-4 lg:gap-6 xl:gap-8 h-[44px]">
               {navLinks.map((link) => {
                 const hasMega = !!getMegaMenuPanel(link.label);
                 const isActive = activeMegaMenu === link.label;
@@ -302,6 +304,22 @@ export default function Navbar() {
                 );
               })}
             </nav>
+
+            {/* ── Gold Rate Trigger (right-aligned) ── */}
+            <button
+              type="button"
+              onClick={() => setIsGoldRateOpen(true)}
+              className="hidden lg:flex items-center gap-1.5 ml-auto px-3 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 hover:shadow-[0_2px_10px_rgba(203,161,53,0.12)] hover:-translate-y-[0.5px] group"
+              style={{
+                background: 'rgba(203,161,53,0.06)',
+                border: '1px solid rgba(203,161,53,0.18)',
+                color: '#8B6914',
+              }}
+              aria-label="View today's gold rate"
+            >
+              <GoldRateIcon />
+              <span>Gold Rate</span>
+            </button>
           </div>
         </div>
 
@@ -338,6 +356,9 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+
+      {/* Gold Rate Modal */}
+      <GoldRateModal isOpen={isGoldRateOpen} onClose={() => setIsGoldRateOpen(false)} />
     </>
   );
 }

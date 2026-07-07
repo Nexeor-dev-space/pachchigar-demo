@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "@/components/Navbar";
-import GoldRateBar from "@/components/GoldRateBar";
+
 import Footer from "@/components/Footer";
 import { AnimationProvider } from "@/providers/AnimationProvider";
 import { CartProvider } from "@/providers/CartProvider";
@@ -40,7 +40,6 @@ export default function RootLayout({
         <CartProvider>
           <WishlistProvider>
             <AnimationProvider>
-              <GoldRateBar />
               <Navbar />
               <SmoothScrollProvider>
                 <div className="flex-grow">
