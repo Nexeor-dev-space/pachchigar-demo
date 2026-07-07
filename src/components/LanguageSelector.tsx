@@ -54,7 +54,7 @@ export default function LanguageSelector({ mobile }: { mobile?: boolean }) {
       <div className="w-full relative mt-4">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between py-4 px-5 bg-[#FCFBF9] border border-[rgba(203,161,53,0.15)] rounded-2xl text-[13px] font-sans font-medium tracking-[0.1em] text-[#2C2A28] focus:outline-none transition-all duration-300 hover:bg-white shadow-sm"
+          className="w-full flex items-center justify-between py-4 px-5 bg-[#FCFBF9] border border-[rgba(203,161,53,0.15)] rounded-xl text-[13px] font-sans font-medium tracking-[0.1em] text-[#2C2A28] focus:outline-none transition-all duration-300 hover:bg-white shadow-sm"
         >
           <div className="flex items-center gap-3 text-[#2C2A28]">
             <Globe size={20} strokeWidth={1.5} />

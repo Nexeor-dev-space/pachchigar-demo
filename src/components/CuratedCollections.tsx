@@ -140,7 +140,7 @@ export default function CuratedCollections() {
                 <button
                   key={cat.key}
                   onClick={() => handleCategoryClick(cat.key)}
-                  className={`relative px-5 sm:px-6 py-2 sm:py-2.5 rounded-full font-sans text-[12px] sm:text-[13px] font-medium tracking-[0.04em] whitespace-nowrap transition-all duration-300 ${
+                  className={`relative px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl font-sans text-[12px] sm:text-[13px] font-medium tracking-[0.04em] whitespace-nowrap transition-all duration-300 ${
                     isActive
                       ? "bg-[#2D241E] text-[#FDFAF5] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
                       : "bg-transparent text-[#5A4A42]/70 hover:text-[#2D241E] hover:bg-[#2D241E]/[0.04]"

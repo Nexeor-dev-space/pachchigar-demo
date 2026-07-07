@@ -60,7 +60,7 @@ export default function FloatingWhatsApp() {
             className="absolute right-[60px] top-1/2 -translate-y-1/2 whitespace-nowrap hidden sm:flex items-center"
           >
             <div
-              className="px-4 py-2.5 rounded-full font-sans text-[12px] font-medium relative"
+              className="px-4 py-2.5 rounded-xl font-sans text-[12px] font-medium relative"
               style={{
                 background: "#2D241E",
                 color: "#FDFAF5",

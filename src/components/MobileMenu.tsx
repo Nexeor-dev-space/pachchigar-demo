@@ -767,7 +767,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <input
                       type="text"
                       placeholder="Search for rings, necklaces..."
-                      className="w-full bg-white border border-[#E2D5C3] rounded-full py-3 pl-11 pr-5 text-[13px] font-sans focus:outline-none focus:border-[#CBA135] text-[#2C2A28] shadow-sm transition-colors"
+                      className="w-full bg-white border border-[#E2D5C3] rounded-xl py-3 pl-11 pr-5 text-[13px] font-sans focus:outline-none focus:border-[#CBA135] text-[#2C2A28] shadow-sm transition-colors"
                     />
                   </div>
                 </div>

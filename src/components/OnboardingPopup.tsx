@@ -447,7 +447,7 @@ function WelcomeStep({ config, phone, setPhone, phoneError, isLoading, onSubmit 
       <button
         onClick={handleGetOtp}
         disabled={isLoading}
-        className="w-full py-3 rounded-full font-sans text-[0.76rem] font-semibold uppercase tracking-[0.18em] flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#5E2E36]/30 focus:ring-offset-2"
+        className="w-full py-3 rounded-xl font-sans text-[0.76rem] font-semibold uppercase tracking-[0.18em] flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#5E2E36]/30 focus:ring-offset-2"
         style={{
           background: canSubmit
             ? "linear-gradient(135deg, #5E2E36 0%, #7A4450 100%)"
@@ -544,7 +544,7 @@ function OtpStep({ phone, otp, otpRefs, otpError, resendTimer, isLoading, onOtpC
       </div>
 
       <button onClick={onSubmit} disabled={isLoading}
-        className="w-full py-3 rounded-full font-sans text-[0.76rem] font-semibold uppercase tracking-[0.18em] flex items-center justify-center gap-2 disabled:opacity-70 focus:outline-none focus:ring-2 focus:ring-[#5E2E36]/30 focus:ring-offset-2"
+        className="w-full py-3 rounded-xl font-sans text-[0.76rem] font-semibold uppercase tracking-[0.18em] flex items-center justify-center gap-2 disabled:opacity-70 focus:outline-none focus:ring-2 focus:ring-[#5E2E36]/30 focus:ring-offset-2"
         style={{
           background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff",
           boxShadow: "0 4px 16px rgba(94,46,54,0.2)",
