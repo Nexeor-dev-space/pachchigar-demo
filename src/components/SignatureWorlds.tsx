@@ -239,7 +239,7 @@ export default function SignatureWorlds() {
             className="font-serif italic font-medium text-[#2D241E] mb-4"
             style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}
           >
-            Shop Our Collections
+            Signature Collections
           </h2>
           <p className="font-sans text-[14px] sm:text-[15px] text-[#5A4A42]/70 max-w-xl mx-auto leading-relaxed">
             Explore our curated collections, where traditional techniques meet

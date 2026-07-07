@@ -30,13 +30,13 @@ export default function WishlistPage() {
 
   return (
     <main
-      className="min-h-screen"
+      className="min-h-[60vh]"
       style={{
         background:
           "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 40%, #F5EFE5 70%, #FDFAF5 100%)",
       }}
     >
-      <section className="pt-32 sm:pt-40 pb-24 sm:pb-32">
+      <section className="pt-6 sm:pt-8 pb-10 sm:pb-12">
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           {/* Header */}
           <motion.div
