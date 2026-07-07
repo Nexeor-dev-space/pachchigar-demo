@@ -299,7 +299,7 @@ export default function CommunityStories() {
               {/* Primary CTA */}
               <Link
                 href="/collections/earrings"
-                className="group relative px-7 py-3 rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_4px_24px_rgba(203,161,53,0.3)]"
+                className="group relative px-7 py-3 rounded-[16px] overflow-hidden transition-all duration-500 hover:shadow-[0_4px_24px_rgba(203,161,53,0.3)]"
                 style={{
                   background: "linear-gradient(135deg, #C9A84C 0%, #A68A3A 100%)",
                   border: "1px solid rgba(203,161,53,0.3)",
@@ -321,7 +321,7 @@ export default function CommunityStories() {
               {/* Secondary CTA */}
               <button
                 type="button"
-                className="group relative px-7 py-3 rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_4px_20px_rgba(203,161,53,0.15)]"
+                className="group relative px-7 py-3 rounded-[16px] overflow-hidden transition-all duration-500 hover:shadow-[0_4px_20px_rgba(203,161,53,0.15)]"
                 style={{
                   background: "rgba(253,248,240,0.06)",
                   border: "1px solid rgba(253,248,240,0.15)",

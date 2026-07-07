@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import Navbar from "@/components/Navbar";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 import Footer from "@/components/Footer";
 import { AnimationProvider } from "@/providers/AnimationProvider";
@@ -42,10 +43,11 @@ export default function RootLayout({
             <AnimationProvider>
               <Navbar />
               <SmoothScrollProvider>
-                <div className="flex-grow">
+                <div className="flex-grow pb-[80px] md:pb-0">
                   {children}
                 </div>
                 <Footer />
+                <MobileBottomNav />
               </SmoothScrollProvider>
 
               <OnboardingPopup />

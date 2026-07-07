@@ -202,6 +202,22 @@ export default function Navbar() {
                   <Search size={20} strokeWidth={1.5} />
                 </button>
 
+                {/* ── Gold Rate Trigger (desktop) ── */}
+                <button
+                  type="button"
+                  onClick={() => setIsGoldRateOpen(true)}
+                  className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 hover:shadow-[0_2px_10px_rgba(203,161,53,0.12)] hover:-translate-y-[0.5px] group"
+                  style={{
+                    background: 'rgba(203,161,53,0.06)',
+                    border: '1px solid rgba(203,161,53,0.18)',
+                    color: '#8B6914',
+                  }}
+                  aria-label="View today's gold rate"
+                >
+                  <GoldRateIcon />
+                  <span>Gold Rate</span>
+                </button>
+
                 {/* Account */}
                 <div
                   className="hidden md:block relative"
@@ -235,7 +251,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Wishlist */}
-                <Link href="/wishlist" className="hidden md:block relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Wishlist">
+                <Link href="/wishlist" className="relative text-[#2C2A28] hover:text-wine transition-colors p-1.5 group" aria-label="Wishlist">
                   <Heart size={20} strokeWidth={1.5} />
                   {wishlistTotal > 0 && (
                     <span className="absolute -top-0.5 -right-0.5 bg-wine text-white text-[9px] font-medium min-w-[15px] h-[15px] rounded-full flex items-center justify-center px-0.5 group-hover:scale-110 transition-transform">
@@ -308,22 +324,6 @@ export default function Navbar() {
                 );
               })}
             </nav>
-
-            {/* ── Gold Rate Trigger (right-aligned) ── */}
-            <button
-              type="button"
-              onClick={() => setIsGoldRateOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 ml-auto px-3 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 hover:shadow-[0_2px_10px_rgba(203,161,53,0.12)] hover:-translate-y-[0.5px] group"
-              style={{
-                background: 'rgba(203,161,53,0.06)',
-                border: '1px solid rgba(203,161,53,0.18)',
-                color: '#8B6914',
-              }}
-              aria-label="View today's gold rate"
-            >
-              <GoldRateIcon />
-              <span>Gold Rate</span>
-            </button>
           </div>
         </div>
 

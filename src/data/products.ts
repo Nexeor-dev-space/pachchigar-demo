@@ -477,6 +477,8 @@ export function getAllSlugs(): string[] {
 
 /* ── PLP Category Mapping ── */
 export const CATEGORY_MAP: Record<string, string[]> = {
+  "new-arrivals": [], // Shows latest products
+  "best-sellers": [], // Shows trending products
   "necklaces-pendants": ["Necklace"],
   "bracelets-bangles": ["Bracelet", "Bangles"],
   rings: ["Ring", "Rings"],

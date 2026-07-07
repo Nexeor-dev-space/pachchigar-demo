@@ -47,7 +47,7 @@ export default function FloatingWhatsApp() {
 
   return (
     <div
-      className={`fixed z-[180] right-5 bottom-6 ${isPLPPage ? "max-lg:bottom-[80px]" : ""}`}
+      className={`fixed z-[180] right-5 max-md:bottom-[88px] md:bottom-6 ${isPLPPage ? "max-lg:bottom-[80px]" : ""}`}
     >
       {/* ── Tooltip ── */}
       <AnimatePresence>

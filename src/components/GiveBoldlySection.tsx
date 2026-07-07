@@ -42,7 +42,7 @@ export default function GiveBoldlySection() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
 
   return (
-    <section ref={sectionRef} className="gb-section">
+    <section ref={sectionRef} className="gb-section mt-6 sm:mt-7 lg:mt-8">
       {/* ═══════ LEFT: Video / Image with Play Button ═══════ */}
       <div className="gb-video-col">
         <a

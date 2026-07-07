@@ -28,6 +28,16 @@ const CATEGORIES: Record<
   string,
   { title: string; description: string; eyebrow: string }
 > = {
+  "new-arrivals": {
+    title: "New Arrivals",
+    description: "Discover our latest handcrafted additions. Fresh, contemporary designs crafted with timeless elegance.",
+    eyebrow: "Latest",
+  },
+  "best-sellers": {
+    title: "Best Sellers",
+    description: "Our most loved pieces, cherished by our community for their timeless elegance and superior craftsmanship.",
+    eyebrow: "Trending",
+  },
   "necklaces-pendants": {
     title: "Necklaces & Pendants",
     description:
