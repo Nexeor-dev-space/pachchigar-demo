@@ -62,7 +62,7 @@ export default function SignatureWorlds() {
   return (
     <section
       ref={ref}
-      className="py-16 sm:py-20 lg:py-24"
+      className="py-6 sm:py-7 lg:py-8"
       style={{
         background:
           "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
@@ -74,7 +74,7 @@ export default function SignatureWorlds() {
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: ease4 }}
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
+          className="text-center mb-6 sm:mb-8 lg:mb-10"
         >
           <h2
             className="font-serif italic font-medium text-[#2D241E] mb-4"

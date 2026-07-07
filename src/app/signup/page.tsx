@@ -265,7 +265,7 @@ export default function SignupPage() {
 
                 {/* CTA */}
                 <button onClick={handleSendOtp} disabled={isLoading}
-                  className="w-full py-3.5 rounded-xl font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 mt-2 hover:shadow-lg"
+                  className="w-full py-3.5 rounded-full font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 mt-2 hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff", boxShadow: "0 4px 16px rgba(94,46,54,0.2)" }}>
                   {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send OTP<ChevronRight size={14} strokeWidth={2.5} /></>}
                 </button>
@@ -324,7 +324,7 @@ export default function SignupPage() {
               </div>
 
               <button onClick={handleVerifyOtp} disabled={isLoading}
-                className="w-full py-3.5 rounded-xl font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 hover:shadow-lg"
+                className="w-full py-3.5 rounded-full font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 hover:shadow-lg"
                 style={{ background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff", boxShadow: "0 4px 16px rgba(94,46,54,0.2)" }}>
                 {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Verify & Continue<ChevronRight size={14} strokeWidth={2.5} /></>}
               </button>

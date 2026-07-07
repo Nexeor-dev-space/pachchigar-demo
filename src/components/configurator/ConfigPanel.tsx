@@ -121,7 +121,7 @@ function PillSelector({
           key={opt.id}
           type="button"
           onClick={() => onSelect(opt.id)}
-          className={`px-5 py-2.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 border ${
+          className={`px-5 py-2.5 rounded-full font-sans text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 border ${
             value === opt.id
               ? "bg-[#2D241E] text-[#FDFAF5] border-[#2D241E] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
               : "bg-transparent text-[#5A4A42] border-[#E2D5C3] hover:border-[#CBA135] hover:text-[#2D241E]"
@@ -159,7 +159,7 @@ function SizeGrid({
             key={opt.id}
             type="button"
             onClick={() => onSelect(opt.id)}
-            className={`w-11 h-11 rounded-xl font-sans text-[12px] font-semibold transition-all duration-300 border ${
+            className={`w-11 h-11 rounded-full font-sans text-[12px] font-semibold transition-all duration-300 border ${
               value === opt.id
                 ? "bg-[#2D241E] text-[#FDFAF5] border-[#2D241E] shadow-[0_2px_12px_rgba(45,36,30,0.15)]"
                 : "bg-transparent text-[#5A4A42] border-[#E2D5C3] hover:border-[#CBA135] hover:text-[#2D241E]"

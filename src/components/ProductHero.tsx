@@ -305,7 +305,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
               <button
                 type="button"
                 onClick={() => setIsCustomizeOpen(true)}
-                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                className="flex items-center justify-center gap-2 py-3 rounded-full font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
                 style={{
                   border: "1px solid #E2D5C3",
                 }}
@@ -319,7 +319,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
                 href="https://wa.me/917990032811?text=I%20want%20to%20schedule%20a%20video%20call"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                className="flex items-center justify-center gap-2 py-3 rounded-full font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
                 style={{
                   border: "1px solid #E2D5C3",
                 }}
@@ -333,7 +333,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
                 href="https://wa.me/917990032811?text=I%20want%20to%20try%20this%20product%20at%20home"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 rounded-xl font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
+                className="flex items-center justify-center gap-2 py-3 rounded-full font-sans text-[10px] sm:text-[11px] font-semibold tracking-[0.1em] uppercase text-[#2D241E] transition-all duration-300 hover:border-[#CBA135] hover:bg-[rgba(203,161,53,0.04)] hover:text-[#5E2E36]"
                 style={{
                   border: "1px solid #E2D5C3",
                 }}
@@ -614,7 +614,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
       {/* ── Share Toast ── */}
       {toastMsg && (
         <div
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.1em] text-[#FDFAF5] shadow-[0_8px_32px_rgba(0,0,0,0.15)] animate-[fadeInUp_0.3s_ease-out]"
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-full font-sans text-[11px] font-semibold tracking-[0.1em] text-[#FDFAF5] shadow-[0_8px_32px_rgba(0,0,0,0.15)] animate-[fadeInUp_0.3s_ease-out]"
           style={{ background: "#2D241E" }}
         >
           {toastMsg}

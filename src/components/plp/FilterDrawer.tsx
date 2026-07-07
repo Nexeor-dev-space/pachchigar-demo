@@ -340,7 +340,7 @@ export default function FilterDrawer({
             >
               <button
                 onClick={clearAll}
-                className="flex-1 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
+                className="flex-1 py-3 rounded-full font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
                 style={{
                   border: "1px solid #E2D5C3",
                 }}
@@ -349,7 +349,7 @@ export default function FilterDrawer({
               </button>
               <button
                 onClick={onClose}
-                className="flex-1 py-3 rounded-xl font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#FDFAF5] transition-all duration-500"
+                className="flex-1 py-3 rounded-full font-sans text-[11px] font-semibold tracking-[0.15em] uppercase text-[#FDFAF5] transition-all duration-500"
                 style={{
                   background: "#2D241E",
                 }}

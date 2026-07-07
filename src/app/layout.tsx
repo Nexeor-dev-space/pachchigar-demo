@@ -22,7 +22,7 @@ import Footer from "@/components/Footer";
 import { AnimationProvider } from "@/providers/AnimationProvider";
 import { CartProvider } from "@/providers/CartProvider";
 import { WishlistProvider } from "@/providers/WishlistProvider";
-import AnimationToggle from "@/components/AnimationToggle";
+
 import { AuthProvider } from "@/providers/AuthProvider";
 import OnboardingPopup from "@/components/OnboardingPopup";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
@@ -46,7 +46,7 @@ export default function RootLayout({
                 </div>
                 <Footer />
               </SmoothScrollProvider>
-              <AnimationToggle />
+
               <OnboardingPopup />
               <FloatingWhatsApp />
             </AnimationProvider>

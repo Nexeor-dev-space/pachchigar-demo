@@ -101,7 +101,7 @@ export default function CuratedCollections() {
   return (
     <section
       ref={ref}
-      className="py-16 sm:py-20 lg:py-24"
+      className="py-10 sm:py-12 lg:py-14"
       style={{
         background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 50%, #FDFAF5 100%)",
       }}

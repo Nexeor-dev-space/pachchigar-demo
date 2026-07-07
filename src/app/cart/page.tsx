@@ -305,7 +305,7 @@ export default function CartPage() {
                   </div>
 
                   <button
-                    className="w-full mt-8 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase text-[#FDFAF5] transition-all duration-500 hover:shadow-lg"
+                    className="w-full mt-8 py-3.5 rounded-full font-sans text-[11px] font-semibold tracking-[0.18em] uppercase text-[#FDFAF5] transition-all duration-500 hover:shadow-lg"
                     style={{ background: "#2D241E" }}
                   >
                     Proceed to Checkout
