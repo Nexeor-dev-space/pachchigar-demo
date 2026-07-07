@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { FilterGroup } from "@/data/filterConfig";
@@ -16,6 +16,7 @@ import { countActiveFilters } from "./FilterDrawer";
    • Show more / less for long lists
    • Search within large groups
    • Instant filter application (no Apply button)
+   • Capture-phase wheel handler to bypass Lenis
    ═══════════════════════════════════════════ */
 
 const INITIAL_VISIBLE = 5;
@@ -32,6 +33,31 @@ export default function FilterSidebar({
   onFiltersChange,
   filterGroups,
 }: FilterSidebarProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  /* ── Intercept wheel events before Lenis grabs them ── */
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const scrollEl = scrollRef.current;
+      if (!scrollEl) return;
+
+      const target = e.target as Node;
+      if (scrollEl.contains(target)) {
+        // Prevent Lenis from intercepting this event
+        e.preventDefault();
+        e.stopPropagation();
+        // Manually scroll the filter container
+        scrollEl.scrollTop += e.deltaY;
+      }
+    };
+
+    document.addEventListener("wheel", handleWheel, { passive: false, capture: true });
+
+    return () => {
+      document.removeEventListener("wheel", handleWheel, true);
+    };
+  }, []);
+
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(
     () => {
       const init: Record<string, boolean> = {};
@@ -74,18 +100,31 @@ export default function FilterSidebar({
   return (
     <aside
       className="hidden lg:block w-[248px] xl:w-[260px] flex-shrink-0"
-      style={{ position: "sticky", top: "100px", alignSelf: "flex-start" }}
+      style={{
+        position: "sticky",
+        top: "100px",
+        alignSelf: "flex-start",
+      }}
     >
       <div
-        className="overflow-y-auto pr-2 pb-8"
+        ref={scrollRef}
         style={{
           maxHeight: "calc(100vh - 120px)",
-          scrollbarWidth: "thin",
+          overflowY: "auto",
+          overflowX: "hidden",
+          overscrollBehavior: "contain",
+          WebkitOverflowScrolling: "touch",
+          background: "#FFFEFA",
+          border: "1px solid rgba(203,161,53,0.1)",
+          boxShadow: "0 2px 12px rgba(45,36,30,0.04), 0 0 0 0.5px rgba(203,161,53,0.05)",
+          borderRadius: "16px",
+          padding: "4px 16px 24px",
+          scrollbarWidth: "thin" as const,
           scrollbarColor: "rgba(203,161,53,0.2) transparent",
         }}
       >
         {/* ── Header ── */}
-        <div className="flex items-center justify-between mb-4 pb-4" style={{ borderBottom: "1px solid rgba(45,36,30,0.1)" }}>
+        <div className="flex items-center justify-between mb-4 pt-3 pb-4" style={{ borderBottom: "1px solid rgba(45,36,30,0.1)" }}>
           <div className="flex items-center gap-2.5">
             <span className="font-sans text-[13px] font-bold tracking-[0.08em] uppercase text-[#2D241E]">
               Filters

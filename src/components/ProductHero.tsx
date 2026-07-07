@@ -19,6 +19,7 @@ import type { ProductData } from "@/data/products";
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
 import CustomizeDrawer from "@/components/CustomizeDrawer";
+import PincodeChecker from "@/components/pdp/PincodeChecker";
 
 /* ═══════════════════════════════════════════
    PRODUCT HERO — Oka-Inspired Premium PDP
@@ -234,7 +235,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
             {/* ══════════════════════════════
                ADD TO CART + WISHLIST ROW
                ══════════════════════════════ */}
-            <div className="flex items-stretch gap-3 mb-3">
+            <div className="flex items-stretch gap-3 mb-3 max-w-[520px]">
               {/* Add to Cart / Go to Cart */}
               <button
                 type="button"
@@ -300,7 +301,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
                SECONDARY CTAs
                Customize + Video Call + Try At Home
                ══════════════════════════════ */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 max-w-[520px]">
               {/* Customize */}
               <button
                 type="button"
@@ -372,13 +373,10 @@ export default function ProductHero({ product }: { product: ProductData }) {
               </button>
             </div>
 
-            {/* Availability */}
-            <div className="pdp-availability">
-              <span className="pdp-availability-dot" />
-              <span className="pdp-availability-text">
-                {product.availability}
-              </span>
-            </div>
+            {/* ══════════════════════════════
+               PINCODE / DELIVERY CHECK
+               ══════════════════════════════ */}
+            <PincodeChecker />
 
             {/* Editorial Divider */}
             <div className="pdp-divider" />
@@ -556,55 +554,132 @@ export default function ProductHero({ product }: { product: ProductData }) {
               </div>
             </div>
 
-            {/* Trust Signal */}
-            <div className="pdp-trust">
-              <div className="pdp-trust-item">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path d="M9 12l2 2 4-4" />
+            {/* Trust Badges — Card Style */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {/* Easy Exchange */}
+              <div
+                className="flex flex-col items-center justify-center gap-2.5 py-4 px-3 rounded-xl text-center transition-all duration-300 hover:shadow-[0_2px_12px_rgba(203,161,53,0.08)] hover:-translate-y-0.5"
+                style={{
+                  border: "1px solid #E2D5C3",
+                  background: "#FDFAF5",
+                }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <path
+                    d="M20 8c-1.5-2.3-4-3.5-6.5-3.5-4.4 0-8 3.6-8 8s3.6 8 8 8c3 0 5.6-1.7 7-4.2"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M17 8h3.5V4.5"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
-                <span>Certified Authentic</span>
+                <span className="font-sans text-[11px] font-semibold tracking-[0.05em] text-[#2D241E] leading-tight">
+                  Easy<br />Exchange
+                </span>
               </div>
-              <div className="pdp-trust-item">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                  <path d="M16 3l-4 4-4-4" />
+
+              {/* Certified Jewellery */}
+              <div
+                className="flex flex-col items-center justify-center gap-2.5 py-4 px-3 rounded-xl text-center transition-all duration-300 hover:shadow-[0_2px_12px_rgba(203,161,53,0.08)] hover:-translate-y-0.5"
+                style={{
+                  border: "1px solid #E2D5C3",
+                  background: "#FDFAF5",
+                }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <path
+                    d="M14 2L16.5 7.5L22.5 8.5L18 13L19 19L14 16.5L9 19L10 13L5.5 8.5L11.5 7.5L14 2Z"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M10.5 18.5L8 26L14 23L20 26L17.5 18.5"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
-                <span>Complimentary Packaging</span>
+                <span className="font-sans text-[11px] font-semibold tracking-[0.05em] text-[#2D241E] leading-tight">
+                  Certified<br />Jewellery
+                </span>
               </div>
-              <div className="pdp-trust-item">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
+
+              {/* Lifetime Product Service */}
+              <div
+                className="flex flex-col items-center justify-center gap-2.5 py-4 px-3 rounded-xl text-center transition-all duration-300 hover:shadow-[0_2px_12px_rgba(203,161,53,0.08)] hover:-translate-y-0.5"
+                style={{
+                  border: "1px solid #E2D5C3",
+                  background: "#FDFAF5",
+                }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <path
+                    d="M7 14c0 0 2-3 7-3s7 3 7 3"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M4 14c0 0 3.5-6 10-6s10 6 10 6c0 0-3.5 6-10 6S4 14 4 14Z"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14 8V4M10 9.5L8 6M18 9.5L20 6"
+                    stroke="#5E2E36"
+                    strokeWidth="1.1"
+                    strokeLinecap="round"
+                    opacity="0.5"
+                  />
+                  <path
+                    d="M5.5 20.5L10 17M22.5 20.5L18 17"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                  />
+                  <circle cx="14" cy="22" r="2.5" stroke="#5E2E36" strokeWidth="1.2" />
                 </svg>
-                <span>Lifetime Warranty</span>
+                <span className="font-sans text-[11px] font-semibold tracking-[0.05em] text-[#2D241E] leading-tight">
+                  Lifetime Product<br />Service
+                </span>
+              </div>
+
+              {/* 14 Days Return */}
+              <div
+                className="flex flex-col items-center justify-center gap-2.5 py-4 px-3 rounded-xl text-center transition-all duration-300 hover:shadow-[0_2px_12px_rgba(203,161,53,0.08)] hover:-translate-y-0.5"
+                style={{
+                  border: "1px solid #E2D5C3",
+                  background: "#FDFAF5",
+                }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <circle cx="14" cy="14" r="10" stroke="#5E2E36" strokeWidth="1.3" />
+                  <path
+                    d="M14 8v6.5l3.5 2"
+                    stroke="#5E2E36"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M20.5 5L23 7.5M7.5 5L5 7.5"
+                    stroke="#5E2E36"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span className="font-sans text-[11px] font-semibold tracking-[0.05em] text-[#2D241E] leading-tight">
+                  14 Days<br />Return
+                </span>
               </div>
             </div>
           </div>

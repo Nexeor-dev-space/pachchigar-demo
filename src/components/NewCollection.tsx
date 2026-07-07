@@ -13,11 +13,11 @@ import ProductCard from "@/components/ProductCard";
    ═══════════════════════════════════════════ */
 
 const COLLECTION = {
-  name: "Anarkali",
-  tagline: "New Collection",
+  name: "Arrivals",
+  tagline: "New Arrivals",
   image: "/images/new-collection-banner.png",
   ctaLink: "/collections/rings",
-  ctaLabel: "Explore Collection",
+  ctaLabel: "Shop New Arrivals",
 };
 
 const CAROUSEL_PRODUCTS = PRODUCTS.slice(0, 8);
@@ -195,8 +195,7 @@ export default function NewCollection() {
                     className="font-serif text-lg sm:text-xl lg:text-[1.5rem] font-light mb-4"
                     style={{ color: "#FDFAF5", lineHeight: 1.2 }}
                   >
-                    The <span className="italic">{COLLECTION.name}</span>
-                    <br />Collection
+                    Freshly <span className="italic">Crafted</span>
                   </h2>
                   <Link
                     href={COLLECTION.ctaLink}
