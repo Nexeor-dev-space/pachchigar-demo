@@ -57,6 +57,13 @@ export const METAL_OPTIONS: ConfigOption[] = [
   },
 ];
 
+/* ── Gold Purity Options ── */
+export const PURITY_OPTIONS: SelectOption[] = [
+  { id: "14k", label: "14K Gold", priceDelta: -8000 },
+  { id: "18k", label: "18K Gold", priceDelta: 0 },
+  { id: "22k", label: "22K Gold", priceDelta: 12000 },
+];
+
 /* ── Stone Options ── */
 export const STONE_OPTIONS: ConfigOption[] = [
   {
@@ -217,6 +224,7 @@ export function getCategoryType(productCategory: string): JewelryCategory {
 export interface ConfigState {
   // Common
   metal: string;
+  purity: string;
   stone: string;
   finish: string;
   engraving: string;
@@ -237,6 +245,7 @@ export interface ConfigState {
 
 export const DEFAULT_CONFIG: ConfigState = {
   metal: "gold",
+  purity: "18k",
   stone: "diamond",
   finish: "polished",
   engraving: "",
@@ -268,6 +277,7 @@ export function calculateTotalPrice(
 
   // Common
   total += METAL_OPTIONS.find((m) => m.id === config.metal)?.priceDelta ?? 0;
+  total += findDelta(PURITY_OPTIONS, config.purity);
   total += STONE_OPTIONS.find((s) => s.id === config.stone)?.priceDelta ?? 0;
   total += findDelta(FINISH_OPTIONS, config.finish);
   if (config.engraving.trim().length > 0) total += ENGRAVING_PRICE;
@@ -336,6 +346,7 @@ function findConfigLabel(options: ConfigOption[], id: string): string {
 export function getConfigSummary(config: ConfigState, category: JewelryCategory): string {
   const parts: string[] = [];
   parts.push(findConfigLabel(METAL_OPTIONS, config.metal));
+  parts.push(findLabel(PURITY_OPTIONS, config.purity));
   parts.push(findConfigLabel(STONE_OPTIONS, config.stone));
   parts.push(findLabel(FINISH_OPTIONS, config.finish));
 
@@ -369,6 +380,7 @@ export function serializeConfig(config: ConfigState, category: JewelryCategory):
 
   // Common (only non-defaults)
   if (config.metal !== DEFAULT_CONFIG.metal) params.set("metal", config.metal);
+  if (config.purity !== DEFAULT_CONFIG.purity) params.set("purity", config.purity);
   if (config.stone !== DEFAULT_CONFIG.stone) params.set("stone", config.stone);
   if (config.finish !== DEFAULT_CONFIG.finish) params.set("finish", config.finish);
   if (config.engraving.trim()) params.set("engraving", config.engraving.trim());

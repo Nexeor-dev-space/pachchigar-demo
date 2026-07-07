@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Heart } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Heart, X, Store, ChevronRight, Video } from "lucide-react";
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
 
@@ -27,13 +27,13 @@ export default function CartPage() {
 
   return (
     <main
-      className="min-h-screen"
+      className="min-h-[60vh]"
       style={{
         background:
           "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 40%, #F5EFE5 70%, #FDFAF5 100%)",
       }}
     >
-      <section className="pt-24 sm:pt-28 pb-24 sm:pb-32">
+      <section className="pt-6 sm:pt-8 pb-10 sm:pb-12">
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           {/* Header */}
           <motion.div
@@ -120,7 +120,7 @@ export default function CartPage() {
                       ease: [0.22, 1, 0.36, 1],
                       delay: 0.1 + i * 0.06,
                     }}
-                    className="flex gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl transition-all duration-300"
+                    className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl transition-all duration-300"
                     style={{
                       background: "#FFFFFF",
                       border: "1px solid rgba(203,161,53,0.06)",
@@ -130,104 +130,116 @@ export default function CartPage() {
                     {/* Product Image */}
                     <Link
                       href={`/products/${item.slug}`}
-                      className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 rounded-xl overflow-hidden group"
+                      className="relative w-full sm:w-36 h-36 flex-shrink-0 rounded-xl overflow-hidden group"
                       style={{ background: "#FAF7F2" }}
                     >
                       <Image
                         src={item.image}
                         alt={item.name}
                         fill
-                        sizes="120px"
-                        className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                        sizes="144px"
+                        className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                       />
                     </Link>
 
                     {/* Item Info */}
-                    <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                      <div>
+                    <div className="flex-1 flex flex-col justify-between py-1 relative">
+                      {/* Remove Button (Top Right) */}
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="absolute top-0 right-0 p-1.5 -mt-1 -mr-1 text-[#5A4A42]/40 hover:text-[#B94A4A] transition-colors rounded-full hover:bg-[#B94A4A]/10"
+                        aria-label="Remove item"
+                      >
+                        <X size={20} strokeWidth={2} />
+                      </button>
+
+                      <div className="pr-10">
                         <Link
                           href={`/products/${item.slug}`}
                           className="block"
                         >
-                          <h3 className="font-serif text-[15px] sm:text-[17px] font-medium text-[#2D241E] leading-snug hover:text-[#5E2E36] transition-colors">
+                          <h3 className="font-serif text-[16px] sm:text-[18px] font-medium text-[#2D241E] leading-snug hover:text-[#CBA135] transition-colors">
                             {item.name}
                           </h3>
                         </Link>
-                        <span className="font-serif text-[14px] sm:text-[15px] text-[#5A4A42] mt-1 block">
-                          {item.price}
-                        </span>
+                        
+                        {/* Pricing */}
+                        <div className="mt-2.5 flex items-center gap-2.5 flex-wrap">
+                          <span className="font-serif text-[17px] font-semibold text-[#2D241E]">
+                            {item.price}
+                          </span>
+                          <span className="font-sans text-[13px] text-[#5A4A42]/50 line-through decoration-[#5A4A42]/30">
+                            ₹{(item.priceNumeric * 1.25).toLocaleString("en-IN")}
+                          </span>
+                          <span className="font-sans text-[13px] font-medium text-[#B94A4A]">
+                            Save ₹{(item.priceNumeric * 0.25).toLocaleString("en-IN")}
+                          </span>
+                        </div>
+
+                        {/* SKU */}
+                        <div className="mt-1.5">
+                          <span className="font-sans text-[11px] text-[#5A4A42]/70 uppercase tracking-widest">
+                            PCH-{item.id.split("-")[0]?.toUpperCase()}-G001
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Quantity + Remove */}
-                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 sm:mt-0">
-                        <div
-                          className="flex items-center rounded-lg overflow-hidden"
-                          style={{
-                            border: "1px solid #E2D5C3",
-                          }}
-                        >
-                          <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
-                            }
-                            className="w-8 h-8 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
-                            aria-label="Decrease quantity"
-                          >
-                            <Minus size={13} strokeWidth={2} />
-                          </button>
-                          <span className="w-9 h-8 flex items-center justify-center font-sans text-[12px] font-semibold text-[#2D241E] border-x border-[#E2D5C3]">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
-                            }
-                            className="w-8 h-8 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
-                            aria-label="Increase quantity"
-                          >
-                            <Plus size={13} strokeWidth={2} />
-                          </button>
+                      {/* Bottom Section */}
+                      <div className="mt-5 space-y-4">
+                        {/* Quantity & Delivery & Wishlist */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-[#E2D5C3]/30">
+                          <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex items-center gap-3">
+                              <span className="font-sans text-[13px] font-semibold text-[#2D241E]">Quantity:</span>
+                              <div className="flex items-center rounded-lg overflow-hidden bg-white border border-[#E2D5C3]">
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  className="w-8 h-8 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
+                                >
+                                  <Minus size={13} strokeWidth={2} />
+                                </button>
+                                <span className="w-9 h-8 flex items-center justify-center font-sans text-[12px] font-semibold text-[#2D241E] border-x border-[#E2D5C3]">
+                                  {item.quantity}
+                                </span>
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  className="w-8 h-8 flex items-center justify-center text-[#5A4A42] hover:text-[#2D241E] hover:bg-[#F5EFE5] transition-colors"
+                                >
+                                  <Plus size={13} strokeWidth={2} />
+                                </button>
+                              </div>
+                            </div>
+                            
+                            <div className="hidden sm:block w-px h-4 bg-[#E2D5C3]" />
+
+                            <button
+                              onClick={() => {
+                                toggleWishlist({
+                                  id: item.id,
+                                  slug: item.slug,
+                                  name: item.name,
+                                  image: item.image,
+                                  price: item.price,
+                                  priceNumeric: item.priceNumeric,
+                                });
+                                removeFromCart(item.id);
+                              }}
+                              className={`flex items-center gap-1.5 font-sans text-[12.5px] font-medium transition-colors ${
+                                isInWishlist(item.id)
+                                  ? "text-[#5E2E36]"
+                                  : "text-[#5A4A42] hover:text-[#5E2E36]"
+                              }`}
+                            >
+                              <Heart size={14} fill={isInWishlist(item.id) ? "currentColor" : "none"} />
+                              <span className="underline underline-offset-4 decoration-[#E2D5C3] hover:decoration-[#5E2E36] transition-colors">Move to Wishlist</span>
+                            </button>
+                          </div>
+                          
+                          <div className="font-sans text-[13.5px] font-medium" style={{ color: "#7B5E7B" }}>
+                            Delivery by - {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                          </div>
                         </div>
 
-                        {/* Divider on desktop only */}
-                        <div className="hidden sm:block w-px h-5 bg-[#E2D5C3]/50" />
-
-                        <div className="flex items-center gap-3 sm:gap-4">
-                          <button
-                            onClick={() => {
-                              toggleWishlist({
-                                id: item.id,
-                                slug: item.slug,
-                                name: item.name,
-                                image: item.image,
-                                price: item.price,
-                                priceNumeric: item.priceNumeric,
-                              });
-                              removeFromCart(item.id);
-                            }}
-                            className={`flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.04em] transition-colors ${
-                              isInWishlist(item.id)
-                                ? "text-[#5E2E36]"
-                                : "text-[#5A4A42]/60 hover:text-[#5E2E36]"
-                            }`}
-                            aria-label="Move to wishlist"
-                          >
-                            <Heart
-                              size={13}
-                              strokeWidth={1.5}
-                              fill={isInWishlist(item.id) ? "currentColor" : "none"}
-                            />
-                            <span className="hidden xs:inline sm:inline">Move to</span> Wishlist
-                          </button>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-medium tracking-[0.04em] text-[#5A4A42]/60 hover:text-[#B94A4A] transition-colors"
-                            aria-label="Remove item"
-                          >
-                            <Trash2 size={13} strokeWidth={1.5} />
-                            Remove
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </motion.div>

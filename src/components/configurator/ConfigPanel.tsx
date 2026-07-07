@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import OptionSwatch from "./OptionSwatch";
 import {
   METAL_OPTIONS,
+  PURITY_OPTIONS,
   STONE_OPTIONS,
   FINISH_OPTIONS,
   RING_SIZE_OPTIONS,
@@ -204,6 +205,18 @@ export default function ConfigPanel({ config, category, onChange }: ConfigPanelP
           />
         ))}
       </div>
+    ),
+  });
+
+  // ── 1.5. Gold Purity ──
+  sections.push({
+    title: "Gold Purity",
+    content: (
+      <PillSelector
+        options={PURITY_OPTIONS}
+        value={config.purity}
+        onSelect={(id) => onChange({ ...config, purity: id })}
+      />
     ),
   });
 
