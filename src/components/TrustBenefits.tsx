@@ -298,7 +298,7 @@ function BenefitItem({
         {/* Animated gold accent line */}
         <motion.div
           variants={goldLineReveal}
-          className="h-[1.5px] mb-9 sm:mb-10 lg:mb-12 transition-all duration-500 ease-out group-hover:!w-[55px]"
+          className="h-[1.5px] mb-5 sm:mb-6 lg:mb-7 transition-all duration-500 ease-out group-hover:!w-[55px]"
           style={{
             background: "linear-gradient(90deg, #CBA135, rgba(203,161,53,0.2))",
             transformOrigin: "left",
@@ -308,7 +308,7 @@ function BenefitItem({
         {/* Icon — lifts + turns gold on hover */}
         <motion.div
           variants={iconReveal}
-          className="mb-14 sm:mb-16 lg:mb-20 transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:scale-110"
+          className="mb-6 sm:mb-7 lg:mb-8 transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:scale-110"
         >
           <Icon hovered={isHovered} />
         </motion.div>
@@ -360,7 +360,7 @@ export default function TrustBenefits() {
         }}
       />
 
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 py-10 sm:py-12 lg:py-14">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8 py-8 sm:py-10 lg:py-10">
         <motion.div
           variants={staggerContainer}
           initial="hidden"

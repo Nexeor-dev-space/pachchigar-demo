@@ -45,7 +45,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/bracelet1.png",
     ],
     description:
-      "A celebration of colour and craftsmanship, the Rainbow Spectrum Bracelet features an exquisite array of natural gemstones set in 18-karat gold. Each stone is hand-selected for its vibrancy, creating a luminous arc that catches the light with every movement. A statement piece that bridges heritage artistry with contemporary elegance.",
+      "A celebration of colour and craftsmanship, the Rainbow Spectrum Bracelet features an exquisite array of natural gemstones set in 18-karat gold. Each stone is hand-selected for its vibrancy, creating a luminous arc that catches the light with every movement. A statement piece that bridges heritage artistry with contemporary elegance. The secure box-clasp mechanism is engineered for everyday confidence, ensuring the bracelet sits perfectly on the wrist without shifting. Pair it with a simple watch or stack it alongside gold bangles — its versatility makes it a cornerstone of any fine jewellery collection.",
     availability: "Made to Order · 4–6 Weeks",
     details: [
       { label: "Metal", value: "18K Yellow Gold" },
@@ -92,7 +92,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/necklace1.png",
     ],
     description:
-      "The Emerald Heart Pendant is a masterwork of emotion and precision. A vivid heart-shaped Colombian emerald, cradled in a halo of brilliant-cut diamonds, hangs from a delicate 18-karat gold chain. Designed to rest gracefully at the décolletage, it captures the essence of timeless romance and Pachchigar heritage.",
+      "The Emerald Heart Pendant is a masterwork of emotion and precision. A vivid heart-shaped Colombian emerald, cradled in a halo of brilliant-cut diamonds, hangs from a delicate 18-karat gold chain. Designed to rest gracefully at the décolletage, it captures the essence of timeless romance and Pachchigar heritage. Each facet of the emerald is hand-inspected by our master gemologists to ensure exceptional clarity, colour, and brilliance that rivals the finest stones in the world. Whether worn as a statement piece for grand celebrations or layered with everyday elegance, this pendant transitions effortlessly from day to night, making it a treasured heirloom for generations to come.",
     availability: "Available · Ships in 2–3 Days",
     details: [
       { label: "Metal", value: "18K White & Yellow Gold" },
@@ -139,7 +139,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/ring1.png",
     ],
     description:
-      "Inspired by the delicate beauty of nature, the Paraiba Blossom Ring features a rare Paraiba tourmaline surrounded by sculpted gold petals and cabochon aquamarines. The intricate lattice band is a testament to generations of Pachchigar craftsmanship — each curve carved by hand, each detail placed with intention.",
+      "Inspired by the delicate beauty of nature, the Paraiba Blossom Ring features a rare Paraiba tourmaline surrounded by sculpted gold petals and cabochon aquamarines. The intricate lattice band is a testament to generations of Pachchigar craftsmanship — each curve carved by hand, each detail placed with intention. The neon-blue glow of the Paraiba tourmaline is one of nature's rarest phenomena, found in fewer than one in ten thousand gemstones mined worldwide. This ring is as much a collector's treasure as it is a wearable work of art, destined to be admired and cherished across generations.",
     availability: "Made to Order · 3–5 Weeks",
     details: [
       { label: "Metal", value: "18K Yellow Gold" },
@@ -187,7 +187,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/earring-1.png",
     ],
     description:
-      "The Kundan Drop Earrings are a tribute to India's oldest jewellery technique. Precious uncut diamonds are set in pure gold foil, framed by hand-enamelled motifs in royal blue and emerald green. The graduated drop silhouette creates an elegant movement that catches light with every turn of the head.",
+      "The Kundan Drop Earrings are a tribute to India's oldest jewellery technique. Precious uncut diamonds are set in pure gold foil, framed by hand-enamelled motifs in royal blue and emerald green. The graduated drop silhouette creates an elegant movement that catches light with every turn of the head. The reverse of each earring reveals a hidden garden of meenakari enamel — a signature Pachchigar detail that ensures beauty from every angle. Lightweight yet luxurious, these earrings are designed for all-day comfort, making them ideal for weddings, festive celebrations, and intimate gatherings alike.",
     availability: "Available · Ships in 2–3 Days",
     details: [
       { label: "Metal", value: "22K Gold with Lac Core" },
@@ -233,7 +233,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/ring-3.png",
     ],
     description:
-      "A symbol of enduring commitment, the Royal Solitaire Ring showcases a flawless round-brilliant diamond elevated on a cathedral setting. The micro-pavé band adds a whisper of sparkle, while the platinum finish ensures lasting brilliance. Designed for those who believe in forever.",
+      "A symbol of enduring commitment, the Royal Solitaire Ring showcases a flawless round-brilliant diamond elevated on a cathedral setting. The micro-pavé band adds a whisper of sparkle, while the platinum finish ensures lasting brilliance. Designed for those who believe in forever. Every diamond in this ring is triple-excellent certified — cut, polish, and symmetry — ensuring unrivalled fire and scintillation under any light. The ergonomic comfort-fit band has been refined through hundreds of prototypes, creating a ring that feels as natural on the finger as it looks extraordinary to the eye.",
     availability: "Made to Order · 2–4 Weeks",
     details: [
       { label: "Metal", value: "Platinum 950" },
@@ -280,7 +280,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/ring-2.png",
     ],
     description:
-      "The Heritage Diamond Ring draws from Mughal-era aesthetics, reimagined for the modern connoisseur. A cushion-cut diamond sits within an ornate gold bezel, flanked by channel-set rubies and emeralds. The shank features hand-engraved filigree — a signature of the Pachchigar legacy.",
+      "The Heritage Diamond Ring draws from Mughal-era aesthetics, reimagined for the modern connoisseur. A cushion-cut diamond sits within an ornate gold bezel, flanked by channel-set rubies and emeralds. The shank features hand-engraved filigree — a signature of the Pachchigar legacy. The combination of coloured gemstones with a centre diamond follows a centuries-old Indian tradition of 'Navaratna' — the nine gems believed to bestow prosperity and protection upon the wearer. Every filigree scroll on the band takes several hours of uninterrupted hand-engraving, making each ring a unique testament to the artisan's patience and skill.",
     availability: "Available · Ships in 2–3 Days",
     details: [
       { label: "Metal", value: "18K Yellow Gold" },
@@ -327,7 +327,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/ring-4.png",
     ],
     description:
-      "The Emerald Bloom Ring is an ode to nature's finest greens. A vivid Zambian emerald, cut in a classic oval, blooms within a garden of brilliant and baguette diamonds. The split shank is designed for comfort and drama in equal measure — a ring that commands attention with quiet confidence.",
+      "The Emerald Bloom Ring is an ode to nature's finest greens. A vivid Zambian emerald, cut in a classic oval, blooms within a garden of brilliant and baguette diamonds. The split shank is designed for comfort and drama in equal measure — a ring that commands attention with quiet confidence. Sourced from the renowned Kagem mine, this emerald exhibits the coveted 'forest after rain' hue — a deep, saturated green with a subtle bluish undertone prized by collectors worldwide. The baguette diamonds are precision-matched for size and clarity, creating a geometric halo that frames the organic beauty of the centre stone with architectural precision.",
     availability: "Made to Order · 4–6 Weeks",
     details: [
       { label: "Metal", value: "18K White Gold" },
@@ -374,7 +374,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/bangle-3.png",
     ],
     description:
-      "The Polki Bridal Bangle is a bridal heirloom in the making. Uncut Polki diamonds are set in a traditional Jadau technique, surrounded by intricate meenakari enamel work in ruby red and forest green. Each bangle is a labour of love — taking over 200 hours of master craftsmanship to complete.",
+      "The Polki Bridal Bangle is a bridal heirloom in the making. Uncut Polki diamonds are set in a traditional Jadau technique, surrounded by intricate meenakari enamel work in ruby red and forest green. Each bangle is a labour of love — taking over 200 hours of master craftsmanship to complete. The reverse side reveals an equally stunning canvas of hand-painted enamel, ensuring the bangle is a masterpiece from every angle — a hallmark of true Jadau artistry. Designed to be passed down through generations, this bangle carries within it the story of the artisan's hands, the bride's joy, and the timeless legacy of Pachchigar craftsmanship.",
     availability: "Made to Order · 6–8 Weeks",
     details: [
       { label: "Metal", value: "22K Gold with Lac Core" },
@@ -421,7 +421,7 @@ export const PRODUCTS: ProductData[] = [
       "/images/products/bangle-2.png",
     ],
     description:
-      "The Gold Heritage Bangle celebrates the art of pure gold craftsmanship. Hand-hammered and engraved with traditional motifs, this bangle carries the warmth and weight of 22-karat gold. Its timeless design makes it equally suited for daily elegance and ceremonial grandeur.",
+      "The Gold Heritage Bangle celebrates the art of pure gold craftsmanship. Hand-hammered and engraved with traditional motifs, this bangle carries the warmth and weight of 22-karat gold. Its timeless design makes it equally suited for daily elegance and ceremonial grandeur. The hand-hammered texture creates a subtle play of light across the surface, giving each bangle a character that is impossible to replicate by machine. Whether worn alone as a bold statement or stacked in pairs following the Indian tradition, this bangle embodies the enduring beauty of gold in its purest, most expressive form.",
     availability: "Available · Ships in 2–3 Days",
     details: [
       { label: "Metal", value: "22K Yellow Gold" },

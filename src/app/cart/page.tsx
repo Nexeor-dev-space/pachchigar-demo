@@ -33,7 +33,7 @@ export default function CartPage() {
           "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 40%, #F5EFE5 70%, #FDFAF5 100%)",
       }}
     >
-      <section className="pt-32 sm:pt-40 pb-24 sm:pb-32">
+      <section className="pt-24 sm:pt-28 pb-24 sm:pb-32">
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
           {/* Header */}
           <motion.div

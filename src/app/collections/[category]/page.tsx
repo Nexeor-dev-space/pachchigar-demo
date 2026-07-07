@@ -190,7 +190,7 @@ export default function CollectionPage({
         {/* ════════════════════════════════════════════
             HEADER SECTION — Breadcrumb + Title + Sort
             ════════════════════════════════════════════ */}
-        <section className="pt-28 sm:pt-32 pb-0">
+        <section className="pt-6 sm:pt-8 pb-0">
           <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
             {/* Breadcrumb */}
             <motion.nav
@@ -298,7 +298,7 @@ export default function CollectionPage({
 
                 {/* Product Grid */}
                 {sortedProducts.length > 0 ? (
-                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
                     {sortedProducts.map((product, i) => (
                       <motion.div
                         key={product.id}
