@@ -16,6 +16,7 @@ import {
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
 import { useLenis } from "@/providers/SmoothScrollProvider";
+import GoldRateModal, { GoldRateIcon } from "@/components/GoldRateModal";
 
 /* ═══════════════════════════════════════════════════════════════
    MOBILE MENU — Multi-Level Premium Navigation
@@ -628,6 +629,7 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [activeCategory, setActiveCategory] = useState<MobileCategory | null>(null);
+  const [isGoldRateOpen, setIsGoldRateOpen] = useState(false);
   const { totalItems } = useCart();
   const { totalItems: wishlistTotal } = useWishlist();
   const lenis = useLenis();
@@ -690,6 +692,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   }, [isOpen, lenis]);
 
   return (
+    <>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -751,13 +754,30 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       )}
                     </Link>
                   </div>
-                  <button
-                    onClick={handleClose}
-                    className="text-[#5A4A42] hover:text-wine p-1.5 transition-colors"
-                    aria-label="Close menu"
-                  >
-                    <X size={22} strokeWidth={1.5} />
-                  </button>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsGoldRateOpen(true)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 hover:shadow-[0_2px_10px_rgba(203,161,53,0.12)] active:scale-95"
+                      style={{
+                        background: 'rgba(203,161,53,0.06)',
+                        border: '1px solid rgba(203,161,53,0.18)',
+                        color: '#8B6914',
+                      }}
+                      aria-label="View today's gold rate"
+                    >
+                      <GoldRateIcon />
+                      <span>Gold Rate</span>
+                    </button>
+                    <button
+                      onClick={handleClose}
+                      className="text-[#5A4A42] hover:text-wine p-1.5 transition-colors"
+                      aria-label="Close menu"
+                    >
+                      <X size={22} strokeWidth={1.5} />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Search */}
@@ -934,5 +954,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </>
       )}
     </AnimatePresence>
+    <GoldRateModal isOpen={isGoldRateOpen} onClose={() => setIsGoldRateOpen(false)} />
+    </>
   );
 }
