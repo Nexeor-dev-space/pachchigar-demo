@@ -9,12 +9,10 @@ import { parsePrice } from "@/data/products";
 import {
   DEFAULT_CONFIG,
   calculateTotalPrice,
-  getConfigSummary,
   formatPrice,
   getCategoryType,
   type ConfigState,
 } from "@/data/configurator";
-import { useCart } from "@/providers/CartProvider";
 import { useLenis } from "@/providers/SmoothScrollProvider";
 import ConfigPanel from "@/components/configurator/ConfigPanel";
 
@@ -29,22 +27,44 @@ interface CustomizeDrawerProps {
   product: ProductData;
   isOpen: boolean;
   onClose: () => void;
+  initialConfig: ConfigState;
+  onApply: (config: ConfigState) => void;
 }
 
 export default function CustomizeDrawer({
   product,
   isOpen,
   onClose,
+  initialConfig,
+  onApply,
 }: CustomizeDrawerProps) {
   const basePrice = parsePrice(product.price);
   const category = getCategoryType(product.category);
-  const { addToCart } = useCart();
   const lenis = useLenis();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   /* ── Config state — persists while the drawer is mounted ── */
-  const [config, setConfig] = useState<ConfigState>(DEFAULT_CONFIG);
-  const [justAdded, setJustAdded] = useState(false);
+  const [config, setConfig] = useState<ConfigState>(initialConfig);
+  const [toastMsg, setToastMsg] = useState("");
+
+  // Sync config when drawer opens with a new initialConfig
+  useEffect(() => {
+    if (isOpen) {
+      setConfig(initialConfig);
+    }
+  }, [isOpen, initialConfig]);
+
+  // Auto-dismiss toast
+  useEffect(() => {
+    if (!toastMsg) return;
+    const t = setTimeout(() => setToastMsg(""), 3000);
+    return () => clearTimeout(t);
+  }, [toastMsg]);
+
+  const handleConfigChange = useCallback((newConfig: ConfigState) => {
+    setConfig(newConfig);
+    setToastMsg("Price & delivery date have been updated!");
+  }, []);
 
   const totalPrice = useMemo(
     () => calculateTotalPrice(basePrice, config, category),
@@ -118,23 +138,10 @@ export default function CustomizeDrawer({
     return () => document.removeEventListener("keydown", handleEsc);
   }, [isOpen, onClose]);
 
-  /* ── Add customized product to cart ── */
+  /* ── Apply Customization ── */
   const handleApply = useCallback(() => {
-    const summary = getConfigSummary(config, category);
-    addToCart({
-      id: `${product.id}-custom-${config.metal}-${config.stone}-${config.finish}`,
-      slug: product.slug,
-      name: `${product.name} (${summary})`,
-      image: product.image,
-      price: `₹${totalPrice.toLocaleString("en-IN")}`,
-      priceNumeric: totalPrice,
-    });
-    setJustAdded(true);
-    setTimeout(() => {
-      setJustAdded(false);
-      onClose();
-    }, 1500);
-  }, [addToCart, product, config, totalPrice, category, onClose]);
+    onApply(config);
+  }, [onApply, config]);
 
   const handleReset = useCallback(() => {
     setConfig(DEFAULT_CONFIG);
@@ -162,8 +169,8 @@ export default function CustomizeDrawer({
 
           {/* ── Fixed position wrapper — not animated ── */}
           <div
-            className="fixed top-0 right-0 z-[301] overflow-hidden"
-            style={{ height: "100dvh", width: "min(100vw, 480px)" }}
+            className="fixed bottom-0 right-0 z-[301] w-full max-w-[480px] pt-[60px] sm:pt-0 pointer-events-none"
+            style={{ top: 0 }}
           >
             {/* ── Animated drawer panel ── */}
             <motion.div
@@ -171,7 +178,7 @@ export default function CustomizeDrawer({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="h-full w-full flex flex-col overflow-hidden"
+              className="h-full w-full flex flex-col overflow-hidden rounded-t-[16px] sm:rounded-none shadow-2xl pointer-events-auto"
               style={{
                 background: "linear-gradient(180deg, #FDFAF5 0%, #F7F2EB 100%)",
                 boxShadow: "-8px 0 48px rgba(45,36,30,0.12)",
@@ -302,7 +309,7 @@ export default function CustomizeDrawer({
                 <ConfigPanel
                   config={config}
                   category={category}
-                  onChange={setConfig}
+                  onChange={handleConfigChange}
                 />
               </div>
 
@@ -347,27 +354,15 @@ export default function CustomizeDrawer({
                 <button
                   type="button"
                   onClick={handleApply}
-                  disabled={justAdded}
                   className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 disabled:opacity-60"
                   style={{
-                    background: justAdded
-                      ? "linear-gradient(135deg, #2E7D32, #43A047)"
-                      : "linear-gradient(135deg, #2D241E, #3A302A)",
+                    background: "linear-gradient(135deg, #2D241E, #3A302A)",
                     color: "#FDFAF5",
                     boxShadow: "0 4px 20px rgba(45,36,30,0.15)",
                   }}
                 >
-                  {justAdded ? (
-                    <>
-                      <Check size={15} strokeWidth={2} />
-                      Added to Cart
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag size={15} strokeWidth={1.5} />
-                      Apply Customization
-                    </>
-                  )}
+                  <Sparkles size={15} strokeWidth={1.5} />
+                  Apply Customization
                 </button>
 
                 {/* Fine print */}
@@ -375,6 +370,21 @@ export default function CustomizeDrawer({
                   Made to order · 3–6 weeks delivery
                 </p>
               </div>
+
+              {/* ── Toast Message ── */}
+              <AnimatePresence>
+                {toastMsg && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute bottom-28 left-1/2 -translate-x-1/2 z-[310] px-5 py-2.5 rounded-full font-sans text-[11px] font-medium tracking-[0.03em] text-[#FDFAF5] text-center shadow-[0_4px_16px_rgba(0,0,0,0.15)] pointer-events-none"
+                    style={{ background: "#2D241E" }}
+                  >
+                    {toastMsg}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </>

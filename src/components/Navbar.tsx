@@ -100,6 +100,7 @@ export default function Navbar() {
 
   /* ── Navigation data ── */
   const navLinks: { label: string; href: string }[] = [
+    { label: "NEW ARRIVALS", href: "/collections/new-arrivals" },
     { label: "NECKLACES & PENDANT", href: "/collections/necklaces-pendants" },
     { label: "GOLD", href: "/collections?metal=gold" },
     { label: "BRACELET & BANGLES", href: "/collections/bracelets-bangles" },
@@ -112,6 +113,9 @@ export default function Navbar() {
 
   /* ── Nav link icon map (desktop) ── */
   const navIconMap: Record<string, React.ReactNode> = {
+    "NEW ARRIVALS": (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+    ),
     "NECKLACES & PENDANT": (
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M4 6c0 8 8 14 8 14s8-6 8-14" /><circle cx="12" cy="18" r="2" /><path d="M4 6h16" /></svg>
     ),

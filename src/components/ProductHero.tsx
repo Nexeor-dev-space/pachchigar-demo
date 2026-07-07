@@ -16,6 +16,14 @@ import {
   Zap,
 } from "lucide-react";
 import type { ProductData } from "@/data/products";
+import { parsePrice } from "@/data/products";
+import {
+  DEFAULT_CONFIG,
+  calculateTotalPrice,
+  formatPrice,
+  getCategoryType,
+  getConfigSummary,
+} from "@/data/configurator";
 import { useCart } from "@/providers/CartProvider";
 import { useWishlist } from "@/providers/WishlistProvider";
 import CustomizeDrawer from "@/components/CustomizeDrawer";
@@ -36,8 +44,17 @@ export default function ProductHero({ product }: { product: ProductData }) {
   const [toastMsg, setToastMsg] = useState("");
   const [activeDetailsTab, setActiveDetailsTab] = useState<"details" | "breakup">("details");
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
+  
+  // Customization state
+  const [config, setConfig] = useState(DEFAULT_CONFIG);
+  
   const thumbnailRef = useRef<HTMLDivElement>(null);
 
+  // Computed properties
+  const basePrice = parsePrice(product.price);
+  const category = getCategoryType(product.category);
+  const totalPrice = calculateTotalPrice(basePrice, config, category);
+  
   const inCart = isInCart(product.id);
   const wishlisted = isInWishlist(product.id);
 
@@ -53,33 +70,37 @@ export default function ProductHero({ product }: { product: ProductData }) {
       router.push("/cart");
       return;
     }
+    const summary = getConfigSummary(config, category);
+    const customizedId = `${product.id}-custom-${config.metal}-${config.stone}-${config.finish}`;
+    
     addToCart({
-      id: product.id,
+      id: customizedId,
       slug: product.slug,
-      name: product.name,
+      name: `${product.name} (${summary})`,
       image: product.image,
-        price: product.price,
-      priceNumeric:
-        parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+      price: formatPrice(totalPrice),
+      priceNumeric: totalPrice,
     });
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
-  }, [addToCart, product, inCart, router]);
+  }, [addToCart, product, inCart, router, config, category, totalPrice]);
 
   const handleBuyNow = useCallback(() => {
     if (!inCart) {
+      const summary = getConfigSummary(config, category);
+      const customizedId = `${product.id}-custom-${config.metal}-${config.stone}-${config.finish}`;
+      
       addToCart({
-        id: product.id,
+        id: customizedId,
         slug: product.slug,
-        name: product.name,
+        name: `${product.name} (${summary})`,
         image: product.image,
-        price: product.price,
-        priceNumeric:
-          parseInt(product.price.replace(/[₹,\s]/g, ""), 10) || 0,
+        price: formatPrice(totalPrice),
+        priceNumeric: totalPrice,
       });
     }
     router.push("/cart");
-  }, [addToCart, product, inCart, router]);
+  }, [addToCart, product, inCart, router, config, category, totalPrice]);
 
   const handleShare = useCallback(async () => {
     const url = `${window.location.origin}/products/${product.slug}`;
@@ -224,7 +245,7 @@ export default function ProductHero({ product }: { product: ProductData }) {
 
             {/* Price */}
             <div className="pdp-price-block">
-              <span className="pdp-price">{product.price}</span>
+              <span className="pdp-price">{formatPrice(totalPrice)}</span>
               <span className="pdp-price-note">Price inclusive of taxes</span>
             </div>
             <p className="font-sans text-[10px] text-[#5A4A42]/50 tracking-wide mt-1 mb-6">
@@ -700,6 +721,11 @@ export default function ProductHero({ product }: { product: ProductData }) {
         product={product}
         isOpen={isCustomizeOpen}
         onClose={() => setIsCustomizeOpen(false)}
+        initialConfig={config}
+        onApply={(newConfig) => {
+          setConfig(newConfig);
+          setIsCustomizeOpen(false);
+        }}
       />
     </section>
   );
