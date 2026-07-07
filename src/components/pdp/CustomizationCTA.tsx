@@ -86,7 +86,7 @@ export default function CustomizationCTA() {
           <button
             type="button"
             className="pdp-cta-primary"
-            style={{ width: "auto", padding: "17px 48px", borderRadius: 60 }}
+            style={{ width: "auto", padding: "17px 48px", borderRadius: 12 }}
           >
             <span className="pdp-cta-primary-text">Start Customisation</span>
             <svg

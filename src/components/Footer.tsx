@@ -46,7 +46,7 @@ export default function Footer() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-[1920px] mx-auto bg-[#F5F1E8]/95 backdrop-blur-2xl rounded-t-[32px] sm:rounded-t-[48px] px-5 sm:px-8 lg:px-10 pt-16 sm:pt-20 pb-8 text-[#2B2B2B] shadow-[0_-20px_60px_rgba(0,0,0,0.3)] mt-[42vh]"
+        className="relative w-full max-w-[1920px] mx-auto bg-[#F5F1E8]/95 backdrop-blur-2xl rounded-t-[20px] sm:rounded-t-[32px] px-5 sm:px-8 lg:px-10 pt-16 sm:pt-20 pb-8 text-[#2B2B2B] shadow-[0_-20px_60px_rgba(0,0,0,0.3)] mt-[42vh]"
       >
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 sm:gap-10 lg:gap-12 mb-16 lg:mb-24">

@@ -163,7 +163,7 @@ export default function Navbar() {
                 </button>
 
                 <a href="/" className="flex-shrink-0 group">
-                  <div className="bg-[#1A1512] text-white px-3.5 py-2 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-[#2C2A28]">
+                  <div className="bg-[#1A1512] text-white px-3.5 py-2 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-[#2C2A28] border border-[rgba(203,161,53,0.12)] rounded-sm">
                     <span className="font-serif text-[18px] sm:text-xl tracking-[0.25em] leading-none">PSJ</span>
                     <span className="font-serif text-[7px] sm:text-[8px] tracking-[0.18em] mt-0.5 whitespace-nowrap opacity-90">PACHCHIGAR & SONS</span>
                     <span className="font-serif text-[5px] tracking-[0.2em] mt-px text-white/50">JEWELLERS</span>

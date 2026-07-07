@@ -348,7 +348,7 @@ export default function CustomizeDrawer({
                   type="button"
                   onClick={handleApply}
                   disabled={justAdded}
-                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-full font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 disabled:opacity-60"
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 disabled:opacity-60"
                   style={{
                     background: justAdded
                       ? "linear-gradient(135deg, #2E7D32, #43A047)"
