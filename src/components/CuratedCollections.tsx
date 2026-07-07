@@ -112,7 +112,7 @@ export default function CuratedCollections() {
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: ease4 }}
-          className="text-center mb-10 sm:mb-14"
+          className="text-center mb-6 sm:mb-8"
         >
           <h2
             className="font-serif italic font-medium text-[#2D241E] mb-4"
@@ -131,9 +131,9 @@ export default function CuratedCollections() {
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.15, ease: ease4 }}
-          className="flex justify-center mb-10 sm:mb-14 overflow-x-auto scrollbar-hide -mx-5 px-5 sm:mx-0 sm:px-0"
+          className="flex sm:justify-center mb-6 sm:mb-8 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0"
         >
-          <div className="flex gap-2.5 sm:gap-3">
+          <div className="flex gap-2.5 sm:gap-3 mx-auto sm:mx-0">
             {CATEGORIES.map((cat) => {
               const isActive = cat.key === activeKey;
               return (
@@ -174,14 +174,14 @@ export default function CuratedCollections() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.07, ease: ease4 }}
-                className={i === 4 ? "col-span-2 sm:col-span-1" : ""}
+                className={i === 4 ? "sm:col-span-1" : ""}
               >
                 <Link href={item.href} className="group block">
                   <div className="rounded-2xl overflow-hidden relative transition-shadow duration-400 group-hover:shadow-[0_8px_30px_rgba(45,36,30,0.12)]">
                     {/* Image — all images are now full editorial lifestyle photos */}
                     <div
-                      className="relative w-full overflow-hidden"
-                      style={{ paddingBottom: "130%", background: "#2D241E" }}
+                      className="relative w-full overflow-hidden cc-card-img"
+                      style={{ background: "#2D241E" }}
                     >
                       <Image
                         src={item.image}

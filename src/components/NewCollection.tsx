@@ -158,8 +158,7 @@ export default function NewCollection() {
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <div
-                className="relative rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer h-full"
-                style={{ minHeight: 260 }}
+                className="relative rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer h-full nc-banner"
               >
                 <Image
                   src={COLLECTION.image}
@@ -251,6 +250,62 @@ export default function NewCollection() {
                     <ProductCard product={product} />
                   </motion.div>
                 ))}
+
+                {/* ── "Explore Collection" end card (mobile only) ── */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.45, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex-shrink-0 nc-card lg:hidden"
+                  style={{ scrollSnapAlign: "start" }}
+                >
+                  <Link
+                    href="/collections/necklaces"
+                    className="group/end relative flex flex-col items-center justify-center text-center h-full rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1"
+                    style={{
+                      background: "linear-gradient(160deg, #2D241E 0%, #1E1610 50%, #2D241E 100%)",
+                      border: "1px solid rgba(203,161,53,0.12)",
+                    }}
+                  >
+                    {/* Subtle gold radial glow */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background: "radial-gradient(ellipse 60% 50% at 50% 60%, rgba(203,161,53,0.08) 0%, transparent 60%)",
+                      }}
+                    />
+                    {/* Content */}
+                    <div className="relative z-10 px-6 py-8 flex flex-col items-center justify-center">
+                      {/* Count badge */}
+                      <span
+                        className="inline-block px-4 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.18em] uppercase mb-6"
+                        style={{
+                          background: "rgba(203,161,53,0.1)",
+                          color: "#CBA135",
+                          border: "1px solid rgba(203,161,53,0.15)",
+                        }}
+                      >
+                        {CAROUSEL_PRODUCTS.length}+ Designs
+                      </span>
+                      {/* CTA */}
+                      <span
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-sans text-[9px] font-semibold tracking-[0.16em] uppercase transition-all duration-500 group-hover/end:shadow-[0_6px_20px_rgba(203,161,53,0.25)]"
+                        style={{
+                          background: "linear-gradient(135deg, #CBA135, #D4AF4A)",
+                          color: "#1E1610",
+                        }}
+                      >
+                        View Collection
+                        <ArrowRight
+                          size={12}
+                          strokeWidth={2}
+                          className="transition-transform duration-500 group-hover/end:translate-x-1"
+                        />
+                      </span>
+                    </div>
+                  </Link>
+                </motion.div>
+
                 <div className="flex-shrink-0 w-1" aria-hidden="true" />
               </div>
 
@@ -354,8 +409,7 @@ export default function NewCollection() {
                           background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%)",
                         }}
                       />
-                      <span className="relative z-10 hidden sm:inline">Explore Full Collection</span>
-                      <span className="relative z-10 sm:hidden">Explore All</span>
+                      <span className="relative z-10">View Collection</span>
                       <ArrowRight
                         size={13}
                         strokeWidth={2}
