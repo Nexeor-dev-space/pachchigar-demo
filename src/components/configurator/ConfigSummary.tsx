@@ -196,7 +196,7 @@ export default function ConfigSummary({
       <button
         type="button"
         onClick={handleAdd}
-        className="w-full flex items-center justify-center gap-2.5 py-3.5 sm:py-4 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-500 hover:shadow-lg"
+        className="w-full flex items-center justify-center gap-2.5 py-3.5 sm:py-4 rounded-full font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-500 hover:shadow-lg"
         style={{
           background: justAdded
             ? "linear-gradient(135deg, #6B8E5E, #5A7D4E)"
@@ -223,7 +223,7 @@ export default function ConfigSummary({
         <button
           type="button"
           onClick={handleSave}
-          className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
+          className="flex items-center justify-center gap-2 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
           style={{ border: "1px solid rgba(226,213,195,0.4)" }}
         >
           {saved ? (
@@ -243,7 +243,7 @@ export default function ConfigSummary({
         <button
           type="button"
           onClick={handleShare}
-          className="flex items-center justify-center gap-2 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
+          className="flex items-center justify-center gap-2 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#2D241E] transition-all duration-300 hover:bg-[#F5EFE5]"
           style={{ border: "1px solid rgba(226,213,195,0.4)" }}
         >
           {copied ? (
@@ -275,7 +275,7 @@ export default function ConfigSummary({
           href={`https://wa.me/917990032811?text=${whatsappMessage}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#2D241E] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#2D241E] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
           style={{ border: "1px solid rgba(226,213,195,0.4)" }}
         >
           <MessageSquare size={13} strokeWidth={1.5} />
@@ -285,7 +285,7 @@ export default function ConfigSummary({
           href={`https://wa.me/917990032811?text=${encodeURIComponent("Hi, I'd like to book a consultation for a custom jewelry piece.")}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
           style={{ border: "1px solid rgba(226,213,195,0.25)" }}
         >
           <Phone size={13} strokeWidth={1.5} />
@@ -295,7 +295,7 @@ export default function ConfigSummary({
           href={`https://wa.me/917990032811?text=${encodeURIComponent("Hi, I'd like to discuss my custom design with an expert.")}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-[#5A4A42] hover:text-[#5E2E36] transition-all duration-300 hover:bg-[#FAF7F2]"
           style={{ border: "1px solid rgba(226,213,195,0.25)" }}
         >
           <Sparkles size={13} strokeWidth={1.5} />

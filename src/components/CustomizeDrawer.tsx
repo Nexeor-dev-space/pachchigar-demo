@@ -335,7 +335,7 @@ export default function CustomizeDrawer({
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-sans text-[10px] font-semibold tracking-[0.1em] uppercase text-[#5A4A42]/60 hover:text-[#5E2E36] hover:bg-[#E2D5C3]/20 transition-all duration-200"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.1em] uppercase text-[#5A4A42]/60 hover:text-[#5E2E36] hover:bg-[#E2D5C3]/20 transition-all duration-200"
                     >
                       <RotateCcw size={12} strokeWidth={2} />
                       Reset
@@ -348,7 +348,7 @@ export default function CustomizeDrawer({
                   type="button"
                   onClick={handleApply}
                   disabled={justAdded}
-                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 disabled:opacity-60"
+                  className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-full font-sans text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 disabled:opacity-60"
                   style={{
                     background: justAdded
                       ? "linear-gradient(135deg, #2E7D32, #43A047)"

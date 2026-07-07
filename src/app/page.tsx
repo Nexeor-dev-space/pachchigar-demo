@@ -1,4 +1,5 @@
 import HeroBanner from "@/components/HeroBanner";
+import NewCollection from "@/components/NewCollection";
 
 import SignatureWorlds from "@/components/SignatureWorlds";
 import CuratedCollections from "@/components/CuratedCollections";
@@ -10,7 +11,7 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <HeroBanner />
-
+      <NewCollection />
       <SignatureWorlds />
       <CuratedCollections />
       <GiveBoldlySection />

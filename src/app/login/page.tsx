@@ -194,7 +194,7 @@ export default function LoginPage() {
               <div className="flex rounded-xl p-1 mb-6" style={{ background: "rgba(226,213,195,0.2)", border: "1px solid rgba(226,213,195,0.3)" }}>
                 {(["phone", "email"] as const).map((m) => (
                   <button key={m} onClick={() => { setLoginMethod(m); setErrors({}); }}
-                    className="flex-1 py-2.5 rounded-lg font-sans text-[0.75rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200"
+                    className="flex-1 py-2.5 rounded-full font-sans text-[0.75rem] font-semibold uppercase tracking-[0.12em] transition-all duration-200"
                     style={{
                       background: loginMethod === m ? "#fff" : "transparent",
                       color: loginMethod === m ? "#2D241E" : "#5A4A42",
@@ -235,7 +235,7 @@ export default function LoginPage() {
                 )}
 
                 <button onClick={handleSendOtp} disabled={isLoading}
-                  className="w-full py-3.5 rounded-xl font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 mt-2 hover:shadow-lg"
+                  className="w-full py-3.5 rounded-full font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 mt-2 hover:shadow-lg"
                   style={{ background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff", boxShadow: "0 4px 16px rgba(94,46,54,0.2)" }}>
                   {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send OTP<ChevronRight size={14} strokeWidth={2.5} /></>}
                 </button>
@@ -289,7 +289,7 @@ export default function LoginPage() {
               </div>
 
               <button onClick={handleVerifyOtp} disabled={isLoading}
-                className="w-full py-3.5 rounded-xl font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 hover:shadow-lg"
+                className="w-full py-3.5 rounded-full font-sans text-[0.78rem] font-semibold uppercase tracking-[0.18em] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 hover:shadow-lg"
                 style={{ background: "linear-gradient(135deg, #5E2E36, #7A4450)", color: "#fff", boxShadow: "0 4px 16px rgba(94,46,54,0.2)" }}>
                 {isLoading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Verify & Continue<ChevronRight size={14} strokeWidth={2.5} /></>}
               </button>

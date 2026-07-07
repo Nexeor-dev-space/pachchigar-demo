@@ -364,6 +364,72 @@ body {
   scrollbar-width: none;
 }
 
+/* ── Curated Collections card image heights ── */
+.cc-card-img {
+  padding-bottom: 100%;
+}
+@media (min-width: 640px) {
+  .cc-card-img {
+    padding-bottom: 130%;
+  }
+}
+
+/* ── Signature Worlds card heights ── */
+.sw-card {
+  min-height: 200px;
+}
+@media (min-width: 640px) {
+  .sw-card {
+    min-height: 260px;
+  }
+}
+@media (min-width: 1024px) {
+  .sw-card {
+    min-height: 320px;
+  }
+}
+
+/* ── New Collection carousel card widths ── */
+/* Mobile (<640px): ~1.6 cards visible */
+.nc-card {
+  width: 55%;
+}
+/* Reduce card image height on mobile */
+.nc-card [style*="padding-bottom: 100%"] {
+  padding-bottom: 82% !important;
+}
+/* Mobile banner height */
+.nc-banner {
+  min-height: 180px;
+}
+/* Tablet (640–1023px): ~2.5 cards visible */
+@media (min-width: 640px) {
+  .nc-card {
+    width: 36%;
+  }
+  .nc-card [style*="padding-bottom: 100%"] {
+    padding-bottom: 100% !important;
+  }
+  .nc-banner {
+    min-height: 240px;
+  }
+}
+/* Desktop (≥1024px): ~3.8 cards visible */
+@media (min-width: 1024px) {
+  .nc-card {
+    width: calc((100% - 48px) / 3.8);
+  }
+  .nc-banner {
+    min-height: 260px;
+  }
+}
+/* Large desktop: ~4.3 cards */
+@media (min-width: 1440px) {
+  .nc-card {
+    width: calc((100% - 64px) / 4.3);
+  }
+}
+
 /* Luxury button hover effect */
 .luxury-btn {
   position: relative;
@@ -421,9 +487,9 @@ body {
 /* ── Section: full-width, no outer padding ── */
 .gb-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 55fr 45fr;
   width: 100%;
-  min-height: 600px;
+  min-height: 500px;
 }
 
 /* ── LEFT: Video / Image Column ── */
@@ -474,9 +540,9 @@ body {
 .gb-content-col {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background: linear-gradient(180deg, #FAF6EF 0%, #F5EFE5 50%, #FAF6EF 100%);
-  padding: clamp(40px, 5vw, 80px) clamp(32px, 5vw, 72px);
+  padding: clamp(28px, 3vw, 48px) clamp(24px, 3vw, 40px) clamp(28px, 3vw, 48px) clamp(20px, 2.5vw, 32px);
 }
 
 .gb-content-inner {
@@ -568,6 +634,94 @@ body {
   opacity: 0.7;
 }
 
+/* ── Service Cards ── */
+.gb-service-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+.gb-service-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 18px;
+  background: linear-gradient(135deg, #FFFDF8 0%, #FAF6EF 100%);
+  border: 1px solid rgba(203, 161, 53, 0.15);
+  border-radius: 18px;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 2px 8px rgba(45, 36, 30, 0.04);
+}
+
+.gb-service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(45, 36, 30, 0.1);
+  border-color: #CBA135;
+}
+
+.gb-service-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.gb-service-icon-wrap {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(203, 161, 53, 0.06);
+  border: 1px solid rgba(203, 161, 53, 0.12);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-service-card:hover .gb-service-icon-wrap {
+  background: rgba(203, 161, 53, 0.12);
+  border-color: rgba(203, 161, 53, 0.25);
+  transform: scale(1.08);
+}
+
+.gb-service-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.gb-service-title {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2D241E;
+  letter-spacing: 0.01em;
+  margin-bottom: 3px;
+}
+
+.gb-service-desc {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #5A4A42;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+.gb-service-arrow {
+  flex-shrink: 0;
+  color: rgba(45, 36, 30, 0.25);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gb-service-card:hover .gb-service-arrow {
+  color: #CBA135;
+  transform: translateX(3px);
+}
+
 /* ── CTA Buttons ── */
 .gb-cta-group {
   display: flex;
@@ -584,7 +738,7 @@ body {
   background: #2D241E;
   color: #FDFAF5;
   border: none;
-  border-radius: 12px;
+  border-radius: 9999px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -639,7 +793,7 @@ body {
   background: transparent;
   color: #2D241E;
   border: 1px solid #E2D5C3;
-  border-radius: 12px;
+  border-radius: 9999px;
   cursor: pointer;
   text-decoration: none;
   font-family: 'Inter', system-ui, sans-serif;
@@ -683,8 +837,8 @@ body {
   }
 
   .gb-video-link {
-    min-height: 400px;
-    aspect-ratio: 4 / 5;
+    min-height: 280px;
+    aspect-ratio: 16 / 10;
   }
 
   .gb-content-col {
@@ -717,15 +871,26 @@ body {
     text-align: left;
   }
 
+  .gb-service-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .gb-service-card {
+    padding: 18px 16px;
+  }
+
   .gb-cta-group {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
-    max-width: 320px;
+    max-width: none;
+    justify-content: center;
   }
 
   .gb-cta-primary,
   .gb-cta-secondary {
-    width: 100%;
+    width: auto;
+    padding: 14px 24px;
   }
 }
 

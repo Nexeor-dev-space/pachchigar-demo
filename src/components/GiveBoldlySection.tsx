@@ -17,30 +17,6 @@ import { motion, useInView } from "framer-motion";
 
 const VIDEO_URL = "https://youtu.be/HLhJ798sRtU?si=hgIlyh7Lyx0egD_K";
 
-/* ── Feature data ── */
-const FEATURES = [
-  {
-    icon: CertifiedIcon,
-    title: "Certified Quality",
-    description: "Every piece is carefully crafted and quality assured.",
-  },
-  {
-    icon: SecureIcon,
-    title: "Secure Payments",
-    description: "Safe and encrypted checkout for every purchase.",
-  },
-  {
-    icon: ShippingIcon,
-    title: "Free Shipping",
-    description: "Complimentary delivery on eligible orders.",
-  },
-  {
-    icon: TrustedIcon,
-    title: "Trusted Service",
-    description: "Dedicated customer support whenever you need us.",
-  },
-];
-
 /* ── Animation variants ── */
 const containerVariants = {
   hidden: {},
@@ -195,47 +171,65 @@ export default function GiveBoldlySection() {
 
           {/* Heading */}
           <motion.h2 variants={fadeUpVariant} className="gb-heading">
-            Discover Jewellery That
+            Luxury Jewellery,
             <br />
-            Tells Your Story
+            Your Way
           </motion.h2>
 
           {/* Description */}
           <motion.p variants={fadeUpVariant} className="gb-description">
-            Explore timeless craftsmanship, elegant collections, and handcrafted
-            jewellery designed to celebrate every milestone with style and
-            sophistication.
+            Experience personalized jewellery shopping from the comfort of your
+            home — or connect with our experts virtually.
           </motion.p>
 
-          {/* ── Feature Grid (2×2) ── */}
-          <motion.div variants={fadeUpVariant} className="gb-features">
-            {FEATURES.map((feature, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUpVariant}
-                className="gb-feature-item"
-              >
-                <div className="gb-feature-icon">
-                  <feature.icon />
-                </div>
-                <div>
-                  <span className="gb-feature-title">{feature.title}</span>
-                  <span className="gb-feature-desc">
-                    {feature.description}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* ── CTA Buttons ── */}
-          <motion.div variants={fadeUpVariant} className="gb-cta-group">
-            <a href="/collections" className="gb-cta-primary group">
-              <span className="gb-cta-primary-label">Explore Collections</span>
-              <span className="gb-cta-primary-arrow">→</span>
+          {/* ── Service Cards ── */}
+          <motion.div variants={fadeUpVariant} className="gb-service-cards">
+            {/* Card 1: Try at Home */}
+            <a href="/try-at-home" className="gb-service-card group">
+              <div className="gb-service-icon-wrap">
+                <TryAtHomeIcon />
+              </div>
+              <div className="gb-service-text">
+                <span className="gb-service-title">Try at Home</span>
+                <span className="gb-service-desc">
+                  Book a personalized jewellery trial at your doorstep.
+                </span>
+              </div>
+              <div className="gb-service-arrow">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M6 3l5 5-5 5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
             </a>
-            <a href="/contact" className="gb-cta-secondary">
-              Book an Appointment
+
+            {/* Card 2: Schedule a Video Call */}
+            <a href="/video-consultation" className="gb-service-card group">
+              <div className="gb-service-icon-wrap">
+                <VideoCallIcon />
+              </div>
+              <div className="gb-service-text">
+                <span className="gb-service-title">Schedule a Video Call</span>
+                <span className="gb-service-desc">
+                  Connect with our jewellery experts from anywhere.
+                </span>
+              </div>
+              <div className="gb-service-arrow">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M6 3l5 5-5 5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
             </a>
           </motion.div>
         </div>
@@ -245,79 +239,73 @@ export default function GiveBoldlySection() {
 }
 
 /* ═══════════════════════════════════════════
-   FEATURE ICONS — Gold line icons
+   SERVICE ICONS — Premium line icons
    ═══════════════════════════════════════════ */
 
-function CertifiedIcon() {
+function TryAtHomeIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="9" stroke="#CBA135" strokeWidth="1.2" />
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      {/* House */}
       <path
-        d="M8 12.5L10.5 15L16 9.5"
+        d="M4 12.5L13 4l9 8.5"
         stroke="#CBA135"
-        strokeWidth="1.2"
+        strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  );
-}
-
-function SecureIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <rect
-        x="6"
-        y="10"
-        width="12"
-        height="10"
-        rx="2"
-        stroke="#CBA135"
-        strokeWidth="1.2"
-      />
       <path
-        d="M9 10V7a3 3 0 0 1 6 0v3"
+        d="M6 11v9a1 1 0 001 1h12a1 1 0 001-1v-9"
+        stroke="#CBA135"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* Door */}
+      <rect
+        x="10.5"
+        y="15"
+        width="5"
+        height="6"
+        rx="0.5"
         stroke="#CBA135"
         strokeWidth="1.2"
-        strokeLinecap="round"
       />
-      <circle cx="12" cy="15" r="1" fill="#CBA135" />
+      {/* Sparkle */}
+      <circle cx="20" cy="6" r="1.2" fill="#CBA135" opacity="0.6" />
+      <circle cx="22" cy="9" r="0.7" fill="#CBA135" opacity="0.4" />
     </svg>
   );
 }
 
-function ShippingIcon() {
+function VideoCallIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      {/* Screen */}
       <rect
         x="2"
-        y="7"
-        width="13"
-        height="10"
-        rx="1"
+        y="5"
+        width="16"
+        height="13"
+        rx="2"
         stroke="#CBA135"
-        strokeWidth="1.2"
+        strokeWidth="1.4"
       />
+      {/* Camera lens */}
       <path
-        d="M15 11h4l2 2.5V17h-6v-6z"
+        d="M18 9.5l5-2.5v10l-5-2.5V9.5z"
         stroke="#CBA135"
-        strokeWidth="1.2"
+        strokeWidth="1.4"
         strokeLinejoin="round"
       />
-      <circle cx="7" cy="18" r="1.5" stroke="#CBA135" strokeWidth="1.2" />
-      <circle cx="18" cy="18" r="1.5" stroke="#CBA135" strokeWidth="1.2" />
-    </svg>
-  );
-}
-
-function TrustedIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      {/* Record dot */}
+      <circle cx="6" cy="15" r="1" fill="#CBA135" opacity="0.7" />
+      {/* Signal lines */}
       <path
-        d="M12 3l2.5 5 5.5.8-4 3.9 1 5.3-5-2.6-5 2.6 1-5.3-4-3.9 5.5-.8L12 3z"
+        d="M21 5.5c1.2.8 2 2.2 2 3.8"
         stroke="#CBA135"
-        strokeWidth="1.2"
-        strokeLinejoin="round"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.5"
       />
     </svg>
   );

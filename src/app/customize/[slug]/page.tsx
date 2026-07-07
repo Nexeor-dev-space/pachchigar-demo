@@ -246,7 +246,7 @@ export default function ConfiguratorPage({
                     .getElementById("config-summary")
                     ?.scrollIntoView({ behavior: "smooth", block: "center" });
                 }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-[10px] font-semibold tracking-[0.15em] uppercase text-[#FDFAF5] transition-all duration-300"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full font-sans text-[10px] font-semibold tracking-[0.15em] uppercase text-[#FDFAF5] transition-all duration-300"
                 style={{
                   background: "linear-gradient(135deg, #2D241E, #3A302A)",
                 }}
