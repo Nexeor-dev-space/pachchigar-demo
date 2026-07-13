@@ -3,6 +3,7 @@ import NewCollection from "@/components/NewCollection";
 
 import SignatureWorlds from "@/components/SignatureWorlds";
 import CuratedCollections from "@/components/CuratedCollections";
+import BestSellers from "@/components/BestSellers";
 import WeddingCollection from "@/components/WeddingCollection";
 import GiveBoldlySection from "@/components/GiveBoldlySection";
 import TrustBenefits from "@/components/TrustBenefits";
@@ -14,6 +15,7 @@ export default function Home() {
       <HeroBanner />
       <NewCollection />
       <SignatureWorlds />
+      <BestSellers />
       <CuratedCollections />
       <WeddingCollection />
       <GiveBoldlySection />
