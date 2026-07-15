@@ -413,6 +413,7 @@ export function serializeConfig(config: ConfigState, category: JewelryCategory):
 export function deserializeConfig(searchParams: URLSearchParams): ConfigState {
   return {
     metal: searchParams.get("metal") || DEFAULT_CONFIG.metal,
+    purity: searchParams.get("purity") || DEFAULT_CONFIG.purity,
     stone: searchParams.get("stone") || DEFAULT_CONFIG.stone,
     finish: searchParams.get("finish") || DEFAULT_CONFIG.finish,
     engraving: searchParams.get("engraving") || DEFAULT_CONFIG.engraving,
